@@ -1,5 +1,6 @@
 import React from "react";
 import { appStartUpComplete } from "../Store/Actions/index";
+import * as actions from "../Store/Actions/index";
 import { useSelector, useDispatch } from "react-redux";
 
 const Section1 = () => {
@@ -7,6 +8,7 @@ const Section1 = () => {
   const started = useSelector((state) => state.appReducer.started);
   const click = () => {
     dispatch(appStartUpComplete());
+    dispatch(actions.appStartUpFail());
   };
   return (
     <div>

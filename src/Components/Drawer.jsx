@@ -35,7 +35,9 @@ const closedMixin = (theme) => ({
   },
 });
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== "open" })(({ theme, open }) => ({
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
   width: drawerWidth,
   flexShrink: 0,
   whiteSpace: "nowrap",
@@ -65,7 +67,9 @@ const SideBar = (props) => {
     <Drawer variant="permanent" open={props.open}>
       <DrawerHeader></DrawerHeader>
       <IconWrapper>
-        <IconButton onClick={handleIconClick}>{props.open ? <ChevronLeftIcon /> : <ChevronRightIcon />}</IconButton>
+        <IconButton onClick={handleIconClick}>
+          {props.open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+        </IconButton>
       </IconWrapper>
 
       <Divider />
@@ -73,7 +77,9 @@ const SideBar = (props) => {
         {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>
@@ -99,7 +105,10 @@ const SideBar = (props) => {
               >
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>
-              <ListItemText primary={text} sx={{ opacity: props.open ? 1 : 0 }} />
+              <ListItemText
+                primary={text}
+                sx={{ opacity: props.open ? 1 : 0 }}
+              />
             </ListItemButton>
           </ListItem>
         ))}
@@ -111,24 +120,23 @@ const SideBar = (props) => {
 const IconWrapper = styled("div")(({ theme }) => ({
   position: "absolute",
   top: "100px",
-  right: "15px",
+  right: "10px",
 }));
 
 const IconButton = styled("div")(({ theme }) => ({
   position: "fixed",
-  width: "30px",
-  height: "30px",
+  width: "20px",
+  height: "20px",
   borderRadius: "50%",
-  border: "1px solid gray",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  background_color: "#ccc",
+  backgroundColor: "#ededed",
+  boxShadow: `rgb(0 0 0 / 30%) 0px 1px 2px, rgb(0 0 0 / 15%) 0px 1px 3px 1px`,
   zIndex: "1000000",
   color: "gray",
   "&:hover": {
     color: "black",
-    border: "1px solid black",
     cursor: "pointer",
   },
 }));
