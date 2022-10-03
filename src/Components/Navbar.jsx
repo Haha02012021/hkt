@@ -39,17 +39,6 @@ const Navbar = (props) => {
     <AppBar position="fixed" open={props.open}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={props.onOpen}
-              edge="start"
-              sx={{ mr: 2, ...(props.open && { display: "none" }) }}
-            >
-              <MenuIcon />
-            </IconButton>
-          </Toolbar>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
@@ -70,14 +59,7 @@ const Navbar = (props) => {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
+            <IconButton size="large" aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpenNavMenu} color="inherit">
               <MenuIcon />
             </IconButton>
             <Menu
@@ -126,11 +108,7 @@ const Navbar = (props) => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
+              <Button key={page} onClick={handleCloseNavMenu} sx={{ my: 2, color: "white", display: "block" }}>
                 {page}
               </Button>
             ))}
