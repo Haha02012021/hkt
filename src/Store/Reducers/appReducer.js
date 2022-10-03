@@ -1,13 +1,19 @@
+import actionTypes from "../Actions/actionTypes";
 const initialState = {
   started: true,
 };
 
 const appReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 1:
+    case actionTypes.APP_START_UP_COMPLETE:
       return {
         ...state,
-        random: action.payload,
+        started: !state.started,
+      };
+    case actionTypes.APP_START_UP_FALSE:
+      return {
+        ...state,
+        started: true,
       };
     default:
       return state;

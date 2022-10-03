@@ -90,7 +90,7 @@ const IconButtonClose = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  background_color: "#ccc",
+  background_color: "gray",
   zIndex: "1000000",
   color: "gray",
   "&:hover": {

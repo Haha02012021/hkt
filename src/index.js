@@ -4,16 +4,13 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-import reduxStore, { persistor } from "./config/redux";
-import * as serviceWorker from "./config/serviceWorker";
+import store from "./Store/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Provider store={reduxStore}>
-    <App persistor={persistor} />
+  <Provider store={store}>
+    <App />
   </Provider>
 );
-
-serviceWorker.unregister();
 
 reportWebVitals();
