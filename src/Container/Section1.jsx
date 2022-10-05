@@ -8,7 +8,6 @@ const Section1 = () => {
   const started = useSelector((state) => state.appReducer.started);
   const click = () => {
     dispatch(appStartUpComplete());
-    dispatch(actions.appStartUpFail());
   };
   return (
     <div>

@@ -10,7 +10,8 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import MuiDrawer from "@mui/material/Drawer";
-import DrawerHeader from "../Components/DrawerHeader";
+import DrawerHeader from "./DrawerHeader";
+import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 const drawerWidth = 240;
 
@@ -75,13 +76,18 @@ const SideBar = (props) => {
       <Divider />
       <List>
         {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
+          <ListItem key={text} disablePadding sx={{ display: "block" }}>
+            <Link
+              to="/home/section1"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <ListItemButton>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </Link>
           </ListItem>
         ))}
       </List>
@@ -89,27 +95,32 @@ const SideBar = (props) => {
       <List>
         {["All mail", "Trash", "Spam"].map((text, index) => (
           <ListItem key={text} disablePadding sx={{ display: "block" }}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: props.open ? "initial" : "center",
-                px: 2.5,
-              }}
+            <Link
+              to="/home/section2"
+              style={{ textDecoration: "none", color: "black" }}
             >
-              <ListItemIcon
+              <ListItemButton
                 sx={{
-                  minWidth: 0,
-                  mr: props.open ? 3 : "auto",
-                  justifyContent: "center",
+                  minHeight: 48,
+                  justifyContent: props.open ? "initial" : "center",
+                  px: 2.5,
                 }}
               >
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText
-                primary={text}
-                sx={{ opacity: props.open ? 1 : 0 }}
-              />
-            </ListItemButton>
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: props.open ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText
+                  primary={text}
+                  sx={{ opacity: props.open ? 1 : 0 }}
+                />
+              </ListItemButton>
+            </Link>
           </ListItem>
         ))}
       </List>
@@ -121,6 +132,10 @@ const IconWrapper = styled("div")(({ theme }) => ({
   position: "absolute",
   top: "100px",
   right: "10px",
+}));
+
+const LinkStyled = styled("link")(({ theme }) => ({
+  textDecoration: "none",
 }));
 
 const IconButton = styled("div")(({ theme }) => ({
