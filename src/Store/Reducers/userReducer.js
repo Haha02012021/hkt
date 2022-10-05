@@ -5,15 +5,15 @@ const initialState = {
 
 const appReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.APP_START_UP_COMPLETE:
+    case actionTypes.USER_LOGIN_SUCCESS:
       return {
         ...state,
-        started: !state.started,
+        isLogin: true,
       };
-    case actionTypes.APP_START_UP_FALSE:
+    case actionTypes.USER_LOGOUT_SUCCESS:
       return {
         ...state,
-        started: true,
+        isLogin: false,
       };
     default:
       return state;

@@ -1,13 +1,12 @@
 import React from "react";
-import { appStartUpComplete } from "../Store/Actions/index";
-import * as actions from "../Store/Actions/index";
+import * as actions from "../../Store/Actions/index";
 import { useSelector, useDispatch } from "react-redux";
 
 const Section1 = () => {
   const dispatch = useDispatch();
-  const started = useSelector((state) => state.appReducer.started);
+  const started = useSelector((state) => state.app.started);
   const click = () => {
-    dispatch(appStartUpComplete());
+    dispatch(actions.appStartUpComplete());
   };
   return (
     <div>

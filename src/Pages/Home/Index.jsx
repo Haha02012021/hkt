@@ -5,9 +5,9 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import Section1 from "./Section1";
-import Navbar from "../Components/Elements/Navbar";
-import DrawerHeader from "../Components/Elements/DrawerHeader";
-import Drawer from "../Components/Elements/Drawer";
+import Navbar from "../../Components/Elements/Navbar";
+import DrawerHeader from "../../Components/Elements/DrawerHeader";
+import Drawer from "../../Components/Elements/Drawer";
 import { Button } from "@mui/material";
 
 import { toast } from "react-toastify";
@@ -23,9 +23,8 @@ const Home = () => {
     setOpen(false);
   };
 
-  // Toastify
-  const notifySuccess = () => toast.success("🦄 Wow so easy!");
-  const notifyError = () => toast.error("💥 ERROR!");
+    const notifySuccess = () => toast.success("🦄 Wow so easy!");
+    const notifyError = () => toast.error("💥 ERROR!");
 
   return (
     <Box sx={{ display: "flex" }}>

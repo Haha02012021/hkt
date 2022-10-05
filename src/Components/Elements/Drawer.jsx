@@ -78,7 +78,7 @@ const SideBar = (props) => {
         {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
           <ListItem key={text} disablePadding sx={{ display: "block" }}>
             <Link
-              to="/home/section1"
+              to="/section1"
               style={{ textDecoration: "none", color: "black" }}
             >
               <ListItemButton>
@@ -96,7 +96,7 @@ const SideBar = (props) => {
         {["All mail", "Trash", "Spam"].map((text, index) => (
           <ListItem key={text} disablePadding sx={{ display: "block" }}>
             <Link
-              to="/home/section2"
+              to="/section2"
               style={{ textDecoration: "none", color: "black" }}
             >
               <ListItemButton
@@ -132,10 +132,6 @@ const IconWrapper = styled("div")(({ theme }) => ({
   position: "absolute",
   top: "100px",
   right: "10px",
-}));
-
-const LinkStyled = styled("link")(({ theme }) => ({
-  textDecoration: "none",
 }));
 
 const IconButton = styled("div")(({ theme }) => ({
