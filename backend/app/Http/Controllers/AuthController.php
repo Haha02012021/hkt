@@ -48,12 +48,11 @@ class AuthController extends Controller
 
     public function login (Request $request) {
         $fields = $request->validate(
-            ['username/email' => 'required|string',
+            ['email' => 'required|string|email',
             'password' => 'required|string',]
         );
 
-        $user = $user = User::where(DB::raw('BINARY `username`'), $fields['username/email'])
-            ->orWhere(DB::raw('BINARY `email`'), $fields['username/email'])->first();
+        $user = $user = User::where(DB::raw('BINARY email'), $fields['email'])->first();
 
         if (!$user || $fields['password'] !== $user->password) {
             return response()->json([
