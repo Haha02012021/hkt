@@ -12,7 +12,8 @@ class Post extends Model
         'user_id',
         'content',
         'type',
-        'class_id'
+        'class_id',
+        'completed',
     ];
 
     public function comments() {
@@ -24,7 +25,7 @@ class Post extends Model
     }
 
     public function hasTags() {
-        return $this->belongsToMany(Tag::class, 'post_tag', 'post_id', 'tag_id')->withPivot('id', 'name')->withTimestamps();
+        return $this->belongsToMany(Tag::class, 'post_tag', 'post_id', 'tag_id')->withTimestamps();
     }
 
     public function user() {
