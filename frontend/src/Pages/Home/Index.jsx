@@ -5,14 +5,13 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import Section1 from "./Section1";
+import Question from "./Question";
+
 import PostSection from "./PostSection";
 
 import Navbar from "../../Components/Elements/Navbar";
 import DrawerHeader from "../../Components/Elements/DrawerHeader";
 import Drawer from "../../Components/Elements/Drawer";
-import { Button } from "@mui/material";
-
-import { toast } from "react-toastify";
 
 const Home = () => {
   const [open, setOpen] = React.useState(false);
@@ -25,9 +24,6 @@ const Home = () => {
     setOpen(false);
   };
 
-  const notifySuccess = () => toast.success("🦄 Wow so easy!");
-  const notifyError = () => toast.error("💥 ERROR!");
-
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
       <CssBaseline />
@@ -39,16 +35,10 @@ const Home = () => {
       />
       <Main open={open} sx={{ backgroundColor: "cyan", maxWidth: "1200px" }}>
         <DrawerHeader></DrawerHeader>
-        <Button variant="contained" onClick={notifySuccess}>
-          Success
-        </Button>
-        <Button variant="contained" color="warning" onClick={notifyError}>
-          Error
-        </Button>
-
         <Routes>
           <Route path="/section1" element={<Section1 />} />
           <Route path="/posts" element={<PostSection />} />
+          <Route path="/questions" element={<Question />} />
         </Routes>
       </Main>
     </Box>

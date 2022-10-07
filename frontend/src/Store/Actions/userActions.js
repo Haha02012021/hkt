@@ -22,6 +22,7 @@ export const userLogin = (data) => {
       const res = await handleLoginApi(data);
       if (res.statusCode === 0) {
         toast.success(res.message);
+        localStorage.setItem("token", res.data.token);
         dispatch(userLoginSuccess(res.data.user));
         return true;
       }

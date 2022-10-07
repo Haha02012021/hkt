@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -24,9 +24,13 @@ const Navbar = (props) => {
   const navigate = useNavigate();
   const userState = useSelector((state) => state.user);
   const userInfo = userState.infoUser;
-  console.log(userInfo);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  useEffect(() => {
+    if (userState.isLogin === false) {
+      navigate("/login");
+    }
+  });
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -64,7 +68,7 @@ const Navbar = (props) => {
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
-              color: "inherit",
+              color: `${true ? "xanh" : "do"}`,
               textDecoration: "none",
             }}
           >

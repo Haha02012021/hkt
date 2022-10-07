@@ -10,7 +10,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    backgroundColor: "orangered",
+    border: "1px solid gray",
     padding: "10px",
     position: "relative",
   },
@@ -24,8 +24,9 @@ const styles = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 600,
+    width: 800,
     bgcolor: "background.paper",
+    borderRadius: "10px",
     boxShadow: 24,
     p: 4,
   },
@@ -34,6 +35,7 @@ const styles = {
 const PostSection = () => {
   const [createPostModalOpen, setCreatePostModalOpen] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
+  const listBlogs = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -62,7 +64,7 @@ const PostSection = () => {
           <Avatar sx={{ width: "2rem", height: "2rem", marginRight: "5px" }} />
           <Box
             sx={{
-              backgroundColor: "#BBB",
+              border: "1px solid red",
               padding: "5px",
               flexGrow: 1,
               borderBottomLeftRadius: "50px",
@@ -83,38 +85,18 @@ const PostSection = () => {
         </CardContent>
       </Card>
 
-      <PostCard
-        title="Test title"
-        username="Test username"
-        createdAt="2021-10-10 10:10:10"
-        data="Lorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsum"
-        likeCount={666}
-        commentCount={999}
-      />
-      <PostCard
-        title="Test title"
-        username="Test username"
-        createdAt="2021-10-10 10:10:10"
-        data="Lorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsum"
-        likeCount={666}
-        commentCount={999}
-      />
-      <PostCard
-        title="Test title"
-        username="Test username"
-        createdAt="2021-10-10 10:10:10"
-        data="Lorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsum"
-        likeCount={666}
-        commentCount={999}
-      />
-      <PostCard
-        title="Test title"
-        username="Test username"
-        createdAt="2021-10-10 10:10:10"
-        data="Lorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsum"
-        likeCount={666}
-        commentCount={999}
-      />
+      {listBlogs.map((item) => {
+        return (
+          <PostCard
+            title="Test title"
+            username="Test username"
+            createdAt="2021-10-10 10:10:10"
+            data="Lorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsum"
+            likeCount={666}
+            commentCount={999}
+          />
+        );
+      })}
 
       <Modal
         open={createPostModalOpen}
