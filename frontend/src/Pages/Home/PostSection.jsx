@@ -154,7 +154,7 @@ const PostSection = () => {
                   key={tag}
                   label={tag}
                   color="primary"
-                  variant={selectedTags.includes(tag) ? "outlined" : ""}
+                  variant={selectedTags.includes(tag) ? "" : "outlined"}
                   clickable
                   sx={{ marginRight: "5px", marginBottom: "5px" }}
                   onClick={() => {
