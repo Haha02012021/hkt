@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,22 +12,31 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import * as actions from "../../Store/Actions/index";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const theme = createTheme();
 
 export default function Login() {
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const res = await dispatch(
-      actions.userLogin({
-        email: data.get("email"),
-        password: data.get("password"),
-      })
-    );
-    if (res === true) navigate("/");
+    setLoading(true);
+    try {
+      const res = await dispatch(
+        actions.userLogin({
+          email: data.get("email"),
+          password: data.get("password"),
+        })
+      );
+      if (res === true) navigate("/");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -80,7 +89,19 @@ export default function Login() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              {loading ? (
+                <CircularProgress
+                  thickness={5}
+                  size={25}
+                  sx={{
+                    color: "white",
+                    height: "20px",
+                    width: "20px",
+                  }}
+                />
+              ) : (
+                "Sign In"
+              )}
             </Button>
             <Box
               sx={{ display: "flex" }}
