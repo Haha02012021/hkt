@@ -69,8 +69,9 @@ const Navbar = (props) => {
               display: { xs: "none", md: "flex" },
               fontFamily: "monospace",
               fontWeight: 700,
+              fontSize: "50px",
               letterSpacing: ".3rem",
-              color: `${true ? "xanh" : "do"}`,
+              color: `${true ? "#f03a17" : "blue"}`,
               textDecoration: "none",
             }}
           >
