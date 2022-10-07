@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        //
+        Schema::create('post_tag', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('content');
-            $table->string('title');
-            $table->integer('type')->comment('0: chia se, 1: hoi dap');
-            $table->bigInteger('class_id')->nullable();
-            $table->bigInteger('user_id');
+            $table->bigInteger('post_id');
+            $table->bigInteger('tag_id');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        //
     }
 };

@@ -21,8 +21,9 @@ return new class extends Migration
             $table->string('password');
             $table->string('school');
             $table->integer('role');
-            $table->string('avatar');
+            $table->string('avatar')->nullable();
             $table->integer('level_id');
+            $table->bigInteger('class_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

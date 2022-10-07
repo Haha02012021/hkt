@@ -12,5 +12,19 @@ class Homework extends Model
         'title',
         'file_link',
         'class_id',
+        'teacher_id',
+        'class_id',
     ];
+
+    public function teacher() {
+        return $this->belongsTo(User::class, 'teacher_id', 'id');
+    }
+
+    public function exercises() {
+        return $this->hasMany(Exercise::class, 'homework_id', 'id');
+    }
+
+    public function groupclass() {
+        return $this->belongsTo(GroupClass::class, 'class_id', 'id');
+    }
 }

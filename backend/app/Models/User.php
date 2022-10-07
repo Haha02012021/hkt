@@ -24,7 +24,8 @@ class User extends Authenticatable
         'school',
         'level_id',
         'role',
-        'avatar'
+        'avatar',
+        'class_id',
     ];
 
     /**
@@ -53,4 +54,14 @@ class User extends Authenticatable
     public function comments() {
         return $this->belongsToMany(Post::class, 'comment', 'user_id', 'post_id')->using(Comment::class)->withPivot('id', 'content', 'parent_id')->withTimestamps();
     }
+
+    public function homeworks() {
+        return $this->hasMany(Homework::class, 'teacher_id', 'id');
+    }
+
+    public function classes() {
+        return $this->hasMany(GroupClass::class, 'class_id', 'id');
+    }
+
+
 }

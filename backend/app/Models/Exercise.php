@@ -13,4 +13,8 @@ class Exercise extends Model
         'number',
         'answer',
     ];
+
+    public function homework() {
+        return $this->belongsTo(Homework::class, 'homework_id', 'id');
+    }
 }
