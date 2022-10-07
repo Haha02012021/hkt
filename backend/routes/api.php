@@ -25,7 +25,7 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::get('/post/{postId}', [CommentController::class, 'commentsOfPost']);
         Route::delete('/delete/{id}', [CommentController::class, 'deleteComment']);
     });
-    Route::get('/user', function($request) {
+    Route::get('/user', function(Request $request) {
         return $request->user();
     });
     Route::post('/reaction/post/{postId}', [ReactController::class, 'likePost']);
