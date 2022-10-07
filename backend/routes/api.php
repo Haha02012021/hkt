@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ReactController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
@@ -21,9 +22,13 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::group(['prefix' => 'comments'], function() {
         Route::post('/add', [CommentController::class, 'addComment']);
         Route::put('/edit', [CommentController::class, 'editComment']);
-        Route::get('/post/postId={postId}', [CommentController::class, 'commentsOfPost']);
-        Route::delete('/delete/commentId={id}', [CommentController::class, 'deleteComment']);
+        Route::get('/post/{postId}', [CommentController::class, 'commentsOfPost']);
+        Route::delete('/delete/{id}', [CommentController::class, 'deleteComment']);
     });
+    Route::get('/user', function(Request $request) {
+        return $request->user();
+    });
+    Route::post('/reaction/post/{postId}', [ReactController::class, 'likePost']);
 
     Route::group(['prefix' => 'post'], function() {
         Route::get('/get-all', [PostController::class, 'getAllPosts']);
@@ -42,8 +47,4 @@ Route::group(['prefix' => 'auth'], function() {
     Route::post('/signup', [AuthController::class, 'signup']);
     Route::post('/login', [AuthController::class, 'login']);
     Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
-});
-
-Route::get('link', function() {
-    return URL::to('/images');
 });
