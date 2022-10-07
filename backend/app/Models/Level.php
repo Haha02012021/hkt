@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Image extends Model
+class Level extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'post_id',
-        'link',
+        'name',
     ];
 
-    public function post() {
-        return $this->belongsTo(Post::class, 'post_id', 'id');
+    public function users() {
+        return $this->hasMany(User::class, 'user_id', 'id');
     }
 }

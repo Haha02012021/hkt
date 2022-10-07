@@ -24,6 +24,18 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::get('/post/postId={postId}', [CommentController::class, 'commentsOfPost']);
         Route::delete('/delete/commentId={id}', [CommentController::class, 'deleteComment']);
     });
+
+    Route::group(['prefix' => 'post'], function() {
+        Route::get('/get-all', [PostController::class, 'getAllPosts']);
+        Route::get('/get/{id}', [PostController::class, 'getPostById']);
+        Route::get('/get-by-tag', [PostController::class, 'getPostsByTag']);
+        Route::post('/create', [PostController::class, 'create']);
+        Route::delete('/delete/{id}', [PostController::class, 'deletePostById']);
+    });
+    
+    Route::group(['prefix' => 'class'], function() {
+        Route::post('/create', [GroupClassController::class, 'create']);
+    });
 });
 
 Route::group(['prefix' => 'auth'], function() {
