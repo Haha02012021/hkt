@@ -107,7 +107,7 @@ const PostCard = ({ id }) => {
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>
-        <Typography>{postBlob.likeCount}</Typography>
+        <Typography>{postBlob.like}</Typography>
         <IconButton aria-label="comment">
           <CommentIcon />
         </IconButton>

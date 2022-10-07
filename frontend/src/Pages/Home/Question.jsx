@@ -8,11 +8,7 @@ const Question = () => {
   const click = () => {
     dispatch(actions.appStartUpComplete());
   };
-  return (
-    <Box sx={{ width: "100%", height: "100%", backgroundColor: "black" }}>
-      Question
-    </Box>
-  );
+  return <Box>Question</Box>;
 };
 
 export default Question;
