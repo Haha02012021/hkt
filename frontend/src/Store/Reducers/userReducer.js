@@ -7,10 +7,11 @@ const initialState = {
 const appReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.USER_LOGIN_SUCCESS:
+      console.log(action.payload);
       return {
         ...state,
-        infoUser: action.payload,
         isLogin: true,
+        infoUser: action.payload,
       };
     case actionTypes.USER_LOGOUT_SUCCESS:
       return {

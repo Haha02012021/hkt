@@ -22,10 +22,10 @@ export default function SignUp() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log(data);
+    console.log(data.get("password") + " " + data.get("confirmPassword"));
     if (data.get("password") === data.get("confirmPassword")) {
       const res = await dispatch(
-        actions.userSignUpSuccess({
+        actions.userSignUp({
           email: data.get("email"),
           password: data.get("password"),
         })
