@@ -10,14 +10,16 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function getAllPosts()
-    {
+    public function getAllPosts(Request $request) {
         try {
             $posts = Post::with('user', 'hasTags', 'images')->paginate(10);
+            $user = $request->user();
 
-            foreach ($posts as $post) {
-                $post->like = count($post->likes);
-                $post->commentCount = count($post->comments);
+            foreach($posts as $post) {
+                $post->like = $post->likes()->count();
+                $post->commentCount = $post->comments()->count();
+                $post->isLike = $post->likes()->where('user_id', $user->id)->exists();
+
             }
 
             return response()->json([
@@ -32,16 +34,17 @@ class PostController extends Controller
         }
     }
 
-    public function getPostById($id)
-    {
+    public function getPostById($id, Request $request) {
         try {
             $post = Post::find($id);
+            $user = $request->user();
 
             $post->user;
             $post->hasTags;
             $post->images;
-            $post->like = count($post->likes);
-            $post->commentCount = count($post->comments);
+            $post->like = $post->likes()->count();
+            $post->commentCount = $post->comments()->count();
+            $post->isLike = $post->likes()->where('user_id', $user->id)->exists();
 
             if (!$post) {
                 return response()->json([
@@ -67,12 +70,14 @@ class PostController extends Controller
     {
         try {
             $posts = Tag::find($request->tag_id)->posts;
+            $user = $request->user();
 
             foreach ($posts as $post) {
                 $post->hasTags;
                 $post->images;
-                $post->like = count($post->likes);
-                $post->commentCount = count($post->comments);
+                $post->like = $post->likes()->count();
+                $post->isLike = $post->likes()->where('user_id', $user->id)->exists();
+                $post->commentCount = $post->comments()->count();
             }
 
             return response()->json([
