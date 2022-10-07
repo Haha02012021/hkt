@@ -1,13 +1,20 @@
 export const ROLES = [
-  { role: 0, name: "Học sinh" },
-  { role: 1, name: "Giáo viên" },
-  { role: 2, name: "Pro" },
+  { id: 0, name: "Học sinh" },
+  { id: 1, name: "Giáo viên" },
 ];
 
 export const SCHOOLS = [
-  { role: 0, name: "UET" },
-  { role: 1, name: "HUST" },
-  { role: 2, name: "UIT" },
-  { role: 3, name: "BKA" },
-  { role: 4, name: "PKA" },
+  { id: 0, name: "UET" },
+  { id: 1, name: "HUST" },
+  { id: 2, name: "UIT" },
+  { id: 3, name: "BKA" },
+  { id: 4, name: "PKA" },
+];
+
+export const LEVELS = [
+  { id: 0, name: "N1" },
+  { id: 1, name: "N2" },
+  { id: 2, name: "N3" },
+  { id: 3, name: "N4" },
+  { id: 4, name: "N5" },
 ];

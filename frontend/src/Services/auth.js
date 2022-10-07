@@ -5,7 +5,7 @@ const handleLoginApi = (data) => {
 };
 
 const handleSignUpApi = (data) => {
-  return axios.post("/api/auth/sign-up", data);
+  return axios.post("/api/auth/signup", data);
 };
 
 const handleLoginByTokenApi = () => {
