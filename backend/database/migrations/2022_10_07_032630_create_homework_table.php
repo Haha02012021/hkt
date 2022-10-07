@@ -14,9 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('homework', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('file_link');
             $table->bigInteger('class_id');
+            $table->bigInteger('teacher_id');
             $table->string('title');
             $table->timestamps();
         });

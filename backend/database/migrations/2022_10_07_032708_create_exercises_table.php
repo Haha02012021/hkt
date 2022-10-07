@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('exercises', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->bigInteger('homework_id');
             $table->integer('number');
             $table->tinyText('answer');

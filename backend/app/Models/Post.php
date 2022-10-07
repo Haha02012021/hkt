@@ -15,4 +15,17 @@ class Post extends Model
         'type',
         'class_id'
     ];
+
+    public function comments() {
+        return $this->belongsToMany(User::class, 'comment', 'post_id', 'user_id')->using(Comment::class)->withPivot('id', 'content', 'parent_id')->withTimestamps();
+    }
+
+    public function hasTags() {
+        return $this->belongsToMany(Tag::class, 'post_tag', 'post_id', 'tag_id')->withPivot('id', 'name')->withTimestamps();
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
 }
