@@ -31,7 +31,7 @@ class AuthController extends Controller
             $token = $user->createToken("$user->username-token")->plainTextToken;
 
             return response()->json([
-                'success' => true,
+                'statusCode' => 0,
                 'data' => [
                     'user' => $user,
                     'token' => $token,
@@ -40,6 +40,7 @@ class AuthController extends Controller
             ], 200);
         } catch (Exception $err) {
                 return response()->json([
+                    'statusCode' => 1,
                     'success' => false,
                     'message' => $err->getMessage()
                 ]);
@@ -52,13 +53,14 @@ class AuthController extends Controller
             'password' => 'required|string',]
         );
 
-        $user = $user = User::where(DB::raw('BINARY email'), $fields['email'])->first();
+        $user = User::where(DB::raw('BINARY `email`'), $fields['email'])->first();
 
         if (!$user || $fields['password'] !== $user->password) {
             return response()->json([
-                'success' => false,
+                'statusCode' => 1,
                 'message' => 'Incorrect username or password',
-            ], 400);
+                'status' => 400
+            ]);
         }
 
         $user->tokens()->delete();
@@ -66,7 +68,7 @@ class AuthController extends Controller
         $token = $user->createToken("$user->username-token")->plainTextToken;
 
         return response()->json([
-            'success' => true,
+            'statusCode' => 0,
             'data' => [
                 'user' => $user,
                 'token' => $token,
@@ -78,10 +80,18 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $user = $request->user();
+
+        if(!$user) {
+            return response()->json([
+                'statusCode' => 1,
+                'message' => 'User not found',
+            ]);
+        }
+
         $user->tokens()->delete();
 
         return response()->json([
-            'success' => true,
+            'statusCode' => 0,
             'message' => 'Logout Successfully',
         ]);
     }
