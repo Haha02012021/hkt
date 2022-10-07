@@ -67,6 +67,7 @@ const ModalPostBlog = (props) => {
         },
       };
       const token = localStorage.getItem("token");
+
       config.headers.Authorization = "Bearer " + token;
 
       const res = await toast.promise(Axios.post(url, data, config), {
