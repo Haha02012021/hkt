@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, memo } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -23,8 +23,7 @@ const settings = ["Profile", "Account", "Dashboard"];
 const Navbar = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userState = useSelector((state) => state.user);
-  const userInfo = userState.infoUser;
+  const userInfo = useSelector((state) => state.user.infoUser);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   useEffect(() => {
@@ -35,7 +34,7 @@ const Navbar = (props) => {
       }
     };
     loginToken();
-  });
+  }, userInfo);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -221,4 +220,4 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-export default Navbar;
+export default memo(Navbar);
