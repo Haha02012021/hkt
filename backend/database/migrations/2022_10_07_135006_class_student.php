@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('student_answer', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('user_id');
-            $table->bigInteger('homework_id');
-            $table->integer('exercise_number');
-            $table->tinyText('answer');
-            $table->integer('point');
+        //
+        Schema::create('class_student', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('class_id');
+            $table->bigInteger('student_id');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('student_answers');
+        //
     }
 };

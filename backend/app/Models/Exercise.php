@@ -12,6 +12,7 @@ class Exercise extends Model
         'homework_id',
         'number',
         'answer',
+        'point'
     ];
 
     public function homework() {

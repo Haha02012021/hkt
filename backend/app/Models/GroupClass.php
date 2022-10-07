@@ -20,4 +20,8 @@ class GroupClass extends Model
     public function homeworks() {
         return $this->hasMany(Homework::class, 'class_id', 'id');
     }
+
+    public function students() {
+        return $this->hasMany(User::class, 'class_id', 'id');
+    }
 }
