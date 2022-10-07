@@ -12,7 +12,7 @@ class PostController extends Controller
 {
     public function getAllPosts(Request $request) {
         try {
-            $posts = Post::with('user', 'hasTags', 'images')->paginate(10);
+            $posts = Post::with('user', 'hasTags', 'images')->orderBy('updated_at', 'DESC')->paginate(10);
             $user = $request->user();
 
             foreach($posts as $post) {
