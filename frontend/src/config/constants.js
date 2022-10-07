@@ -1,10 +1,10 @@
-export const roles = [
-  { role: 1, name: "Giáo viên" },
+export const ROLES = [
   { role: 0, name: "Học sinh" },
+  { role: 1, name: "Giáo viên" },
   { role: 2, name: "Pro" },
 ];
 
-export const schools = [
+export const SCHOOLS = [
   { role: 0, name: "UET" },
   { role: 1, name: "HUST" },
   { role: 2, name: "UIT" },

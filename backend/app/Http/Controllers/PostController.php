@@ -10,11 +10,12 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function getAllPosts() {
+    public function getAllPosts()
+    {
         try {
             $posts = Post::with('user', 'hasTags', 'images')->paginate(10);
 
-            foreach($posts as $post) {
+            foreach ($posts as $post) {
                 $post->like = count($post->likes);
                 $post->commentCount = count($post->comments);
             }
@@ -31,7 +32,8 @@ class PostController extends Controller
         }
     }
 
-    public function getPostById($id) {
+    public function getPostById($id)
+    {
         try {
             $post = Post::find($id);
 
@@ -61,11 +63,12 @@ class PostController extends Controller
         }
     }
 
-    public function getPostsByTag(Request $request) {
+    public function getPostsByTag(Request $request)
+    {
         try {
             $posts = Tag::find($request->tag_id)->posts;
 
-            foreach($posts as $post) {
+            foreach ($posts as $post) {
                 $post->hasTags;
                 $post->images;
                 $post->like = count($post->likes);
@@ -84,13 +87,14 @@ class PostController extends Controller
         }
     }
 
-    public function create(Request $request) {
+    public function create(Request $request)
+    {
         try {
             $fields = $request->validate(
                 [
                     'user_id' => 'required|integer',
                     'content' => 'required|string',
-                    'title' => 'required|string',
+                    // 'title' => 'required|string',
                     'type' => 'required|integer',
                     'class_id' => 'required|integer',
                 ]
@@ -99,7 +103,7 @@ class PostController extends Controller
             $newPost = Post::create([
                 'user_id' => $fields['user_id'],
                 'content' => $fields['content'],
-                'title' => $fields['title'],
+                // 'title' => $fields['title'],
                 'type' => $fields['type'],
                 'class_id' => $fields['class_id'],
             ]);
@@ -110,21 +114,20 @@ class PostController extends Controller
             }
 
             if ($request->hasFile('images')) {
-                foreach($request->file('images') as $image)
-                {
-                    $imageName = time().rand(1, 100).'.'.$image->getClientOriginalExtension();
+                foreach ($request->file('images') as $image) {
+                    $imageName = time() . rand(1, 100) . '.' . $image->getClientOriginalExtension();
 
                     $image->move(public_path('images/'), $imageName);
 
-                    $imagePath = asset('images/').'/'.$imageName;
-                    
+                    $imagePath = asset('images/') . '/' . $imageName;
+
                     Image::create([
                         'post_id' => $newPost->id,
                         'link' => $imagePath,
                     ]);
                 }
-            }   
-            
+            }
+
             $newPost->hasTags;
             $newPost->images;
 
@@ -140,7 +143,8 @@ class PostController extends Controller
         }
     }
 
-    public function deletePostById($id) {
+    public function deletePostById($id)
+    {
         try {
             $post = Post::find($id);
 
