@@ -50,6 +50,7 @@ const ModalPostBlog = (props) => {
 
       const url = "/api/post/create";
       const data = new FormData(event.currentTarget);
+      data.delete("images[]");
       console.log({
         content: data.get("content"),
         files,
@@ -59,7 +60,11 @@ const ModalPostBlog = (props) => {
       });
 
       data.append("user_id", userInfo.id);
-      data.set("files", files);
+
+      files.forEach((file) => {
+        data.append("images[]", file);
+      });
+
       data.append("type", 0);
       data.append("class_id", 0);
 
@@ -205,7 +210,7 @@ const ModalPostBlog = (props) => {
             }}
           />
           <Box>
-            <label for="files">
+            <label for="images[]">
               <Box
                 sx={{
                   border: "1px solid #ccc",
@@ -226,9 +231,9 @@ const ModalPostBlog = (props) => {
               </Box>
             </label>
             <input
-              name="files"
+              name="images[]"
               type="file"
-              id="files"
+              id="images[]"
               multiple={true}
               hidden
               ref={inputFile}
