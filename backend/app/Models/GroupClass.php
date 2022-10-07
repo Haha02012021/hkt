@@ -9,7 +9,7 @@ class GroupClass extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'class_name',
+        'name',
         'teacher_id',
     ];
 
