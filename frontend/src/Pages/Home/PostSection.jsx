@@ -5,6 +5,7 @@ import {
   CardContent,
   Typography,
   Pagination,
+  CircularProgress,
 } from "@mui/material";
 import React, { useEffect } from "react";
 
@@ -109,17 +110,29 @@ const PostSection = () => {
         </CardContent>
       </Card>
 
-      {listBlogs && listBlogs.length > 0
-        ? listBlogs.map((item, i) => {
-            return <PostCard item={item} />;
-          })
-        : null}
+      {listBlogs && listBlogs.length > 0 ? (
+        listBlogs.map((item, i) => {
+          return <PostCard item={item} />;
+        })
+      ) : (
+        <CircularProgress
+          thickness={5}
+          size={25}
+          color="primary"
+          sx={{
+            height: "20px",
+            width: "20px",
+          }}
+        />
+      )}
 
-      <Pagination
-        count={countPage}
-        page={currentPage}
-        onChange={(event, page) => setCurrentPage(page)}
-      />
+      {listBlogs && listBlogs.length ? (
+        <Pagination
+          count={countPage}
+          page={currentPage}
+          onChange={(event, page) => setCurrentPage(page)}
+        />
+      ) : null}
 
       <ModalPostBlog
         open={createPostModalOpen}
