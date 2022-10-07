@@ -5,6 +5,8 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import Section1 from "./Section1";
+import PostSection from "./PostSection";
+
 import Navbar from "../../Components/Elements/Navbar";
 import DrawerHeader from "../../Components/Elements/DrawerHeader";
 import Drawer from "../../Components/Elements/Drawer";
@@ -23,11 +25,11 @@ const Home = () => {
     setOpen(false);
   };
 
-    const notifySuccess = () => toast.success("🦄 Wow so easy!");
-    const notifyError = () => toast.error("💥 ERROR!");
+  const notifySuccess = () => toast.success("🦄 Wow so easy!");
+  const notifyError = () => toast.error("💥 ERROR!");
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", justifyContent: "center" }}>
       <CssBaseline />
       <Navbar open={open} onOpen={handleDrawerOpen} />
       <Drawer
@@ -35,7 +37,7 @@ const Home = () => {
         onClose={handleDrawerClose}
         onOpen={handleDrawerOpen}
       />
-      <Main open={open}>
+      <Main open={open} sx={{ backgroundColor: "cyan", maxWidth: "1200px" }}>
         <DrawerHeader></DrawerHeader>
         <Button variant="contained" onClick={notifySuccess}>
           Success
@@ -43,15 +45,17 @@ const Home = () => {
         <Button variant="contained" color="warning" onClick={notifyError}>
           Error
         </Button>
+
         <Routes>
           <Route path="/section1" element={<Section1 />} />
+          <Route path="/posts" element={<PostSection />} />
         </Routes>
       </Main>
     </Box>
   );
 };
 
-const drawerWidth = 240;
+// const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
@@ -61,13 +65,11 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    marginLeft: `-${drawerWidth}px`,
     ...(open && {
       transition: theme.transitions.create("margin", {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
       }),
-      marginLeft: 0,
     }),
   })
 );
