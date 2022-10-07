@@ -27,4 +27,8 @@ class Homework extends Model
     public function groupclass() {
         return $this->belongsTo(GroupClass::class, 'class_id', 'id');
     }
+
+    public function students() {
+        return $this->belongsToMany(User::class, 'student_answer', 'homework_id', 'user_id')->using(StudentAnswers::class)->withPivot('id', 'exercise_number', 'answer')->withTimestamps();
+    }
 }

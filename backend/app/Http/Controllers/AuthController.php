@@ -17,6 +17,9 @@ class AuthController extends Controller
                     'email' => 'required|email|unique:users,email',
                     'username' => 'required|string|unique:users,username',
                     'password' => 'required|string',
+                    'school' => 'required|string',
+                    'level_id' => 'required',
+                    'role' => 'required',
                 ]
             );
 
@@ -26,6 +29,10 @@ class AuthController extends Controller
             $user->username = $fields['username'];
             $user->email = $fields['email'];
             $user->password = $fields['password'];
+            $user->role = $fields['role'];
+            $user->school = $fields['school'];
+            $user->level_id = $fields['level_id'];
+
             $user->save();
 
             $token = $user->createToken("$user->username-token")->plainTextToken;
