@@ -74,6 +74,16 @@ export default function SignUp() {
               autoComplete="email"
               autoFocus
             />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
+              autoFocus
+            />
             <FormControl fullWidth sx={{ mt: 1, textAlign: "left" }}>
               <InputLabel id="role-select-label">Role</InputLabel>
               <Select
