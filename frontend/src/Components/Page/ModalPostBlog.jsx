@@ -2,7 +2,11 @@ import React, { useState, useRef } from "react";
 import { Modal, Typography, Button, Box, Chip } from "@mui/material";
 import AddToPhotosIcon from "@mui/icons-material/AddToPhotos";
 import Carosel from "../Elements/Carosel";
-import { post } from "axios";
+
+import Axios from "../../config/axios";
+import { toast } from "react-toastify";
+
+import { useSelector } from "react-redux";
 const styles = {
   postContainer: {
     display: "flex",
@@ -35,25 +39,45 @@ const ModalPostBlog = (props) => {
   const [lineTextArea, setLineTextArea] = useState(1);
   const [files, setFiles] = useState([]);
   const inputFile = useRef();
+  const userState = useSelector((state) => state.user);
+  const userInfo = userState.infoUser;
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    const url = "http://example.com/file-upload";
-    const data = new FormData(event.currentTarget);
-    console.log({
-      title: data.get("title"),
-      files: data.get("files"),
-      tags: selectedTags,
-    });
+    try {
+      event.preventDefault();
 
-    const config = {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    };
+      const url = "/api/post/create";
+      const data = new FormData(event.currentTarget);
+      console.log({
+        content: data.get("content"),
+        files,
+        type: 0,
+        class_id: 0,
+        tags: selectedTags,
+      });
 
-    const res = await post(url, data, config);
-    console.log(res);
+      data.append("user_id", userInfo.id);
+      data.set("files", files);
+      data.append("type", 0);
+      data.append("class_id", 0);
+
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      const token = localStorage.getItem("token");
+      config.headers.Authorization = "Bearer " + token;
+
+      const res = await toast.promise(Axios.post(url, data, config), {
+        pending: "Đang tải...",
+        success: "Đăng bài thành công",
+        error: "Đăng bài thất bại",
+      });
+      console.log(res);
+    } catch (error) {
+      console.log("Error: ", error);
+    }
   };
 
   const FileNull = () => {
@@ -152,9 +176,9 @@ const ModalPostBlog = (props) => {
           <textarea
             required
             fullWidth
-            id="title"
+            id="content"
             label="Nội dung bài viết của bạn"
-            name="title"
+            name="content"
             autoFocus={true}
             style={{
               border: "none",
