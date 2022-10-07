@@ -15,5 +15,4 @@ class School extends Model
     public function member() {
         return $this->hasMany(User::class, 'school_id', 'id');
     }
-
 }
