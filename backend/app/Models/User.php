@@ -25,7 +25,6 @@ class User extends Authenticatable
         'level_id',
         'role',
         'avatar',
-        'class_id',
     ];
 
     /**
@@ -68,6 +67,10 @@ class User extends Authenticatable
     }
 
     public function doHomework() {
-        return $this->belongsToMany(Homework::class, 'student_answer', 'user_id', 'homework_id')->using(StudentAnswers::class)->withPivot('id', 'exercise_number', 'answer')->withTimestamps();
+        return $this->belongsToMany(Homework::class, 'student_answer', 'user_id', 'homework_id')->using(StudentAnswers::class)->withPivot('id', 'exercise_number', 'answer', 'point')->withTimestamps();
+    }
+
+    public function groupClass() {
+        return $this->belongsToMany(GroupClass::class, 'class_student', 'student_id', 'class_id')->withTimestamps();
     }
 }

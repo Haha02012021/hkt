@@ -13,6 +13,7 @@ class StudentAnswers extends Pivot
         'user_id',
         'homework_id',
         'exercise_number',
-        'answer'
+        'answer',
+        'point',
     ];
 }

@@ -14,6 +14,7 @@ class Homework extends Model
         'class_id',
         'teacher_id',
         'class_id',
+        'total_point'
     ];
 
     public function teacher() {
@@ -29,6 +30,6 @@ class Homework extends Model
     }
 
     public function students() {
-        return $this->belongsToMany(User::class, 'student_answer', 'homework_id', 'user_id')->using(StudentAnswers::class)->withPivot('id', 'exercise_number', 'answer')->withTimestamps();
+        return $this->belongsToMany(User::class, 'student_answer', 'homework_id', 'user_id')->using(StudentAnswers::class)->withPivot('id', 'exercise_number', 'answer', 'point')->withTimestamps();
     }
 }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->bigInteger('class_id');
             $table->bigInteger('teacher_id');
             $table->string('title');
+            $table->integer('total_point');
             $table->timestamps();
         });
     }

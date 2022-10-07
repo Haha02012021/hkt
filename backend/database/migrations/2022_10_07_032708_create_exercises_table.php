@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('homework_id');
             $table->integer('number');
             $table->tinyText('answer');
+            $table->integer('point');
             $table->timestamps();
         });
     }
