@@ -28,9 +28,13 @@ const Navbar = (props) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   useEffect(() => {
-    if (userState.isLogin === false) {
-      navigate("/login");
-    }
+    const loginToken = async () => {
+      const res = await dispatch(actions.userLoginByToken());
+      if (res === false) {
+        navigate("/login");
+      }
+    };
+    loginToken();
   });
 
   const handleOpenNavMenu = (event) => {

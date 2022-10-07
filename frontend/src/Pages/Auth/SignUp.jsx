@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,10 +13,14 @@ import * as actions from "../../Store/Actions/index";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+
+import { ROLES } from "../../config/constants";
 
 const theme = createTheme();
 
 export default function SignUp() {
+  const [selectedRole, setSelectedRole] = useState(ROLES[0].role);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
@@ -74,6 +78,32 @@ export default function SignUp() {
               margin="normal"
               required
               fullWidth
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
+              autoFocus
+            />
+            <FormControl fullWidth sx={{ mt: 1, textAlign: "left" }}>
+              <InputLabel id="role-select-label">Role</InputLabel>
+              <Select
+                fullWidth
+                required
+                labelId="role-select-label"
+                id="simple-select"
+                value={selectedRole}
+                label="Role"
+                onChange={(e) => setSelectedRole(e.target.value)}
+              >
+                {ROLES.map((role) => (
+                  <MenuItem value={role.role}>{role.name}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
               name="password"
               label="Password"
               type="password"
@@ -88,16 +118,6 @@ export default function SignUp() {
               label="Confirm Password"
               type="password"
               id="confirmPassword"
-              autoComplete="current-password"
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Confirm Password"
-              type="password"
-              id="password"
               autoComplete="current-password"
             />
             <Button

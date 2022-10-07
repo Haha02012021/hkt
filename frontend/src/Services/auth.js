@@ -8,4 +8,8 @@ const handleSignUpApi = (data) => {
   return axios.post("/api/auth/sign-up", data);
 };
 
-export { handleLoginApi, handleSignUpApi };
+const handleLoginByTokenApi = () => {
+  return axios.get("/api/user");
+};
+
+export { handleLoginApi, handleSignUpApi, handleLoginByTokenApi };

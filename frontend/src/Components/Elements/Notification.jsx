@@ -5,7 +5,6 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 
 const styles = {
   notificationContainer: {

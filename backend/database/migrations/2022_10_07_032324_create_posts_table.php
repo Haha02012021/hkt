@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('content');
+            $table->longText('content');
             $table->tinyInteger('type')->comment('0: chia se, 1: hoi dap');
             $table->bigInteger('class_id')->nullable();
             $table->bigInteger('user_id');
