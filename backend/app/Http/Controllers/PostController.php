@@ -19,6 +19,7 @@ class PostController extends Controller
                 $post->like = $post->likes()->count();
                 $post->commentCount = $post->comments()->count();
                 $post->isLike = $post->likes()->where('user_id', $user->id)->exists();
+
             }
 
             return response()->json([
@@ -65,12 +66,13 @@ class PostController extends Controller
         }
     }
 
-    public function getPostsByTag(Request $request) {
+    public function getPostsByTag(Request $request)
+    {
         try {
             $posts = Tag::find($request->tag_id)->posts;
             $user = $request->user();
 
-            foreach($posts as $post) {
+            foreach ($posts as $post) {
                 $post->hasTags;
                 $post->images;
                 $post->like = $post->likes()->count();
@@ -90,7 +92,8 @@ class PostController extends Controller
         }
     }
 
-    public function create(Request $request) {
+    public function create(Request $request)
+    {
         try {
             $fields = $request->validate(
                 [
@@ -114,21 +117,20 @@ class PostController extends Controller
             }
 
             if ($request->hasFile('images')) {
-                foreach($request->file('images') as $image)
-                {
-                    $imageName = time().rand(1, 100).'.'.$image->getClientOriginalExtension();
+                foreach ($request->file('images') as $image) {
+                    $imageName = time() . rand(1, 100) . '.' . $image->getClientOriginalExtension();
 
                     $image->move(public_path('images/'), $imageName);
 
-                    $imagePath = asset('images/').'/'.$imageName;
-                    
+                    $imagePath = asset('images/') . '/' . $imageName;
+
                     Image::create([
                         'post_id' => $newPost->id,
                         'link' => $imagePath,
                     ]);
                 }
-            }   
-            
+            }
+
             $newPost->hasTags;
             $newPost->images;
 
@@ -144,7 +146,8 @@ class PostController extends Controller
         }
     }
 
-    public function deletePostById($id) {
+    public function deletePostById($id)
+    {
         try {
             $post = Post::find($id);
 

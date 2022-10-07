@@ -16,8 +16,7 @@ import { useNavigate } from "react-router-dom";
 import * as actions from "../../Store/Actions/index";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useSelector, useDispatch } from "react-redux";
-import { Badge } from "@mui/material";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import Notification from "./Notification";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard"];
@@ -29,9 +28,13 @@ const Navbar = (props) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   useEffect(() => {
-    if (userState.isLogin === false) {
-      navigate("/login");
-    }
+    const loginToken = async () => {
+      const res = await dispatch(actions.userLoginByToken());
+      if (res === false) {
+        navigate("/login");
+      }
+    };
+    loginToken();
   });
 
   const handleOpenNavMenu = (event) => {
@@ -69,8 +72,9 @@ const Navbar = (props) => {
               display: { xs: "none", md: "flex" },
               fontFamily: "monospace",
               fontWeight: 700,
+              fontSize: "50px",
               letterSpacing: ".3rem",
-              color: `${true ? "xanh" : "do"}`,
+              color: `${true ? "#f03a17" : "blue"}`,
               textDecoration: "none",
             }}
           >
@@ -144,13 +148,7 @@ const Navbar = (props) => {
           </Box>
 
           {/* Notification */}
-          <Tooltip title="Notification" sx={{ marginRight: "10px" }}>
-            <IconButton size="large" color="inherit">
-              <Badge badgeContent={69} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-          </Tooltip>
+          <Notification />
 
           <Box sx={{ flexGrow: 0 }}>
             <Box

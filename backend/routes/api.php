@@ -42,7 +42,7 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::post('/create', [PostController::class, 'create']);
         Route::delete('/delete/{id}', [PostController::class, 'deletePostById']);
     });
-    
+
     Route::group(['prefix' => 'class'], function() {
         Route::post('/create', [GroupClassController::class, 'create']);
     });
@@ -53,3 +53,5 @@ Route::group(['prefix' => 'auth'], function() {
     Route::post('/login', [AuthController::class, 'login']);
     Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 });
+
+
