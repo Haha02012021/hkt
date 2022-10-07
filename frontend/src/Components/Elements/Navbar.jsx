@@ -62,7 +62,7 @@ const Navbar = (props) => {
         <Toolbar disableGutters>
           <Typography variant="h4">🍓</Typography>
           <Typography
-            variant="h6"
+            variant="h4"
             noWrap
             component="a"
             href="/home"

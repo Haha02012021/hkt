@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import { ROLES, SCHOOLS, LEVELS } from "../../config/constants";
 
@@ -24,26 +25,35 @@ export default function SignUp() {
   const [selectedSchool, setSelectedSchool] = useState(SCHOOLS[0].id);
   const [selectedLevel, setSelectedLevel] = useState(LEVELS[0].id);
 
+  const [loading, setLoading] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log(data.get("password") + " " + data.get("confirmPassword"));
-    if (data.get("password") === data.get("confirmPassword")) {
-      const res = await dispatch(
-        actions.userSignUp({
-          email: data.get("email"),
-          password: data.get("password"),
-          username: data.get("username"),
-          school_id: selectedSchool,
-          level_id: selectedLevel,
-          role: selectedRole,
-        })
-      );
-      if (res === true) navigate("/");
-    } else {
-      toast.error("Sign Up error");
+    try {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      console.log(data.get("password") + " " + data.get("confirmPassword"));
+      if (data.get("password") === data.get("confirmPassword")) {
+        setLoading(true);
+        const res = await dispatch(
+          actions.userSignUp({
+            email: data.get("email"),
+            password: data.get("password"),
+            username: data.get("username"),
+            school_id: selectedSchool,
+            level_id: selectedLevel,
+            role: selectedRole,
+          })
+        );
+        if (res === true) navigate("/");
+      } else {
+        toast.error("Passwords do not match");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -186,7 +196,19 @@ export default function SignUp() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              {loading ? (
+                <CircularProgress
+                  thickness={5}
+                  size={25}
+                  sx={{
+                    color: "white",
+                    height: "20px",
+                    width: "20px",
+                  }}
+                />
+              ) : (
+                "Sign Up"
+              )}
             </Button>
             <Box
               sx={{ display: "flex" }}
