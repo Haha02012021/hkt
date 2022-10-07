@@ -15,12 +15,15 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
-import { ROLES } from "../../config/constants";
+import { ROLES, SCHOOLS, LEVELS } from "../../config/constants";
 
 const theme = createTheme();
 
 export default function SignUp() {
-  const [selectedRole, setSelectedRole] = useState(ROLES[0].role);
+  const [selectedRole, setSelectedRole] = useState(ROLES[0].id);
+  const [selectedSchool, setSelectedSchool] = useState(SCHOOLS[0].id);
+  const [selectedLevel, setSelectedLevel] = useState(LEVELS[0].id);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
@@ -32,6 +35,10 @@ export default function SignUp() {
         actions.userSignUp({
           email: data.get("email"),
           password: data.get("password"),
+          username: data.get("username"),
+          school: selectedSchool,
+          level_id: selectedLevel,
+          role: selectedRole,
         })
       );
       if (res === true) navigate("/");
@@ -84,22 +91,75 @@ export default function SignUp() {
               autoComplete="username"
               autoFocus
             />
-            <FormControl fullWidth sx={{ mt: 1, textAlign: "left" }}>
-              <InputLabel id="role-select-label">Role</InputLabel>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <FormControl sx={{ mt: 1, textAlign: "left", minWidth: 182 }}>
+                <InputLabel id="role">Role</InputLabel>
+                <Select
+                  fullWidth
+                  required
+                  labelId="role"
+                  id="role"
+                  value={selectedRole}
+                  label="Role"
+                  onChange={(e) => setSelectedRole(e.target.value)}
+                >
+                  {ROLES.map((role) => (
+                    <MenuItem value={role.id}>{role.name}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl
+                sx={{
+                  mt: 1,
+                  textAlign: "left",
+                  minWidth: 182,
+                  maxWidth: 300,
+                }}
+              >
+                <InputLabel id="level">Levels</InputLabel>
+                <Select
+                  fullWidth
+                  required
+                  labelId="level"
+                  id="school"
+                  value={selectedLevel}
+                  label="Role"
+                  onChange={(e) => setSelectedLevel(e.target.value)}
+                >
+                  {LEVELS.map((role) => (
+                    <MenuItem value={role.id}>{role.name}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+            <FormControl
+              fullWidth
+              sx={{
+                mt: 1,
+                textAlign: "left",
+              }}
+            >
+              <InputLabel id="school">School</InputLabel>
               <Select
                 fullWidth
                 required
-                labelId="role-select-label"
-                id="simple-select"
-                value={selectedRole}
+                labelId="school"
+                id="school"
+                value={selectedSchool}
                 label="Role"
-                onChange={(e) => setSelectedRole(e.target.value)}
+                onChange={(e) => setSelectedSchool(e.target.value)}
               >
-                {ROLES.map((role) => (
-                  <MenuItem value={role.role}>{role.name}</MenuItem>
+                {SCHOOLS.map((role) => (
+                  <MenuItem value={role.id}>{role.name}</MenuItem>
                 ))}
               </Select>
             </FormControl>
+
             <TextField
               margin="normal"
               required
