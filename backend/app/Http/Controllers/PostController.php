@@ -90,7 +90,6 @@ class PostController extends Controller
                 [
                     'user_id' => 'required|integer',
                     'content' => 'required|string',
-                    'title' => 'required|string',
                     'type' => 'required|integer',
                     'class_id' => 'required|integer',
                 ]
@@ -99,7 +98,6 @@ class PostController extends Controller
             $newPost = Post::create([
                 'user_id' => $fields['user_id'],
                 'content' => $fields['content'],
-                'title' => $fields['title'],
                 'type' => $fields['type'],
                 'class_id' => $fields['class_id'],
             ]);
