@@ -1,7 +1,7 @@
 import { Avatar, Box, Card, CardContent, Chip } from "@mui/material";
 import React from "react";
 
-import PostCard from "../../Components/Elements/PostCard";
+import PostCard from "../../Components/Page/PostCard";
 import { Modal, Typography, TextField, Button } from "@mui/material";
 import { useState } from "react";
 
@@ -86,16 +86,7 @@ const PostSection = () => {
       </Card>
 
       {listBlogs.map((item) => {
-        return (
-          <PostCard
-            title="Test title"
-            username="Test username"
-            createdAt="2021-10-10 10:10:10"
-            data="Lorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsum"
-            likeCount={666}
-            commentCount={999}
-          />
-        );
+        return <PostCard id={item.id} />;
       })}
 
       <Modal

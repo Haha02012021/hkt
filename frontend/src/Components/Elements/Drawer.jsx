@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -10,6 +10,9 @@ import MuiDrawer from "@mui/material/Drawer";
 import DrawerHeader from "./DrawerHeader";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
+import { Button, Box } from "@mui/material";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import ListItemIcon from "@mui/material/ListItemIcon";
 import FeedIcon from "@mui/icons-material/Feed";
@@ -66,6 +69,18 @@ const SideBar = (props) => {
       props.onOpen();
     }
   };
+  const listClass = ["class1", "class2"];
+  const [openClass, setOpenClass] = useState(false);
+
+  const ListClass = () => {
+    return (
+      <Box style={{ display: "flex", flexDirection: "column" }}>
+        {listClass.map((classOj) => {
+          return <Button sx={{ width: "100%" }}>{classOj + "1"}</Button>;
+        })}
+      </Box>
+    );
+  };
 
   return (
     <Drawer variant="permanent" open={props.open}>
@@ -103,16 +118,30 @@ const SideBar = (props) => {
           </Link>
         </ListItem>
 
-        <ListItem key={"Class"} disablePadding sx={{ display: "block" }}>
+        <ListItem
+          key={"Class"}
+          disablePadding
+          sx={{ display: "block" }}
+          onClick={() => setOpenClass(!openClass)}
+        >
           <Link to="/class" style={{ textDecoration: "none", color: "black" }}>
             <ListItemButton>
               <ListItemIcon>
                 <SchoolIcon />
               </ListItemIcon>
+
               <ListItemText primary={"Class"} />
+              <ListItemIcon style={{ right: "20px", marginLeft: "40px" }}>
+                {openClass ? (
+                  <KeyboardArrowDownIcon />
+                ) : (
+                  <KeyboardArrowUpIcon />
+                )}
+              </ListItemIcon>
             </ListItemButton>
           </Link>
         </ListItem>
+        {openClass && props.open ? <ListClass /> : null}
       </List>
     </Drawer>
   );
