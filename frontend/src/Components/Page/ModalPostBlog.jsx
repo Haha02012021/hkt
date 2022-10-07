@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Typography, TextField, Button, Box, Chip } from "@mui/material";
+import AddToPhotosIcon from "@mui/icons-material/AddToPhotos";
 const styles = {
   postContainer: {
     display: "flex",
@@ -29,13 +30,14 @@ const styles = {
 
 const ModalPostBlog = (props) => {
   const [selectedTags, setSelectedTags] = useState([]);
+  const [lineTextArea, setLineTextArea] = useState(1);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
       title: data.get("title"),
-      data: data.get("data"),
+      files: data.get("files"),
       tags: selectedTags,
     });
   };
@@ -43,12 +45,37 @@ const ModalPostBlog = (props) => {
   return (
     <Modal open={props.open} onClose={() => props.onClose(false)}>
       <Box sx={styles.createModal}>
-        <Typography component="h1" variant="h5" style={{ textAlign: "center" }}>
+        <Box style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Box
+            sx={{
+              fontWeight: "bold",
+              "&:hover": { cursor: "pointer", color: "blue" },
+            }}
+            onClick={() => props.onClose(false)}
+          >
+            X
+          </Box>
+        </Box>
+
+        <Typography
+          component="h1"
+          variant="h5"
+          style={{ textAlign: "center", padding: "10px 0" }}
+        >
           Tạo bài viết
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component="form" noValidate sx={{ mt: 1 }}>
           <Box>
-            <Box>Nội dung chia sẻ</Box>
+            <Box
+              style={{
+                paddingBottom: "5px",
+                fontSize: "14px",
+                fontWeight: "400",
+              }}
+            >
+              Chọn nội dung muốn chia sẻ để người khác dễ tiếp cận với bài viết
+              của bạn
+            </Box>
             {["homework", "N2", "N3", "N4", "N5"].map((tag) => {
               return (
                 <Chip
@@ -70,30 +97,69 @@ const ModalPostBlog = (props) => {
             })}
           </Box>
 
-          <TextField
-            margin="normal"
+          <textarea
             required
             fullWidth
             id="title"
             label="Nội dung bài viết của bạn"
             name="title"
-            autoFocus
+            autoFocus={true}
+            style={{
+              border: "none",
+              outline: "none",
+              width: "100%",
+              padding: "10px",
+            }}
+            rows={lineTextArea}
+            onChange={(e) => {
+              setLineTextArea(e.target.value.length / 97);
+            }}
           />
-          <TextField
-            margin="normal"
-            fullWidth
-            name="data"
-            label="Data"
-            type="text"
-            id="data"
-            sx={{ marginBottom: "10px" }}
-          />
+          <Box>
+            <label for="files">
+              <Box
+                style={{
+                  border: "1px solid #ccc",
+                  borderRadius: "15px",
+                  height: "250px",
+                  width: "100%",
+                  backgroundColor: "#f7f8fa",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                }}
+                sx={{
+                  "&:hover": {
+                    cursor: "pointer",
+                  },
+                }}
+              >
+                <Box
+                  style={{
+                    backgroundColor: "#e4e6eb",
+                    borderRadius: "50%",
+                    width: "50px",
+                    height: "50px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <AddToPhotosIcon />
+                </Box>
+                <Box>Chọn ảnh hoặc video</Box>
+              </Box>
+            </label>
+            <input name="files" type="file" id="files" multiple={true} hidden />
+          </Box>
 
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            onClick={() => handleSubmit()}
           >
             Create Post
           </Button>
