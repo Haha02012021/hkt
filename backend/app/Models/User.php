@@ -21,7 +21,7 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
-        'school',
+        'school_id',
         'level_id',
         'role',
         'avatar',
@@ -72,5 +72,9 @@ class User extends Authenticatable
 
     public function groupClass() {
         return $this->belongsToMany(GroupClass::class, 'class_student', 'student_id', 'class_id')->withTimestamps();
+    }
+
+    public function school() {
+        return $this->belongsTo(School::class, 'school_id', 'id');
     }
 }
