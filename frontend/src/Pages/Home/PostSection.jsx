@@ -1,8 +1,8 @@
-import { Avatar, Box, Card, CardContent, Chip } from "@mui/material";
+import { Avatar, Box, Card, CardContent, Typography } from "@mui/material";
 import React from "react";
 
 import PostCard from "../../Components/Page/PostCard";
-import { Modal, Typography, TextField, Button } from "@mui/material";
+import ModalPostBlog from "../../Components/Page/ModalPostBlog";
 import { useState } from "react";
 
 const styles = {
@@ -34,18 +34,7 @@ const styles = {
 
 const PostSection = () => {
   const [createPostModalOpen, setCreatePostModalOpen] = useState(false);
-  const [selectedTags, setSelectedTags] = useState([]);
   const listBlogs = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      title: data.get("title"),
-      data: data.get("data"),
-      tags: selectedTags,
-    });
-  };
 
   return (
     <Box sx={styles.postContainer}>
@@ -55,16 +44,23 @@ const PostSection = () => {
           marginBottom: "20px",
           padding: "0px",
           width: "100%",
-          maxWidth: "500px",
+          maxWidth: "960px",
         }}
       >
+        <Typography
+          component="h2"
+          variant="h5"
+          style={{ textAlign: "left", padding: "20px 0 0 20px" }}
+        >
+          Tạo những bài viết chia sẻ kiến thức với những người khác
+        </Typography>
+
         <CardContent
           sx={{ textAlign: "left", display: "flex", alignItems: "center" }}
         >
           <Avatar sx={{ width: "2rem", height: "2rem", marginRight: "5px" }} />
           <Box
             sx={{
-              border: "1px solid red",
               padding: "5px",
               flexGrow: 1,
               borderBottomLeftRadius: "50px",
@@ -73,8 +69,10 @@ const PostSection = () => {
               borderTopRightRadius: "50px",
               paddingLeft: "10px",
               transition: "all 0.1s ease-in-out",
+              backgroundColor: "#E4E6EB",
+
               "&:hover": {
-                backgroundColor: "#AAA",
+                backgroundColor: "#E4E6EB",
                 cursor: "pointer",
               },
             }}
@@ -89,69 +87,10 @@ const PostSection = () => {
         return <PostCard id={item.id} />;
       })}
 
-      <Modal
+      <ModalPostBlog
         open={createPostModalOpen}
-        onClose={() => setCreatePostModalOpen(false)}
-      >
-        <Box sx={styles.createModal}>
-          <Typography component="h1" variant="h5">
-            Create Post
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="title"
-              label="Title"
-              name="title"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              fullWidth
-              name="data"
-              label="Data"
-              type="text"
-              id="data"
-              sx={{ marginBottom: "10px" }}
-            />
-            {["homework", "N2", "N3", "N4", "N5"].map((tag) => {
-              return (
-                <Chip
-                  key={tag}
-                  label={tag}
-                  color="primary"
-                  variant={selectedTags.includes(tag) ? "" : "outlined"}
-                  clickable
-                  sx={{ marginRight: "5px", marginBottom: "5px" }}
-                  onClick={() => {
-                    if (selectedTags.includes(tag)) {
-                      setSelectedTags(selectedTags.filter((t) => t !== tag));
-                    } else {
-                      setSelectedTags([...selectedTags, tag]);
-                    }
-                  }}
-                />
-              );
-            })}
-
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Create Post
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
+        onClose={setCreatePostModalOpen}
+      />
     </Box>
   );
 };
