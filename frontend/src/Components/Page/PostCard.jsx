@@ -5,15 +5,7 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import Carousel from "react-material-ui-carousel";
 
-import {
-  Avatar,
-  Divider,
-  IconButton,
-  Typography,
-  Box,
-  Paper,
-  Button,
-} from "@mui/material";
+import { Avatar, Divider, IconButton, Typography, Box } from "@mui/material";
 
 import CardActions from "@mui/material/CardActions";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -25,7 +17,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     marginBottom: "20px",
-    width: "800px",
+    width: "960px",
     padding: "5px",
   },
   image: {
@@ -65,16 +57,6 @@ const PostCard = ({ id }) => {
     commentCount: 20,
   };
 
-  var items = [
-    {
-      name: "Random Name #1",
-      description: "Probably the most random thing you have ever seen!",
-    },
-    {
-      name: "Random Name #2",
-      description: "Hello World!",
-    },
-  ];
   return (
     <Card sx={styles.card}>
       <CardHeader
@@ -100,11 +82,22 @@ const PostCard = ({ id }) => {
         >
           <Carousel
             autoPlay="false"
-            sx={{ width: "100%" }}
-            style={{ height: "100%", width: "100%" }}
+            sx={{
+              width: "100%",
+              height: "100%",
+            }}
           >
             {postBlob.images.map((image, i) => (
-              <img src={image} styles={{ width: "100%", height: "100%" }}></img>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <img
+                  src={image}
+                  styles={{
+                    width: "100%",
+                    height: "500px",
+                    border: "1px solid black",
+                  }}
+                ></img>
+              </div>
             ))}
           </Carousel>
         </Box>
