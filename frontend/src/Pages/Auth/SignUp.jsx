@@ -36,7 +36,7 @@ export default function SignUp() {
           email: data.get("email"),
           password: data.get("password"),
           username: data.get("username"),
-          school: selectedSchool,
+          school_id: selectedSchool,
           level_id: selectedLevel,
           role: selectedRole,
         })
