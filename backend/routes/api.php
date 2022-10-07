@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,12 +17,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function() {
+    Route::group(['prefix' => 'comments'], function() {
+        Route::post('/add', [CommentController::class, 'addComment']);
+        Route::put('/edit', [CommentController::class, 'editComment']);
+        Route::get('/post/postId={postId}', [CommentController::class, 'commentsOfPost']);
+        Route::delete('/delete/commentId={id}', [CommentController::class, 'deleteComment']);
+    });
 });
 
 Route::group(['prefix' => 'auth'], function() {
     Route::post('/signup', [AuthController::class, 'signup']);
     Route::post('/login', [AuthController::class, 'login']);
     Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+});
+
+Route::get('link', function() {
+    return URL::to('/images');
 });
