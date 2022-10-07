@@ -5,14 +5,18 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import MuiDrawer from "@mui/material/Drawer";
 import DrawerHeader from "./DrawerHeader";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
+
+import ListItemIcon from "@mui/material/ListItemIcon";
+import FeedIcon from "@mui/icons-material/Feed";
+import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
+import SchoolIcon from "@mui/icons-material/School";
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -75,54 +79,41 @@ const SideBar = (props) => {
 
       <Divider />
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding sx={{ display: "block" }}>
-            <Link
-              to="/section1"
-              style={{ textDecoration: "none", color: "black" }}
-            >
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </Link>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding sx={{ display: "block" }}>
-            <Link
-              to="/section2"
-              style={{ textDecoration: "none", color: "black" }}
-            >
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: props.open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: props.open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText
-                  primary={text}
-                  sx={{ opacity: props.open ? 1 : 0 }}
-                />
-              </ListItemButton>
-            </Link>
-          </ListItem>
-        ))}
+        <ListItem key={"Posts"} disablePadding sx={{ display: "block" }}>
+          <Link to="/posts" style={{ textDecoration: "none", color: "black" }}>
+            <ListItemButton>
+              <ListItemIcon>
+                <FeedIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Posts"} />
+            </ListItemButton>
+          </Link>
+        </ListItem>
+
+        <ListItem key={"Questions"} disablePadding sx={{ display: "block" }}>
+          <Link
+            to="/questions"
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <ListItemButton>
+              <ListItemIcon>
+                <QuestionAnswerIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Questions"} />
+            </ListItemButton>
+          </Link>
+        </ListItem>
+
+        <ListItem key={"Class"} disablePadding sx={{ display: "block" }}>
+          <Link to="/class" style={{ textDecoration: "none", color: "black" }}>
+            <ListItemButton>
+              <ListItemIcon>
+                <SchoolIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Class"} />
+            </ListItemButton>
+          </Link>
+        </ListItem>
       </List>
     </Drawer>
   );

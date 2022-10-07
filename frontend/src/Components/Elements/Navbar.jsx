@@ -11,11 +11,11 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import MuiAppBar from "@mui/material/AppBar";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as actions from "../../Store/Actions/index";
+import AdbIcon from "@mui/icons-material/Adb";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard"];
@@ -50,7 +50,7 @@ const Navbar = (props) => {
     <AppBar position="fixed" open={props.open}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <Typography variant="h4">🍓</Typography>
           <Typography
             variant="h6"
             noWrap
@@ -66,7 +66,7 @@ const Navbar = (props) => {
               textDecoration: "none",
             }}
           >
-            LOGO
+            ICHIGOU
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>

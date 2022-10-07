@@ -1,13 +1,13 @@
 import actionTypes from "./actionTypes";
 import { handleLoginApi } from "../../Services/auth";
 
-export const userLoginSuccess = () => ({
+export const userLoginSuccess = (payload) => ({
   type: actionTypes.USER_LOGIN_SUCCESS,
+  payload: payload,
 });
 
-export const userLogoutSuccess = (payload) => ({
+export const userLogoutSuccess = () => ({
   type: actionTypes.USER_LOGOUT_SUCCESS,
-  payload: payload,
 });
 
 export const userLogin = (data) => {
