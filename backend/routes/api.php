@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\GroupClassController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ReactController;
 use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
@@ -44,7 +46,10 @@ Route::middleware('auth:sanctum')->group(function() {
     });
 
     Route::group(['prefix' => 'class'], function() {
+        Route::get('/get-all', [GroupClassController::class, 'getAllClasses']);
+        Route::get('/get/{id}', [GroupClassController::class, 'getClassById']);
         Route::post('/create', [GroupClassController::class, 'create']);
+        Route::delete('/delete/{id}', [GroupClassController::class, 'deleteClassById']);
     });
 });
 

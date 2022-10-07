@@ -23,7 +23,6 @@ return new class extends Migration
             $table->integer('role')->comment('0:hoc sinh, 1:giao vien');
             $table->string('avatar')->nullable();
             $table->integer('level_id');
-            $table->bigInteger('class_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
