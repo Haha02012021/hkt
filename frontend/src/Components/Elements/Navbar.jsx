@@ -16,8 +16,7 @@ import { useNavigate } from "react-router-dom";
 import * as actions from "../../Store/Actions/index";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useSelector, useDispatch } from "react-redux";
-import { Badge } from "@mui/material";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import Notification from "./Notification";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard"];
@@ -145,13 +144,7 @@ const Navbar = (props) => {
           </Box>
 
           {/* Notification */}
-          <Tooltip title="Notification" sx={{ marginRight: "10px" }}>
-            <IconButton size="large" color="inherit">
-              <Badge badgeContent={69} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-          </Tooltip>
+          <Notification />
 
           <Box sx={{ flexGrow: 0 }}>
             <Box

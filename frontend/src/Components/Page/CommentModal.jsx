@@ -390,7 +390,7 @@ const Comment = ({
         </Typography>
         <Typography variant="body2" sx={{ color: "rgb(142, 142, 142)" }}>
           {" "}
-          {updated_at}
+          {new Date(updated_at).toUTCString()}
         </Typography>
         {all_childs.map((item, i) => {
           return (
