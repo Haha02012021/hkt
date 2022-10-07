@@ -351,6 +351,7 @@ const CommentModal = ({ open, onClose, post_id }) => {
               variant="standard"
               label="Add a comment..."
               multiline
+              inputProps={{ style: { fontSize: "0.9rem" } }}
               sx={{
                 height: "3rem",
                 paddingRight: "70px",
