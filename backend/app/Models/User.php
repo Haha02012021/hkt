@@ -18,9 +18,13 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password',
+        'school',
+        'level_id',
+        'role',
+        'avatar'
     ];
 
     /**
@@ -41,4 +45,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function posts() {
+        return $this->hasMany(Post::class, 'user_id', 'id');
+    }
+
+    public function comments() {
+        return $this->belongsToMany(Post::class, 'comment', 'user_id', 'post_id')->using(Comment::class)->withPivot('id', 'content', 'parent_id')->withTimestamps();
+    }
 }
