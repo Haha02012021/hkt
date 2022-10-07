@@ -1,5 +1,6 @@
 import actionTypes from "./actionTypes";
 import { handleLoginApi } from "../../Services/auth";
+import { toast } from "react-toastify";
 
 export const userLoginSuccess = (payload) => ({
   type: actionTypes.USER_LOGIN_SUCCESS,
@@ -10,17 +11,24 @@ export const userLogoutSuccess = () => ({
   type: actionTypes.USER_LOGOUT_SUCCESS,
 });
 
+export const userSignUpSuccess = (payload) => ({
+  type: actionTypes.USER_SIGNUP_SUCCESS,
+  payload: payload,
+});
+
 export const userLogin = (data) => {
   return async (dispatch) => {
     try {
       const res = await handleLoginApi(data);
-      console.log(res);
-      if (res.success === true) {
+      if (res.statusCode === 0) {
+        toast.success(res.message);
         dispatch(userLoginSuccess(res.data.user));
         return true;
       }
+      toast.error(res.message);
       return false;
     } catch (err) {
+      console.error(err);
       return false;
     }
   };
