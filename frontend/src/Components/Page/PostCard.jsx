@@ -27,7 +27,7 @@ const styles = {
     height: "2rem",
   },
   content: {
-    padding: "7px",
+    padding: "20px 7px",
     textAlign: "left",
   },
   header: {
@@ -41,43 +41,35 @@ const styles = {
   },
 };
 
-const PostCard = ({ id }) => {
+const PostCard = (props) => {
   const [commentModalOpen, setCommentModalOpen] = useState(false);
   const openCommentModal = () => setCommentModalOpen(true);
   const closeCommentModal = () => setCommentModalOpen(false);
 
-  const postBlob = {
-    description: "Chuyến đi Bắc Cực đầu tiên trong đời của bé Thy",
-    user: {
-      name: "Bảo Thi",
-      userId: "1",
-    },
-    time: "20h truoc",
-    images: [
-      "https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA12GBdO.img?w=768&h=463&m=6",
-      "https://secureservercdn.net/198.71.233.172/r26.7c0.myftpupload.com/wp-content/uploads/2021/04/salmon-1.jpg",
-    ],
-    tags: ["#beatvn", "#beatvn"],
-    like: 100,
-    commnetId: "1",
-    commentCount: 20,
-  };
-
+  const postBlob = { ...props.item };
   return (
     <Card sx={styles.card}>
       <CardHeader
         avatar={<Avatar sx={styles.image} />}
         title={postBlob.title}
-        subheader={`${postBlob.user.name}・${postBlob.time}`}
+        subheader={`${postBlob.user.username}・${postBlob.updated_at}`}
         sx={styles.header}
       ></CardHeader>
       <Divider />
       <CardContent sx={styles.content}>
-        <Typography>{postBlob.description}</Typography>
+        <Typography variant="body2" sx={{ wordWrap: "break-word" }}>
+          {postBlob.content}
+        </Typography>
         <Box sx={{ display: "flex", flexDirection: "row" }}>
-          {postBlob.tags.map((tag) => {
-            return <Box sx={styles.tag}>{tag}</Box>;
-          })}
+          {postBlob && postBlob.has_tags && postBlob.has_tags.length > 0
+            ? postBlob.has_tags.map((tag, i) => {
+                return (
+                  <Box sx={styles.tag} key={i}>
+                    {tag}
+                  </Box>
+                );
+              })
+            : null}
         </Box>
         <Box
           style={{
@@ -95,7 +87,10 @@ const PostCard = ({ id }) => {
           >
             {postBlob.images.length > 0
               ? postBlob.images.map((image, i) => (
-                  <div style={{ display: "flex", justifyContent: "center" }}>
+                  <div
+                    style={{ display: "flex", justifyContent: "center" }}
+                    key={i}
+                  >
                     <img
                       src={image}
                       styles={{
@@ -125,7 +120,7 @@ const PostCard = ({ id }) => {
       <CommentModal
         open={commentModalOpen}
         onClose={closeCommentModal}
-        post_id={id}
+        post_id={props.item.id}
       />
     </Card>
   );
