@@ -18,6 +18,12 @@ const appReducer = (state = initialState, action) => {
         isLogin: false,
         infoUser: {},
       };
+    case actionTypes.USER_SIGNUP_SUCCESS:
+      return {
+        ...state,
+        isLogin: true,
+        infoUser: action.payload,
+      };
     default:
       return state;
   }
