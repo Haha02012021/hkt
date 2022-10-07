@@ -52,7 +52,9 @@ const PostCard = (props) => {
       <CardHeader
         avatar={<Avatar sx={styles.image} />}
         title={postBlob.title}
-        subheader={`${postBlob.user.username}・${postBlob.updated_at}`}
+        subheader={`${postBlob.user.username}・${new Date(
+          postBlob.updated_at
+        ).toUTCString()}`}
         sx={styles.header}
       ></CardHeader>
       <Divider />

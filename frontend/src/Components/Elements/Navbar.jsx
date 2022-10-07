@@ -34,7 +34,7 @@ const Navbar = (props) => {
       }
     };
     loginToken();
-  }, userInfo);
+  }, []);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);

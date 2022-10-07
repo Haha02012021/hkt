@@ -112,7 +112,7 @@ const PostSection = () => {
 
       {listBlogs && listBlogs.length > 0 ? (
         listBlogs.map((item, i) => {
-          return <PostCard item={item} />;
+          return <PostCard key={i} item={item} />;
         })
       ) : (
         <CircularProgress
