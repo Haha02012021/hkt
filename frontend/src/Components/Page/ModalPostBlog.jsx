@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { Modal, Typography, Button, Box, Chip } from "@mui/material";
 import AddToPhotosIcon from "@mui/icons-material/AddToPhotos";
 import Carosel from "../Elements/Carosel";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import Axios from "../../config/axios";
 import { toast } from "react-toastify";
@@ -35,6 +36,7 @@ const styles = {
 };
 
 const ModalPostBlog = (props) => {
+  const [loading, setLoading] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
   const [lineTextArea, setLineTextArea] = useState(1);
   const [files, setFiles] = useState([]);
@@ -70,14 +72,22 @@ const ModalPostBlog = (props) => {
 
       config.headers.Authorization = "Bearer " + token;
 
-      const res = await toast.promise(Axios.post(url, data, config), {
-        pending: "Đang tải...",
-        success: "Đăng bài thành công",
-        error: "Đăng bài thất bại",
-      });
+      setLoading(true);
+      const res = await Axios.post(url, data, config);
+
+      if (res.statusCode === 0) {
+        toast.success("Post created successfully");
+        props.handleClose();
+      } else {
+        toast.error(res.message);
+      }
+
       console.log(res);
     } catch (error) {
       console.log("Error: ", error);
+      toast.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -146,7 +156,7 @@ const ModalPostBlog = (props) => {
             <Box
               style={{
                 paddingBottom: "5px",
-                fontSize: "14px",
+                fontSize: "15px",
                 fontWeight: "400",
               }}
             >
@@ -174,6 +184,7 @@ const ModalPostBlog = (props) => {
             })}
           </Box>
 
+          <Typography variant="body1">Content: </Typography>
           <textarea
             required
             fullWidth
@@ -182,7 +193,8 @@ const ModalPostBlog = (props) => {
             name="content"
             autoFocus={true}
             style={{
-              border: "none",
+              border: "1px solid #ccc",
+              borderRadius: "10px",
               outline: "none",
               width: "100%",
               padding: "10px",
@@ -228,9 +240,21 @@ const ModalPostBlog = (props) => {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2, p: 1.5 }}
           >
-            Create Post
+            {loading ? (
+              <CircularProgress
+                thickness={5}
+                size={25}
+                sx={{
+                  color: "white",
+                  height: "20px",
+                  width: "20px",
+                }}
+              />
+            ) : (
+              "Create Post"
+            )}
           </Button>
         </Box>
       </Box>

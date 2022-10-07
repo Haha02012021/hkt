@@ -124,6 +124,7 @@ const PostSection = () => {
       <ModalPostBlog
         open={createPostModalOpen}
         onClose={setCreatePostModalOpen}
+        handleClose={() => setCreatePostModalOpen(false)}
       />
     </Box>
   );
