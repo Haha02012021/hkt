@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReactController;
+use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
@@ -31,7 +32,6 @@ Route::middleware('auth:sanctum')->group(function() {
             'data' => $request->user(),
             'message' => 'authenticated'
         ]);
-
     });
     Route::post('/reaction/post/{postId}', [ReactController::class, 'likePost']);
 
