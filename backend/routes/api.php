@@ -26,7 +26,12 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::delete('/delete/{id}', [CommentController::class, 'deleteComment']);
     });
     Route::get('/user', function(Request $request) {
-        return $request->user();
+        return response()->json([
+            'statusCode' => 0,
+            'data' => $request->user(),
+            'message' => 'authenticated'
+        ]);
+
     });
     Route::post('/reaction/post/{postId}', [ReactController::class, 'likePost']);
 
@@ -37,7 +42,7 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::post('/create', [PostController::class, 'create']);
         Route::delete('/delete/{id}', [PostController::class, 'deletePostById']);
     });
-    
+
     Route::group(['prefix' => 'class'], function() {
         Route::post('/create', [GroupClassController::class, 'create']);
     });
@@ -48,3 +53,5 @@ Route::group(['prefix' => 'auth'], function() {
     Route::post('/login', [AuthController::class, 'login']);
     Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 });
+
+

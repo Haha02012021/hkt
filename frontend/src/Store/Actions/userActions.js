@@ -1,5 +1,9 @@
 import actionTypes from "./actionTypes";
-import { handleLoginApi, handleSignUpApi } from "../../Services/auth";
+import {
+  handleLoginApi,
+  handleSignUpApi,
+  handleLoginByTokenApi,
+} from "../../Services/auth";
 import { toast } from "react-toastify";
 
 export const userLoginSuccess = (payload) => ({
@@ -24,6 +28,26 @@ export const userLogin = (data) => {
         toast.success(res.message);
         localStorage.setItem("token", res.data.token);
         dispatch(userLoginSuccess(res.data.user));
+        return true;
+      }
+      toast.error(res.message);
+      return false;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  };
+};
+
+export const userLoginByToken = () => {
+  return async (dispatch) => {
+    try {
+      if (!localStorage.getItem("token")) {
+        return false;
+      }
+      const res = await handleLoginByTokenApi();
+      if (res.statusCode === 0) {
+        dispatch(userLoginSuccess(res.data));
         return true;
       }
       toast.error(res.message);
