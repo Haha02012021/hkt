@@ -146,6 +146,53 @@ const CommentModal = ({ open, onClose, post_id }) => {
             updated_at: "2022-10-07T10:05:44.000000Z",
           },
         },
+        {
+          id: 2,
+          user_id: 1,
+          post_id: 1,
+          content: "2222222222222",
+          parent_id: 1,
+          created_at: "2022-10-07T17:07:06.000000Z",
+          updated_at: "2022-10-07T17:07:06.000000Z",
+          all_childs: [
+            {
+              id: 3,
+              user_id: 1,
+              post_id: 1,
+              content: "333333333",
+              parent_id: 2,
+              created_at: "2022-10-07T17:07:20.000000Z",
+              updated_at: "2022-10-07T17:07:20.000000Z",
+              all_childs: [],
+              user: {
+                id: 1,
+                username: "bach",
+                email: "123@gmail.com",
+                email_verified_at: null,
+                school: "vnu",
+                role: 0,
+                avatar: null,
+                level_id: 3,
+                class_id: null,
+                created_at: "2022-10-07T10:05:44.000000Z",
+                updated_at: "2022-10-07T10:05:44.000000Z",
+              },
+            },
+          ],
+          user: {
+            id: 1,
+            username: "bach",
+            email: "123@gmail.com",
+            email_verified_at: null,
+            school: "vnu",
+            role: 0,
+            avatar: null,
+            level_id: 3,
+            class_id: null,
+            created_at: "2022-10-07T10:05:44.000000Z",
+            updated_at: "2022-10-07T10:05:44.000000Z",
+          },
+        },
       ],
       user: {
         id: 1,
@@ -386,12 +433,12 @@ const Comment = ({
       <Avatar sx={styles.image} />
       <Box sx={styles.commentDetail}>
         <Typography variant="body2">
-          <b>{user.username}</b> &nbsp; {content}
+          <b>{user.username}</b> &nbsp;{" "}
+          <i sx={{ color: "rgb(142, 142, 142)" }}>
+            {new Date(updated_at).toUTCString()}
+          </i>
         </Typography>
-        <Typography variant="body2" sx={{ color: "rgb(142, 142, 142)" }}>
-          {" "}
-          {new Date(updated_at).toUTCString()}
-        </Typography>
+        <Typography variant="body2"> {content}</Typography>
         {all_childs.map((item, i) => {
           return (
             <Comment

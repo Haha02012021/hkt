@@ -93,18 +93,20 @@ const PostCard = ({ id }) => {
               height: "100%",
             }}
           >
-            {postBlob.images.map((image, i) => (
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <img
-                  src={image}
-                  styles={{
-                    width: "100%",
-                    height: "500px",
-                    border: "1px solid black",
-                  }}
-                ></img>
-              </div>
-            ))}
+            {postBlob.images.length > 0
+              ? postBlob.images.map((image, i) => (
+                  <div style={{ display: "flex", justifyContent: "center" }}>
+                    <img
+                      src={image}
+                      styles={{
+                        width: "100%",
+                        height: "500px",
+                        border: "1px solid black",
+                      }}
+                    ></img>
+                  </div>
+                ))
+              : null}
           </Carousel>
         </Box>
       </CardContent>

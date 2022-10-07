@@ -1,4 +1,11 @@
-import { Avatar, Box, Card, CardContent, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  Pagination,
+} from "@mui/material";
 import React from "react";
 
 import PostCard from "../../Components/Page/PostCard";
@@ -34,6 +41,8 @@ const styles = {
 
 const PostSection = () => {
   const [createPostModalOpen, setCreatePostModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [countPage, setCounttPage] = useState(10);
   const listBlogs = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   return (
@@ -97,6 +106,12 @@ const PostSection = () => {
           />
         );
       })}
+
+      <Pagination
+        count={countPage}
+        page={currentPage}
+        onChange={(event, page) => setCurrentPage(page)}
+      />
 
       <ModalPostBlog
         open={createPostModalOpen}
