@@ -14,7 +14,8 @@ class Homework extends Model
         'class_id',
         'teacher_id',
         'class_id',
-        'total_point'
+        'total_point',
+        'deadline',
     ];
 
     public function teacher() {

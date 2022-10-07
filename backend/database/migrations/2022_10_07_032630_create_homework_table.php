@@ -20,6 +20,7 @@ return new class extends Migration
             $table->bigInteger('teacher_id');
             $table->string('title');
             $table->integer('total_point');
+            $table->date('deadline');
             $table->timestamps();
         });
     }
