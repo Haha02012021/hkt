@@ -6,15 +6,15 @@ export const ROLES = [
 export const SCHOOLS = [
   { id: 1, name: "UET" },
   { id: 2, name: "HUST" },
-  { id: 3, name: "UIT" },
-  { id: 4, name: "BKA" },
-  { id: 5, name: "PKA" },
+  { id: 3, name: "PKA" },
+  { id: 4, name: "UIT" },
+  { id: 5, name: "DUT" },
 ];
 
 export const LEVELS = [
-  { id: 1, name: "N1" },
-  { id: 2, name: "N2" },
-  { id: 3, name: "N3" },
-  { id: 4, name: "N4" },
-  { id: 5, name: "N5" },
+  { id: 2, name: "N1" },
+  { id: 3, name: "N2" },
+  { id: 4, name: "N3" },
+  { id: 5, name: "N4" },
+  { id: 6, name: "N5" },
 ];
