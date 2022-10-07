@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('student_answer', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('content');
-            $table->integer('type')->comment('0: chia se, 1: hoi dap');
-            $table->bigInteger('class_id')->nullable();
             $table->bigInteger('user_id');
+            $table->bigInteger('homework_id');
+            $table->integer('exercise_number');
+            $table->tinyText('answer');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('student_answers');
     }
 };

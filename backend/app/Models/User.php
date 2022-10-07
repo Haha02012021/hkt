@@ -63,5 +63,11 @@ class User extends Authenticatable
         return $this->hasMany(GroupClass::class, 'class_id', 'id');
     }
 
+    public function likes() {
+        return $this->belongsToMany(Post::class, 'like', 'user_id', 'post_id');
+    }
 
+    public function doHomework() {
+        return $this->belongsToMany(Homework::class, 'student_answer', 'user_id', 'homework_id')->using(StudentAnswers::class)->withPivot('id', 'exercise_number', 'answer')->withTimestamps();
+    }
 }
