@@ -1,15 +1,17 @@
-import * as React from "react";
-
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import Carousel from "react-material-ui-carousel";
+
+import { useState } from "react";
 
 import { Avatar, Divider, IconButton, Typography, Box } from "@mui/material";
 
 import CardActions from "@mui/material/CardActions";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentIcon from "@mui/icons-material/Comment";
+
+import CommentModal from "./CommentModal";
 
 const styles = {
   card: {
@@ -40,6 +42,10 @@ const styles = {
 };
 
 const PostCard = ({ id }) => {
+  const [commentModalOpen, setCommentModalOpen] = useState(false);
+  const openCommentModal = () => setCommentModalOpen(true);
+  const closeCommentModal = () => setCommentModalOpen(false);
+
   const postBlob = {
     description: "Chuyến đi Bắc Cực đầu tiên trong đời của bé Thy",
     user: {
@@ -108,11 +114,17 @@ const PostCard = ({ id }) => {
           <FavoriteIcon />
         </IconButton>
         <Typography>{postBlob.like}</Typography>
-        <IconButton aria-label="comment">
+        <IconButton aria-label="comment" onClick={openCommentModal}>
           <CommentIcon />
         </IconButton>
         <Typography>{postBlob.commentCount}</Typography>
       </CardActions>
+
+      <CommentModal
+        open={commentModalOpen}
+        onClose={closeCommentModal}
+        post_id={id}
+      />
     </Card>
   );
 };

@@ -83,8 +83,19 @@ const PostSection = () => {
         </CardContent>
       </Card>
 
-      {listBlogs.map((item) => {
-        return <PostCard id={item.id} />;
+      {listBlogs.map((item, i) => {
+        return (
+          <PostCard
+            key={i}
+            id={1}
+            title="Test title"
+            username="Test username"
+            createdAt="2021-10-10 10:10:10"
+            data="Lorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsum"
+            likeCount={666}
+            commentCount={999}
+          />
+        );
       })}
 
       <ModalPostBlog

@@ -22,31 +22,29 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::group(['prefix' => 'comments'], function() {
         Route::post('/add', [CommentController::class, 'addComment']);
         Route::put('/edit', [CommentController::class, 'editComment']);
-        Route::get('/post/postId={postId}', [CommentController::class, 'commentsOfPost']);
-        Route::delete('/delete/commentId={id}', [CommentController::class, 'deleteComment']);
+        Route::get('/post/{postId}', [CommentController::class, 'commentsOfPost']);
+        Route::delete('/delete/{id}', [CommentController::class, 'deleteComment']);
     });
     Route::get('/user', function($request) {
         return $request->user();
     });
-    Route::post('/reaction/post/postId={postId}', [ReactController::class, 'likePost']);
+    Route::post('/reaction/post/{postId}', [ReactController::class, 'likePost']);
+
+    Route::group(['prefix' => 'post'], function() {
+        Route::get('/get-all', [PostController::class, 'getAllPosts']);
+        Route::get('/get/{id}', [PostController::class, 'getPostById']);
+        Route::get('/get-by-tag', [PostController::class, 'getPostsByTag']);
+        Route::post('/create', [PostController::class, 'create']);
+        Route::delete('/delete/{id}', [PostController::class, 'deletePostById']);
+    });
+    
+    Route::group(['prefix' => 'class'], function() {
+        Route::post('/create', [GroupClassController::class, 'create']);
+    });
 });
 
 Route::group(['prefix' => 'auth'], function() {
     Route::post('/signup', [AuthController::class, 'signup']);
     Route::post('/login', [AuthController::class, 'login']);
     Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
-});
-
-Route::get('link', function() {
-    return URL::to('/images');
-});
-
-Route::post('/upload', function(Request $request) {
-    if ($request->hasFile('images')) {
-        foreach ($request->file('images') as $image) {
-            $imageName = time().rand(1,100).$image->getClientOriginalName();
-            $image->move(public_path('images/'), $imageName);
-        }
-        return 'success';
-    }
 });
