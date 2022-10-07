@@ -5,6 +5,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GroupClassController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ReactController;
+use App\Http\Controllers\TagController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
@@ -48,8 +49,11 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::get('/get-all', [GroupClassController::class, 'getAllClasses']);
         Route::get('/get/{id}', [GroupClassController::class, 'getClassById']);
         Route::post('/create', [GroupClassController::class, 'create']);
+        Route::put('/edit/{id}', [GroupClassController::class, 'edit']);
         Route::delete('/delete/{id}', [GroupClassController::class, 'deleteClassById']);
     });
+
+    Route::get('tag/get-all', [TagController::class, 'getAllTags']);
 });
 
 Route::group(['prefix' => 'auth'], function() {

@@ -17,7 +17,7 @@ class AuthController extends Controller
                     'email' => 'required|email|unique:users,email',
                     'username' => 'required|string|unique:users,username',
                     'password' => 'required|string',
-                    'school' => 'required|string',
+                    'school_id' => 'required|integer',
                     'level_id' => 'required',
                     'role' => 'required',
                 ]
@@ -30,7 +30,7 @@ class AuthController extends Controller
             $user->email = $fields['email'];
             $user->password = $fields['password'];
             $user->role = $fields['role'];
-            $user->school = $fields['school'];
+            $user->school_id = $fields['school_id'];
             $user->level_id = $fields['level_id'];
 
             $user->save();

@@ -40,6 +40,38 @@ class GroupClassController extends Controller
         }
     }
 
+    public function edit($id, Request $request) {
+        try {
+            $class = GroupClass::find($id);
+            if ($class) {
+                if ($request->name) {
+                    $class->name = $request->name;
+                    $class->save();
+                }
+                if ($request->student_ids) {
+                    $class->students()->attach($request->student_ids);
+                }
+
+                $class->teacher;
+                $class->students;
+                return response()->json([
+                    'statusCode' => 0,
+                    'data' => $class,
+                ]);
+            }
+
+            return response()->json([
+                'statusCode' => 1,
+                'message' => 'Class is not exist!',
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'statusCode' => -1,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
     public function create(Request $request) {
         try {
             $fields = $request->validate(

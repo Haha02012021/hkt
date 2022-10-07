@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('school');
+            $table->bigInteger('school_id');
             $table->integer('role')->comment('0:hoc sinh, 1:giao vien');
             $table->string('avatar')->nullable();
             $table->integer('level_id');
