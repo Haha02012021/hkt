@@ -13,7 +13,11 @@ import Navbar from "../../Components/Elements/Navbar";
 import DrawerHeader from "../../Components/Elements/DrawerHeader";
 import Drawer from "../../Components/Elements/Drawer";
 import GroupClass from "./GroupClass";
+<<<<<<< Updated upstream
 import ClassRoom from "./ClassRoom";
+=======
+import NotTurnedIn from "./NotTurnedIn";
+>>>>>>> Stashed changes
 
 const Home = () => {
   const [open, setOpen] = React.useState(false);
@@ -48,7 +52,11 @@ const Home = () => {
           <Route path="/posts" element={<PostSection />} />
           <Route path="/questions" element={<Question />} />
           <Route path="/group-class" element={<GroupClass />} />
+<<<<<<< Updated upstream
           <Route path="/group-class/:id" element={<ClassRoom />} />
+=======
+          <Route path="/not-turned-in" element={<NotTurnedIn />} />
+>>>>>>> Stashed changes
         </Routes>
       </Main>
     </Box>
