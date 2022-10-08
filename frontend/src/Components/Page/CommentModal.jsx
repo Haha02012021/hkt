@@ -15,11 +15,12 @@ import Box from "@mui/material/Box";
 import LinearProgress from '@mui/material/LinearProgress';
 import { useState } from "react";
 import { useEffect } from "react";
-import { handleCommentApi, handleCommentsPostApi } from "../../Services/app";
+import { handleCommentApi, handleCommentsPostApi, handleNewNotificationApi } from "../../Services/app";
 import { useSelector } from "react-redux";
 
 import dayjs from "dayjs"
 import relativeTime from 'dayjs/plugin/relativeTime'
+import { useLocation } from "react-router-dom";
 dayjs.extend(relativeTime)
 
 const styles = {
@@ -98,10 +99,10 @@ const CommentModal = ({ open, onClose, post }) => {
   const input = useRef(null);
   const [data, setData] = useState([]);
   const [isChangeData, setChangeData] = useState(false);
+  const location = useLocation()
 
   useEffect(() => {
     getAllComments();
-    console.log(isChangeData);
   }, [isChangeData]);
 
   const getAllComments = async () => {
@@ -120,6 +121,25 @@ const CommentModal = ({ open, onClose, post }) => {
     }
   };
 
+  const newNotification = async (comment_id) => {
+    try {
+      const req = {
+        content: "đã bình luận bài viết của bạn.",
+        link: location.pathname + `/${post.id}` + (location.search ? location.search : "") + `#comment_${comment_id}`,
+        type: 1,
+        receiver_id: post.user_id,
+      }
+      const res = await handleNewNotificationApi(req)
+      if (res.statusCode === 0) {
+
+      } else {
+
+      }
+    } catch (error) {
+      
+    }
+  }
+
   const handleComment = () => {
     const req = {
       user_id: infoUser.id,
@@ -133,6 +153,7 @@ const CommentModal = ({ open, onClose, post }) => {
       if (res.statusCode === 0) {
         getAllComments();
         input.current.value = "";
+        newNotification(res.data.id)
       } else {
       }
     };
@@ -154,10 +175,11 @@ const CommentModal = ({ open, onClose, post }) => {
         </Box>}
         <Box sx={styles.commentsContainer}>
           {data.map(
-            ({ id, post_id, content, updated_at, all_childs, user }, i) => (
+            ({ id, post_id, user_id, content, updated_at, all_childs, user }, i) => (
               <Comment
                 key={i}
                 id={id}
+                user_id={user_id}
                 post_id={post_id}
                 content={content}
                 updated_at={updated_at}
@@ -219,6 +241,7 @@ const Comment = ({
   const [isReplying, setReplying] = useState(false);
   const infoUser = useSelector((state) => state.user.infoUser);
   const input = useRef(null);
+  const location = useLocation()
 
   const handleComment = () => {
     const req = {
@@ -236,6 +259,8 @@ const Comment = ({
         input.current.value = "";
         postComment();
         setReplying(false);
+        newNotification("đã bình luận bài viết của bạn.", location.pathname + `/${id}` + (location.search ? location.search : "") + `#comment_${id}`)
+        newNotification("đã trả lời bình luận của bạn.", location.pathname + `/${id}` + (location.search ? location.search : "") + `#comment_${id}` )
       } else {
       }
     };
@@ -243,8 +268,28 @@ const Comment = ({
     comment();
   };
 
+  const newNotification = async (content, link) => {
+    try {
+      const req = {
+        content,
+        link,
+        type: 1,
+        receiver_id: user_id,
+      }
+      const res = await handleNewNotificationApi(req)
+      console.log(res);
+      if (res.statusCode === 0) {
+        console.log(res.data);
+      } else {
+
+      }
+    } catch (error) {
+      
+    }
+  }
+
   return (
-    <Box sx={styles.comment}>
+    <Box sx={styles.comment} id={`comment_${id}`}>
       <Avatar sx={styles.image} />
       <Box sx={styles.commentDetail}>
         <Typography variant="body2">
@@ -304,6 +349,7 @@ const Comment = ({
             <Comment
               key={i}
               id={item.id}
+              user_id={user_id}
               content={item.content}
               updated_at={item.updated_at}
               all_childs={item.all_childs}
