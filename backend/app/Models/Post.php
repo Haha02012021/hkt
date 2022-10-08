@@ -14,6 +14,7 @@ class Post extends Model
         'type',
         'class_id',
         'completed',
+        'like_count',
     ];
 
     public function comments() {
