@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('user_id');
             $table->string('content');
             $table->string('link');
+            $table->tinyInteger('type')->comment('0: class, 1: post');
             $table->timestamps();
         });
     }

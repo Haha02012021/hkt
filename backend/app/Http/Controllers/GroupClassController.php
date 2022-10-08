@@ -27,7 +27,7 @@ class GroupClassController extends Controller
 
     public function getClassById($id) {
         try {
-            $class = GroupClass::find($id)->with('teacher', 'students')->get();
+            $class = GroupClass::with('teacher', 'students')->where('id', $id)->get();
 
             return response()->json([
                 'statusCode' => 0,
