@@ -8,16 +8,18 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import MuiDrawer from "@mui/material/Drawer";
 import DrawerHeader from "./DrawerHeader";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { Button, Box } from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
+import HomeIcon from '@mui/icons-material/Home';
 import ListItemIcon from "@mui/material/ListItemIcon";
 import FeedIcon from "@mui/icons-material/Feed";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import SchoolIcon from "@mui/icons-material/School";
+import { useEffect } from "react";
 
 const drawerWidth = 240;
 
@@ -62,6 +64,14 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const SideBar = (props) => {
+  const location = useLocation();
+  const [pathName, setPathName] = useState()
+
+  useEffect(() => {
+    setPathName(location.pathname)
+    console.log(location.pathname);
+  }, [location.pathname])
+
   const handleIconClick = (e) => {
     if (props.open) {
       props.onClose();
@@ -92,7 +102,36 @@ const SideBar = (props) => {
 
       <Divider />
       <List>
-        <ListItem key={"Posts"} disablePadding sx={{ display: "block" }}>
+      <ListItem
+          key={"Home"}
+          disablePadding
+          sx={{
+            display: "block",
+          }}
+          style={{
+            backgroundColor: pathName === "/" ? "rgba(0, 0, 0, 0.2)" : "transparent",
+          }}
+        >
+          <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+            <ListItemButton>
+              <ListItemIcon>
+                <HomeIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Home"} />
+            </ListItemButton>
+          </Link>
+        </ListItem>
+
+        <ListItem
+          key={"Posts"}
+          disablePadding
+          sx={{
+            display: "block",
+          }}
+          style={{
+            backgroundColor: pathName === "/posts" ? "rgba(0, 0, 0, 0.2)" : "transparent",
+          }}
+        >
           <Link to="/posts" style={{ textDecoration: "none", color: "black" }}>
             <ListItemButton>
               <ListItemIcon>
@@ -103,7 +142,14 @@ const SideBar = (props) => {
           </Link>
         </ListItem>
 
-        <ListItem key={"Questions"} disablePadding sx={{ display: "block" }}>
+        <ListItem
+          key={"Questions"}
+          disablePadding
+          sx={{ display: "block", backgroundColor: pathName === "/questions" ? "rbga(0, 0, 0, 0.2)" : "transparent", }}
+          style={{
+            backgroundColor: pathName === "/questions" ? "rgba(0, 0, 0, 0.2)" : "transparent",
+          }}
+        >
           <Link
             to="/questions"
             style={{ textDecoration: "none", color: "black" }}
@@ -117,7 +163,14 @@ const SideBar = (props) => {
           </Link>
         </ListItem>
 
-        <ListItem key={"Class"} disablePadding sx={{ display: "block" }}>
+        <ListItem
+          key={"Class"}
+          disablePadding
+          sx={{ display: "block", backgroundColor: pathName === "/group-class" ? "rbga(0, 0, 0, 0.02)" : "transparent", }}
+          style={{
+            backgroundColor: pathName === "/group-class" ? "rgba(0, 0, 0, 0.2)" : "transparent",
+          }}
+        >
           <Link
             to="/group-class"
             style={{ textDecoration: "none", color: "black" }}
