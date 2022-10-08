@@ -27,7 +27,7 @@ class NotificationController extends Controller
                     array_push($members, $class->teacher);
                 }
 
-                array_push($members, ...$class->students()->where('users.id','!=',$user->id)->get());
+                array_push($members, ...$class->students()->where('users.id', '!=', $user->id)->get());
 
                 return $members;
             }
