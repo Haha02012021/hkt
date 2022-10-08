@@ -37,4 +37,8 @@ class Post extends Model
         return $this->hasMany(Image::class, 'post_id', 'id');
     }
 
+    public function tags() {
+        return $this->hasMany(Tag::class, 'post_id', 'id');
+    }
+
 }

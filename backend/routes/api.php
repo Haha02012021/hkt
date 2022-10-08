@@ -39,6 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
         ]);
     });
     Route::post('/reaction/post/{postId}', [ReactController::class, 'likePost']);
+    Route::post('/reaction/comment/{commentId}', [ReactController::class, 'likeComment']);
 
     Route::group(['prefix' => 'post'], function () {
         Route::get('/get-all', [PostController::class, 'getAllPosts']);

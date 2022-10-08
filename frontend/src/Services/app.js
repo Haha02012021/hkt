@@ -8,8 +8,8 @@ const handleGetPostByIdApi = (type, id) => {
   return axios.get(`/api/post/get/${id}?type=${type}`);
 };
 
-const handleLikePostApi = (id) => {
-  return axios.post(`/api/reaction/post/${id}`);
+const handleLikePostApi = (id, value) => {
+  return axios.post(`/api/reaction/post/${id}?value=${value}`);
 };
 
 const handleCompleteQuestionApi = (id) => {
@@ -37,12 +37,12 @@ const handleNewClassApi = (data) => {
 };
 
 const handleGetNotifications = () => {
-  return axios.get('/api/notification/get-by-user-id');
-}
+  return axios.get("/api/notification/get-by-user-id");
+};
 
 const handleNewNotificationApi = (req) => {
-  return axios.post('/api/notification/create', req);
-}
+  return axios.post("/api/notification/create", req);
+};
 
 export {
   handleGetPostApi,

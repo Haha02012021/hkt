@@ -170,7 +170,8 @@ const QuestionPage = () => {
   }, [id]);
 
   const likePost = async () => {
-    const res = await handleLikePostApi(blog.id);
+    const value = blog.isLike ? -1 : 1;
+    const res = await handleLikePostApi(blog.id, value);
 
     if (res && res.statusCode === 0) {
       if (blog.isLike === true) setBlog({ ...blog, like: blog.like-- });

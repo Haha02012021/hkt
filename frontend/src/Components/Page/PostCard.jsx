@@ -59,7 +59,8 @@ const PostCard = (props) => {
   useEffect(() => {}, [blob]);
 
   const likePost = async () => {
-    const res = await handleLikePostApi(blob.id);
+    const value = blob.isLike ? -1 : 1;
+    const res = await handleLikePostApi(blob.id, value);
     if (res && res.statusCode === 0) {
       if (blob.isLike === true) setBlob({ ...blob, like: blob.like-- });
       else {
