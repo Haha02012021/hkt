@@ -11,6 +11,7 @@ import {
   Divider,
   IconButton,
   CardActions,
+  Stack,
 } from "@mui/material";
 import React, { useEffect } from "react";
 
@@ -33,6 +34,8 @@ import CheckIcon from "@mui/icons-material/Check";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import CommentIcon from "@mui/icons-material/Comment";
 import { useSelector } from "react-redux";
+import QuestionCard from "../../Components/Page/QuestionCard";
+import Axios from "../../config/axios"
 
 dayjs.extend(relativeTime);
 const styles = {
@@ -111,6 +114,7 @@ const QuestionPage = () => {
   const openCommentModal = () => setCommentModalOpen(true);
   const closeCommentModal = () => setCommentModalOpen(false);
   const [loadingComplete, setLoadingComplete] = useState(false);
+  const [relatedPosts, setRelatedPosts] = useState([]);
   const setNewBlobHandle = () => {
     setNewBlob(!newBlob);
   };
@@ -137,10 +141,24 @@ const QuestionPage = () => {
     const getQuestion = async () => {
       try {
         setLoading(true);
+        // Get The Post using post id from params
         const res = await handleGetPostByIdApi(0, id);
         if (res && res.statusCode === 0) {
           setBlog(res.data);
         }
+        console.log("BLOG", res);
+
+        // Get suggestion for the post type and tags
+        const resSuggestion = await Axios.get(`/api/post/related/`, {
+          params: {
+            type: res.data.type,
+            tagId: res.data.has_tags.map((tag) => tag.id),
+          }
+        });
+        if (resSuggestion && resSuggestion.status === 200) {
+          setRelatedPosts(resSuggestion.data.data);
+        }
+
       } catch (error) {
         console.log("GetQuestionsError", error);
         toast.error(error.message);
@@ -311,7 +329,10 @@ const QuestionPage = () => {
           </Box>
         </Grid>
         <Grid item xs={2} sm={4} md={4} sx={{ border: "1px solid black" }}>
-          De xuat lien quan
+          <Stack spacing={2}>
+            <Typography variant="h5">Suggestions</Typography>
+            {relatedPosts.map((post, i) => (<QuestionCard item={post} />))}
+          </Stack>
         </Grid>
       </Grid>
 
