@@ -70,7 +70,6 @@ const SideBar = (props) => {
     }
   };
   const listClass = ["class1", "class2"];
-  const [openClass, setOpenClass] = useState(false);
 
   const ListClass = () => {
     return (
@@ -118,12 +117,7 @@ const SideBar = (props) => {
           </Link>
         </ListItem>
 
-        <ListItem
-          key={"Class"}
-          disablePadding
-          sx={{ display: "block" }}
-          onClick={() => setOpenClass(!openClass)}
-        >
+        <ListItem key={"Class"} disablePadding sx={{ display: "block" }}>
           <Link
             to="/group-class"
             style={{ textDecoration: "none", color: "black" }}
@@ -134,17 +128,9 @@ const SideBar = (props) => {
               </ListItemIcon>
 
               <ListItemText primary={"Class"} />
-              <ListItemIcon style={{ right: "20px", marginLeft: "40px" }}>
-                {openClass ? (
-                  <KeyboardArrowDownIcon />
-                ) : (
-                  <KeyboardArrowUpIcon />
-                )}
-              </ListItemIcon>
             </ListItemButton>
           </Link>
         </ListItem>
-        {openClass && props.open ? <ListClass /> : null}
       </List>
     </Drawer>
   );
