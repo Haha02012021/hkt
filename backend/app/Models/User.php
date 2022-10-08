@@ -59,7 +59,7 @@ class User extends Authenticatable
     }
 
     public function classes() {
-        return $this->hasMany(GroupClass::class, 'class_id', 'id');
+        return $this->hasMany(GroupClass::class, 'teacher_id', 'id');
     }
 
     public function likes() {
@@ -77,5 +77,14 @@ class User extends Authenticatable
 
     public function school() {
         return $this->belongsTo(School::class, 'school_id', 'id');
+    }
+
+    public function ownsNotifications() {
+        return $this->hasMany(Notification::class, 'user_id', 'id');
+    }
+
+    public function notifications()
+    {
+        return $this->belongsToMany(Notification::class, 'notifications_users', 'user_id', 'notification_id')->withTimestamps();
     }
 }

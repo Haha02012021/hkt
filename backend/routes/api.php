@@ -51,6 +51,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::group(['prefix' => 'class'], function () {
         Route::get('/get-all', [GroupClassController::class, 'getAllClasses']);
         Route::get('/get/{id}', [GroupClassController::class, 'getClassById']);
+        Route::get('/get-by-user-id/{id}', [GroupClassController::class, 'getClassesByUserId']);
         Route::post('/create', [GroupClassController::class, 'create']);
         Route::put('/edit/{id}', [GroupClassController::class, 'edit']);
         Route::delete('/delete/{id}', [GroupClassController::class, 'deleteClassById']);
