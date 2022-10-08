@@ -179,23 +179,38 @@ class PostController extends Controller
 
     public function searchPosts(Request $request) {
         try {
-            $posts = [];
+            $posts = []; 
             if($request->tagId) {
-                $posts = Tag::find($request->tagId)->posts()->where('content', 'like', '%'.$request->searchValue.'%')
-                ->where('type', $request->type)->orderBy('like_count', 'DESC')->get();
+                $tags = $request->tagId;
+                $posts = Post::whereHas('hasTags', function($q) use($tags) { 
+                    $q->whereIn('tags.id', $tags);
+                })->where('type', $request->type)->get();
             } else {
                 $posts = Post::where('content', 'like', '%'.$request->searchValue.'%')->where('type', $request->type)
                 ->orderBy('like_count', 'DESC')->get();
             }
             return response()->json([
+                'statusCode' => 0,
                 'data' => $posts,
                 'message' => 'success'
             ]);
         } catch (Exception $err) {
             return response()->json([
-                'success' => false,
+                'statusCode' => -1,
                 'message' => $err->getMessage()
             ]);
         }
+    }
+
+    public function relatedPost(Request $request) {
+        $tags = $request->tagId;
+        $posts = Post::whereHas('hasTags', function($q) use($tags) { 
+            $q->whereIn('tags.id', $tags);
+        })->where('type', $request->type)->limit(10)->paginate(1);
+        return response()->json([
+            'statusCode' => 0,
+            'data' => $posts,
+            'messsage' => 'sucess',
+        ]);
     }
 }
