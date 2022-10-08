@@ -12,6 +12,7 @@ import PostSection from "./PostSection";
 import Navbar from "../../Components/Elements/Navbar";
 import DrawerHeader from "../../Components/Elements/DrawerHeader";
 import Drawer from "../../Components/Elements/Drawer";
+import GroupClass from "./GroupClass";
 
 const Home = () => {
   const [open, setOpen] = React.useState(false);
@@ -25,7 +26,13 @@ const Home = () => {
   };
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "center" }}>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        backgroundColor: "#f0f2f5",
+      }}
+    >
       <CssBaseline />
       <Navbar open={open} onOpen={handleDrawerOpen} />
       <Drawer
@@ -33,12 +40,13 @@ const Home = () => {
         onClose={handleDrawerClose}
         onOpen={handleDrawerOpen}
       />
-      <Main open={open} sx={{ backgroundColor: "cyan", maxWidth: "1200px" }}>
+      <Main open={open} sx={{ maxWidth: "1200px" }}>
         <DrawerHeader></DrawerHeader>
         <Routes>
           <Route path="/section1" element={<Section1 />} />
           <Route path="/posts" element={<PostSection />} />
           <Route path="/questions" element={<Question />} />
+          <Route path="/group-class" element={<GroupClass />} />
         </Routes>
       </Main>
     </Box>

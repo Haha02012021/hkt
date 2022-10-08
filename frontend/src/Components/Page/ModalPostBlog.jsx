@@ -88,6 +88,7 @@ const ModalPostBlog = (props) => {
       }
 
       console.log(res);
+      props.setNewBlob();
     } catch (error) {
       console.log("Error: ", error);
       toast.error(error);
