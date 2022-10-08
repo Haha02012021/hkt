@@ -94,10 +94,12 @@ const CommentModal = ({ open, onClose, post_id }) => {
   const infoUser = useSelector(state => state.user.infoUser)
   const input = useRef(null);
   const [data, setData] = useState([]);
+  const [isChangeData, setChangeData] = useState(false)
 
   useEffect(() => {
     getAllComments()
-  }, [])
+    console.log(isChangeData);
+  }, [isChangeData])
   // const data = [
   //   {
   //     id: 1,
@@ -406,13 +408,16 @@ const CommentModal = ({ open, onClose, post_id }) => {
           </Typography>
         </Box>
         <Box sx={styles.commentsContainer}>
-          {data.map(({ content, updated_at, all_childs, user }, i) => (
+          {data.map(({ id, post_id, content, updated_at, all_childs, user }, i) => (
             <Comment
               key={i}
+              id={id}
+              post_id={post_id}
               content={content}
               updated_at={updated_at}
               all_childs={all_childs}
               user={user}
+              postComment={() => setChangeData(!isChangeData)}
             />
           ))}
         </Box>
@@ -463,7 +468,36 @@ const Comment = ({
   updated_at,
   all_childs,
   user,
+  postComment
 }) => {
+  const [isReplying, setReplying] = useState(false)
+  const infoUser = useSelector(state => state.user.infoUser)
+  const input = useRef(null);
+
+  const handleComment = () => {
+    const req = {
+      user_id: infoUser.id,
+      post_id: post_id,
+      content: input.current.value,
+      parent_id: id,
+    }
+
+    const comment = async () => {
+      const res = await handleCommentApi(req)
+
+      console.log(res);
+      if (res.statusCode === 0) {
+        input.current.value = ""
+        postComment()
+        setReplying(false)
+      } else {
+
+      }
+    }
+
+    comment()
+  }
+
   return (
     <Box sx={styles.comment}>
       <Avatar sx={styles.image} />
@@ -475,6 +509,40 @@ const Comment = ({
           </i>
         </Typography>
         <Typography variant="body2"> {content}</Typography>
+        <Typography
+          variant="string"
+          sx={{
+            color: "rgba(0, 0, 0, 0.25)",
+            fontSize: "12px",
+            transition: "300ms",
+            cursor: "pointer",
+            "&:hover": {
+              color: "blue"
+            },
+          }}
+          onClick={() => {setReplying(true)}}
+        >
+          Trả lời
+        </Typography>
+        {isReplying && <FormControl style={{ paddingTop: 0, }} sx={styles.comment}>
+          <TextField
+            inputRef={input}
+            variant="standard"
+            label="Reply a comment..."
+            multiline
+            inputProps={{ style: { fontSize: "0.9rem" } }}
+            sx={{
+              height: "3rem",
+              paddingRight: "70px",
+              overflowY: "scroll",
+              marginTop: "10px",
+              "&::-webkit-scrollbar": {
+                display: "none",
+              },
+            }}
+          />
+          <Button onClick={handleComment} type="submit" sx={styles.submitButton}>Post</Button>
+        </FormControl>}
         {all_childs.map((item, i) => {
           return (
             <Comment
