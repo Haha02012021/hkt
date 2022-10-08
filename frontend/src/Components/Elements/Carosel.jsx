@@ -25,7 +25,7 @@ const Carosel = (props) => {
       >
         {props.files.map((image, i) => {
           return (
-            <div key={i} style={{ display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "cyan" }}>
+            <div key={i} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
               <img
                 style={{ aspectRatio: "1/1", objectFit: "contain" }}
                 src={URL.createObjectURL(image)}
