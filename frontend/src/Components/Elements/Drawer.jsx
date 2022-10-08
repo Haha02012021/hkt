@@ -10,7 +10,6 @@ import MuiDrawer from "@mui/material/Drawer";
 import DrawerHeader from "./DrawerHeader";
 import { Link, useLocation } from "react-router-dom";
 import { styled } from "@mui/material/styles";
-import { Button, Box } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
 import ListItemIcon from "@mui/material/ListItemIcon";

@@ -90,6 +90,7 @@ export default function Login() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={loading}
             >
               {loading ? (
                 <CircularProgress
@@ -110,11 +111,11 @@ export default function Login() {
               justifyContent={"space-between"}
               flexDirection="row"
             >
-              <Link href="#" variant="body2" style={{textDecoration: "none"}}>
+              <Link href="#" variant="body2" style={{ textDecoration: "none" }}>
                 Forgot password?
               </Link>
 
-              <Link to="/sign-up" variant="body2" style={{textDecoration: "none"}}>
+              <Link to="/sign-up" variant="body2" style={{ textDecoration: "none" }}>
                 {"Don't have an account? Sign Up"}
               </Link>
             </Box>

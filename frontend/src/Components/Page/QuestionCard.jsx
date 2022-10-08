@@ -93,7 +93,7 @@ const QuestionCard = (props) => {
     setBlob(props.item);
   }, [props.item]);
 
-  useEffect(() => {}, [blob]);
+  useEffect(() => { }, [blob]);
 
   const likePost = async () => {
     const value = blob.isLike ? -1 : 1;
@@ -142,7 +142,7 @@ const QuestionCard = (props) => {
       const res = await handleNewNotificationApi(req)
       if (res.statusCode === 0) {
         if (infoUser.id !== blob.user_id) {
-          socketClient.emit("sendNotification", {...res.data, receiver_id: req.receiver_id})
+          socketClient.emit("sendNotification", { ...res.data, receiver_id: req.receiver_id })
         }
       } else {
 
@@ -197,12 +197,12 @@ const QuestionCard = (props) => {
         >
           {blob && blob.has_tags && blob.has_tags.length > 0
             ? blob.has_tags.map((tag, i) => {
-                return (
-                  <Box sx={styles.tag} key={i}>
-                    {`${tag.name}`}
-                  </Box>
-                );
-              })
+              return (
+                <Box sx={styles.tag} key={i}>
+                  {`${tag.name}`}
+                </Box>
+              );
+            })
             : null}
         </Box>
         <Box
@@ -223,18 +223,18 @@ const QuestionCard = (props) => {
           >
             {blob.images.length > 0
               ? blob.images.map((image, i) => (
-                  <div
-                    style={{ display: "flex", justifyContent: "center" }}
-                    key={i}
-                  >
-                    <img
-                      src={image.link}
-                      style={{
-                        height: "200px",
-                      }}
-                    ></img>
-                  </div>
-                ))
+                <div
+                  style={{ display: "flex", justifyContent: "center" }}
+                  key={i}
+                >
+                  <img
+                    src={image.link}
+                    style={{
+                      height: "200px",
+                    }}
+                  ></img>
+                </div>
+              ))
               : null}
           </Carousel>
         </Box>
@@ -267,6 +267,7 @@ const QuestionCard = (props) => {
             onClick={toggleCompleteQuestion}
             color={blob.completed ? "error" : "success"}
             sx={{ marginLeft: "auto", fontWeight: 600 }}
+            disabled={loadingComplete}
           >
             {loadingComplete ? (
               <CircularProgress

@@ -122,6 +122,7 @@ const ModalPostBlog = (props) => {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2, p: 1.5 }}
+            disabled={loading}
           >
             {loading ? (
               <CircularProgress

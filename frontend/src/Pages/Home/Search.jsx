@@ -8,10 +8,9 @@ import {
   Pagination,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import Select, { NonceProvider } from "react-select";
+import Select from "react-select";
 import { SELECTTAGS } from "../../config/constants";
 import { handleSearchApi } from "../../Services/app";
-import { toast } from "react-toastify";
 import SearchCard from "../../Components/Page/SearchCard";
 
 const styles = {
@@ -50,7 +49,7 @@ const Search = () => {
     }
   };
 
-  const changePage = (e, page) => {};
+  const changePage = (e, page) => { };
 
   useEffect(() => {
     handleSearch();
@@ -166,9 +165,9 @@ const Search = () => {
         >
           {results.length > 0
             ? results.map((result) => {
-                console.log(result.content);
-                return <SearchCard item={result} />;
-              })
+              console.log(result.content);
+              return <SearchCard item={result} />;
+            })
             : null}
         </Box>
 

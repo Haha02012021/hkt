@@ -35,9 +35,9 @@ const Notification = () => {
         const dispatchRes = dispatch(actions.receiveNotification(res.data))
 
         if (dispatchRes) {
-          
+
         } else {
-          
+
         }
       } else {
 
@@ -106,26 +106,26 @@ const Notification = () => {
           {notifications.length < 1 ? (
             <>Không có thông báo nào!</>
           ) : (
-              <List
-                sx={{
-                  overflow: "auto",
-                  maxHeight: "64vh",
-                }}
-              >
-                {notifications.map(notification => {
-                  return (
-                    <ListItem disablePadding key={notification.id}>
-                      <ListItemButton onClick={() => handleClickNoti(notification.link)}>
-                        <ListItemText primary={
-                          <>
-                            <b>{notification.sender?.username} </b> {notification.content} 
-                            <i style={{ color: "rgba(0, 0, 0, 0.2)", fontSize: "14px", }}> {dayjs(notification.updated_at).fromNow()}</i>
-                          </>
-                        } />
-                      </ListItemButton>
-                    </ListItem>
-                  )
-                })}
+            <List
+              sx={{
+                overflow: "auto",
+                maxHeight: "64vh",
+              }}
+            >
+              {notifications.map(notification => {
+                return (
+                  <ListItem disablePadding key={notification.id}>
+                    <ListItemButton onClick={() => handleClickNoti(notification.link)}>
+                      <ListItemText primary={
+                        <>
+                          <b>{notification.sender?.username} </b> {notification.content}
+                          <i style={{ color: "rgba(0, 0, 0, 0.2)", fontSize: "14px", }}> {dayjs(notification.updated_at).fromNow()}</i>
+                        </>
+                      } />
+                    </ListItemButton>
+                  </ListItem>
+                )
+              })}
             </List>
           )}
           {/* Notification Card */}

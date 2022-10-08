@@ -38,7 +38,6 @@ import CheckIcon from "@mui/icons-material/Check";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import CommentIcon from "@mui/icons-material/Comment";
 import { useSelector } from "react-redux";
-import QuestionCard from "../../Components/Page/QuestionCard";
 import Axios from "../../config/axios"
 
 dayjs.extend(relativeTime);

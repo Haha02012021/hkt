@@ -1,4 +1,3 @@
-import { handleGetNotifications } from "../../Services/app";
 import actionTypes from "../Actions/actionTypes";
 const initialState = {
   started: true,
