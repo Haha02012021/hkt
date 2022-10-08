@@ -1,7 +1,11 @@
+import { handleGetNotifications } from "../../Services/app";
 import actionTypes from "../Actions/actionTypes";
 const initialState = {
   started: true,
+  notifications: []
 };
+
+console.log(initialState.notifications);
 
 const appReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -15,6 +19,11 @@ const appReducer = (state = initialState, action) => {
         ...state,
         started: true,
       };
+    case actionTypes.RECEIVE_NOTIFICATION:
+      return {
+        ...state,
+        notifications: [...action.payload, ...state.notifications],
+      }
     default:
       return state;
   }

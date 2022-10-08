@@ -49,8 +49,12 @@ class NotificationController extends Controller
                 $newNoti->receivers()->attach($members);
 
             } else if ($request->type === 1) {
-                $newNoti->receivers()->attach([$request->receiver_id]);
+                if ($user->id !== $request->receiver_id) {
+                    $newNoti->receivers()->attach([$request->receiver_id]);
+                }
             }
+
+            $newNoti->sender;
 
             return response()->json([
                 'statusCode' => 0,

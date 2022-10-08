@@ -5,6 +5,7 @@ import {
   handleLoginByTokenApi,
 } from "../../Services/auth";
 import { toast } from "react-toastify";
+import socketClient from "../../Socket/client";
 
 export const userLoginSuccess = (payload) => ({
   type: actionTypes.USER_LOGIN_SUCCESS,
@@ -28,6 +29,8 @@ export const userLogin = (data) => {
         toast.success(res.message);
         localStorage.setItem("token", res.data.token);
         dispatch(userLoginSuccess(res.data.user));
+        console.log(socketClient);
+        socketClient.emit("newUser", res.data.user.id);
         return true;
       }
       toast.error(res.message);
