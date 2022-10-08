@@ -59,7 +59,7 @@ class User extends Authenticatable
     }
 
     public function classes() {
-        return $this->hasMany(GroupClass::class, 'class_id', 'id');
+        return $this->hasMany(GroupClass::class, 'teacher_id', 'id');
     }
 
     public function likes() {

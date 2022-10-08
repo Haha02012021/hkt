@@ -16,11 +16,12 @@ return new class extends Migration
         Schema::create('homework', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('file_link');
+            $table->string('listen_file')->nullable();
             $table->bigInteger('class_id');
             $table->bigInteger('teacher_id');
             $table->string('title');
-            $table->integer('total_point');
-            $table->date('deadline');
+            $table->string('description');
+            $table->timestamp('deadline');
             $table->timestamps();
         });
     }

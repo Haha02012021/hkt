@@ -11,11 +11,11 @@ class Homework extends Model
     protected $fillable = [
         'title',
         'file_link',
-        'class_id',
         'teacher_id',
         'class_id',
-        'total_point',
         'deadline',
+        'listen_file',
+        'description',
     ];
 
     public function teacher() {

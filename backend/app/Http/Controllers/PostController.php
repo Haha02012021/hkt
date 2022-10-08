@@ -109,6 +109,7 @@ class PostController extends Controller
                 'content' => $fields['content'],
                 'type' => $fields['type'],
                 'class_id' => $fields['class_id'],
+                'completed' => $request->completed,
             ]);
 
             if ($request->tag_ids) {
@@ -168,6 +169,7 @@ class PostController extends Controller
     public function setCompleted($id) {
         $question = Post::find($id);
         $question->completed = 1-$question->completed;
+        $question->save();
         return response()->json([
             'statusCode' => 0,
             'data' => $question,
