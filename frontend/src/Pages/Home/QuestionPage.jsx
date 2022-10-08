@@ -12,6 +12,10 @@ import {
   IconButton,
   CardActions,
   Stack,
+  ListItem,
+  List,
+  ListItemText,
+  ListItemButton,
 } from "@mui/material";
 import React, { useEffect } from "react";
 
@@ -22,7 +26,7 @@ import {
   handleLikePostApi,
   handleCompleteQuestionApi,
 } from "../../Services/app";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import Carousel from "react-material-ui-carousel";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -338,22 +342,23 @@ const QuestionPage = () => {
         <Grid item xs={2} sm={4} md={4}>
           <Stack spacing={2}>
             <Typography variant="h5">Suggestions</Typography>
-            {relatedPosts.map((post, i) => (post.id !== blog.id) && (
-              <Box sx={{
-                backgroundColor: "white",
-                borderRadius: "5px",
-                border: "1px solid rgba(0,0,0,0.1)",
-                padding: "5px",
-              }}><Typography variant="body2" sx={{
-                wordWrap: "break-word",
-                color: "blue",
-                cursor: "pointer",
-                "&:hover": {
-                  textDecoration: "underline",
-                },
-              }} onClick={(e) => { navigate(`/questions/${post.id}`) }}>{post.content}</Typography></Box>
-            ))}
+            <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+              {relatedPosts && relatedPosts.length > 0
 
+                ? relatedPosts.map((post, i) => {
+                  return (
+                    <ListItem key={i}>
+                      <ListItemButton onClick={() => navigate(`/questions/${post.id}`)}>
+                        <ListItemText
+                          primary={post.content}
+                          secondary={`${dayjs(post.updated_at).fromNow()}`}
+
+                        /></ListItemButton>
+                    </ListItem>
+                  );
+                })
+                : null}
+            </List>
           </Stack>
         </Grid>
       </Grid>
