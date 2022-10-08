@@ -14,6 +14,8 @@ import DrawerHeader from "../../Components/Elements/DrawerHeader";
 import Drawer from "../../Components/Elements/Drawer";
 import GroupClass from "./GroupClass";
 import Welcom from "./Home";
+import ClassRoom from "./ClassRoom";
+import NotTurnedIn from "./NotTurnedIn";
 
 const Home = () => {
   const [open, setOpen] = React.useState(false);
@@ -50,6 +52,8 @@ const Home = () => {
           <Route path="/posts" element={<PostSection />} />
           <Route path="/questions" element={<Question />} />
           <Route path="/group-class" element={<GroupClass />} />
+          <Route path="/group-class/:id" element={<ClassRoom />} />
+          <Route path="/not-turned-in" element={<NotTurnedIn />} />
         </Routes>
       </Main>
     </Box>
