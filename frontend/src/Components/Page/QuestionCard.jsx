@@ -89,10 +89,11 @@ const QuestionCard = (props) => {
     setBlob(props.item);
   }, [props.item]);
 
-  useEffect(() => { }, [blob]);
+  useEffect(() => {}, [blob]);
 
   const likePost = async () => {
-    const res = await handleLikePostApi(blob.id);
+    const value = blob.isLike ? -1 : 1;
+    const res = await handleLikePostApi(blob.id, value);
 
     if (res && res.statusCode === 0) {
       if (blob.isLike === true) setBlob({ ...blob, like: blob.like-- });
@@ -168,12 +169,12 @@ const QuestionCard = (props) => {
         >
           {blob && blob.has_tags && blob.has_tags.length > 0
             ? blob.has_tags.map((tag, i) => {
-              return (
-                <Box sx={styles.tag} key={i}>
-                  {`${tag.name}`}
-                </Box>
-              );
-            })
+                return (
+                  <Box sx={styles.tag} key={i}>
+                    {`${tag.name}`}
+                  </Box>
+                );
+              })
             : null}
         </Box>
         <Box
@@ -194,18 +195,18 @@ const QuestionCard = (props) => {
           >
             {blob.images.length > 0
               ? blob.images.map((image, i) => (
-                <div
-                  style={{ display: "flex", justifyContent: "center" }}
-                  key={i}
-                >
-                  <img
-                    src={image.link}
-                    style={{
-                      height: "200px",
-                    }}
-                  ></img>
-                </div>
-              ))
+                  <div
+                    style={{ display: "flex", justifyContent: "center" }}
+                    key={i}
+                  >
+                    <img
+                      src={image.link}
+                      style={{
+                        height: "200px",
+                      }}
+                    ></img>
+                  </div>
+                ))
               : null}
           </Carousel>
         </Box>
