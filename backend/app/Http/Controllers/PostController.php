@@ -12,7 +12,7 @@ class PostController extends Controller
 {
     public function getAllPosts(Request $request) {
         try {
-            $posts = Post::with('user', 'hasTags', 'images')->orderBy('updated_at', 'DESC')->paginate(10);
+            $posts = Post::with('user', 'hasTags', 'images')->where('type', $request->type)->paginate(10);
             $user = $request->user();
 
             foreach($posts as $post) {
@@ -69,7 +69,7 @@ class PostController extends Controller
     public function getPostsByTag(Request $request)
     {
         try {
-            $posts = Tag::find($request->tag_id)->posts;
+            $posts = Tag::find($request->tag_id)->posts()->where('type', $request->type)->get();
             $user = $request->user();
 
             foreach ($posts as $post) {

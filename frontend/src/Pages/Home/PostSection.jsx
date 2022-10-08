@@ -5,12 +5,14 @@ import {
   CardContent,
   Typography,
   Pagination,
+  CircularProgress,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 
 import PostCard from "../../Components/Page/PostCard";
 import ModalPostBlog from "../../Components/Page/ModalPostBlog";
 import { useState } from "react";
+import { handleGetPostApi } from "../../Services/app";
 
 const styles = {
   postContainer: {
@@ -42,8 +44,24 @@ const styles = {
 const PostSection = () => {
   const [createPostModalOpen, setCreatePostModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [countPage, setCounttPage] = useState(10);
-  const listBlogs = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const [countPage, setCountPage] = useState(10);
+  const [listBlogs, setListBlogs] = useState([]);
+
+  useEffect(() => {
+    const getPosts = async () => {
+      const res = await handleGetPostApi(0);
+      if (res && res.statusCode === 0) {
+        setListBlogs(res.data.data);
+        const count =
+          res.data.total % 10 === 0
+            ? parseInt(res.data.total / 10)
+            : parseInt(res.data.total / 10) + 1;
+        console.log(count);
+        setCountPage(count);
+      }
+    };
+    getPosts();
+  }, [currentPage]);
 
   return (
     <Box sx={styles.postContainer}>
@@ -92,30 +110,34 @@ const PostSection = () => {
         </CardContent>
       </Card>
 
-      {listBlogs.map((item, i) => {
-        return (
-          <PostCard
-            key={i}
-            id={1}
-            title="Test title"
-            username="Test username"
-            createdAt="2021-10-10 10:10:10"
-            data="Lorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsum"
-            likeCount={666}
-            commentCount={999}
-          />
-        );
-      })}
+      {listBlogs && listBlogs.length > 0 ? (
+        listBlogs.map((item, i) => {
+          return <PostCard key={i} item={item} />;
+        })
+      ) : (
+        <CircularProgress
+          thickness={5}
+          size={25}
+          color="primary"
+          sx={{
+            height: "20px",
+            width: "20px",
+          }}
+        />
+      )}
 
-      <Pagination
-        count={countPage}
-        page={currentPage}
-        onChange={(event, page) => setCurrentPage(page)}
-      />
+      {listBlogs && listBlogs.length ? (
+        <Pagination
+          count={countPage}
+          page={currentPage}
+          onChange={(event, page) => setCurrentPage(page)}
+        />
+      ) : null}
 
       <ModalPostBlog
         open={createPostModalOpen}
         onClose={setCreatePostModalOpen}
+        handleClose={() => setCreatePostModalOpen(false)}
       />
     </Box>
   );
