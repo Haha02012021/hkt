@@ -13,6 +13,7 @@ import Navbar from "../../Components/Elements/Navbar";
 import DrawerHeader from "../../Components/Elements/DrawerHeader";
 import Drawer from "../../Components/Elements/Drawer";
 import GroupClass from "./GroupClass";
+import Welcom from "./Home";
 import ClassRoom from "./ClassRoom";
 import NotTurnedIn from "./NotTurnedIn";
 
@@ -42,9 +43,11 @@ const Home = () => {
         onClose={handleDrawerClose}
         onOpen={handleDrawerOpen}
       />
-      <Main open={open} sx={{ maxWidth: "1200px" }}>
+      <Main open={open} sx={{ maxWidth: "1200px", minHeight: "100vh" }}>
         <DrawerHeader></DrawerHeader>
+        
         <Routes>
+          <Route path="/" element={<Welcom />} />
           <Route path="/section1" element={<Section1 />} />
           <Route path="/posts" element={<PostSection />} />
           <Route path="/questions" element={<Question />} />
