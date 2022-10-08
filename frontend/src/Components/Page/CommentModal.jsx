@@ -21,6 +21,7 @@ import { useSelector } from "react-redux";
 import dayjs from "dayjs"
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { useLocation } from "react-router-dom";
+import socketClient from "../../Socket/client";
 dayjs.extend(relativeTime)
 
 const styles = {
@@ -131,7 +132,9 @@ const CommentModal = ({ open, onClose, post }) => {
       }
       const res = await handleNewNotificationApi(req)
       if (res.statusCode === 0) {
-
+        if (infoUser.id !== post.user_id) {
+          socketClient.emit("sendNotification", {...res.data, receiver_id: req.receiver_id})
+        }
       } else {
 
       }
@@ -185,6 +188,7 @@ const CommentModal = ({ open, onClose, post }) => {
                 updated_at={updated_at}
                 all_childs={all_childs}
                 user={user}
+                post_user_id={post.user_id}
                 postComment={() => setChangeData(!isChangeData)}
               />
             )
@@ -236,6 +240,7 @@ const Comment = ({
   updated_at,
   all_childs,
   user,
+  post_user_id,
   postComment,
 }) => {
   const [isReplying, setReplying] = useState(false);
@@ -254,13 +259,16 @@ const Comment = ({
     const comment = async () => {
       const res = await handleCommentApi(req);
 
-      console.log(res);
       if (res.statusCode === 0) {
         input.current.value = "";
         postComment();
         setReplying(false);
-        newNotification("đã bình luận bài viết của bạn.", location.pathname + `/${id}` + (location.search ? location.search : "") + `#comment_${id}`)
-        newNotification("đã trả lời bình luận của bạn.", location.pathname + `/${id}` + (location.search ? location.search : "") + `#comment_${id}` )
+        if (infoUser.id !== post_user_id) {
+          newNotification("đã bình luận bài viết của bạn.", location.pathname + `/${id}` + (location.search ? location.search : "") + `#comment_${id}`, post_user_id)
+        }
+        if (infoUser.id !== user_id) {
+          newNotification("đã trả lời bình luận của bạn.", location.pathname + `/${id}` + (location.search ? location.search : "") + `#comment_${id}`, user_id)
+        }
       } else {
       }
     };
@@ -268,18 +276,18 @@ const Comment = ({
     comment();
   };
 
-  const newNotification = async (content, link) => {
+  const newNotification = async (content, link, receiver_id) => {
     try {
       const req = {
         content,
         link,
         type: 1,
-        receiver_id: user_id,
+        receiver_id,
       }
       const res = await handleNewNotificationApi(req)
       console.log(res);
       if (res.statusCode === 0) {
-        console.log(res.data);
+        socketClient.emit("sendNotification", {...res.data, receiver_id: req.receiver_id})
       } else {
 
       }
@@ -355,6 +363,7 @@ const Comment = ({
               all_childs={item.all_childs}
               user={item.user}
               post_id={post_id}
+              post_user_id={post_user_id}
               postComment={postComment}
             />
           );

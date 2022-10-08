@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -16,9 +16,16 @@ import GroupClass from "./GroupClass";
 import Welcom from "./Home";
 import ClassRoom from "./ClassRoom";
 import NotTurnedIn from "./NotTurnedIn";
+import socketClient from "../../Socket/client";
+import { useSelector } from "react-redux";
 
 const Home = () => {
   const [open, setOpen] = React.useState(false);
+  const infoUser = useSelector((state) => state.user.infoUser);
+
+  useEffect(() => {
+    socketClient.emit("newUser", infoUser.id);
+  }, [infoUser])
 
   const handleDrawerOpen = () => {
     setOpen(true);

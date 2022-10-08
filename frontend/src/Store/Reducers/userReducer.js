@@ -7,7 +7,6 @@ const initialState = {
 const appReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.USER_LOGIN_SUCCESS:
-      console.log(action.payload);
       return {
         ...state,
         isLogin: true,

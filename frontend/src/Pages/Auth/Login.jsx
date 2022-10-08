@@ -31,7 +31,9 @@ export default function Login() {
           password: data.get("password"),
         })
       );
-      if (res === true) navigate("/");
+      if (res === true) {
+        navigate("/")
+      };
     } catch (error) {
       console.log("LOGIN ERROR:", error);
     } finally {

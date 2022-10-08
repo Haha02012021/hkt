@@ -17,6 +17,7 @@ import * as actions from "../../Store/Actions/index";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useSelector, useDispatch } from "react-redux";
 import Notification from "./Notification";
+import socketClient from "../../Socket/client";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard"];
@@ -53,7 +54,10 @@ const Navbar = (props) => {
 
   const logout = async () => {
     const res = await dispatch(actions.userLogout());
-    if (res === true) navigate("/login");
+    if (res === true) {
+      socketClient.emit("logout")
+      navigate("/login")
+    };
   };
 
   return (

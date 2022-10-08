@@ -1,4 +1,6 @@
 import { useState } from "react";
+import * as actions from "../../Store/Actions/index";
+import dayjs from "dayjs";
 
 import { Badge, List, ListItem, ListItemButton, ListItemText, Popover } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -8,6 +10,9 @@ import Box from "@mui/material/Box";
 import { useEffect } from "react";
 import { handleGetNotifications } from "../../Services/app";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import socketClient from "../../Socket/client";
+import { toast } from "react-toastify";
 
 const styles = {
   notificationContainer: {
@@ -18,21 +23,44 @@ const styles = {
 
 const Notification = () => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [notifications, setNotifications] = useState([]);
+  const notifications = useSelector((state) => state.app.notifications)
+  const dispatch = useDispatch();
   const navigate = useNavigate()
 
+  console.log(notifications);
   useEffect(() => {
     const getNotifications = async () => {
       const res = await handleGetNotifications()
 
       if (res.statusCode === 0) {
-        setNotifications(res.data);
+        const dispatchRes = dispatch(actions.receiveNotification(res.data))
+
+        if (dispatchRes) {
+          
+        } else {
+          
+        }
       } else {
 
       }
     }
 
-    getNotifications()
+    if (notifications.length < 1) {
+      getNotifications()
+    }
+
+    socketClient.on("getNotification", data => {
+      dispatch(actions.receiveNotification([data]))
+      toast.info(data.sender.username + " " + data.content, {
+        onClick: () => {
+          navigate(data.link)
+        }
+      })
+    })
+
+    return () => {
+      socketClient.off("getNotification")
+    }
   }, [])
 
   const handleNotificationClick = (event) => {
@@ -81,14 +109,20 @@ const Notification = () => {
           {notifications.length < 1 ? (
             <>Không có thông báo nào!</>
           ) : (
-            <List>
+              <List
+                sx={{
+                  overflow: "auto",
+                  maxHeight: "64vh",
+                }}
+              >
                 {notifications.map(notification => {
                   return (
-                    <ListItem disablePadding>
+                    <ListItem disablePadding key={notification.id}>
                       <ListItemButton onClick={() => handleClickNoti(notification.link)}>
                         <ListItemText primary={
                           <>
-                            <b>{notification.sender.username} </b> {notification.content}
+                            <b>{notification.sender?.username} </b> {notification.content} 
+                            <i style={{ color: "rgba(0, 0, 0, 0.2)", fontSize: "14px", }}> {dayjs(notification.updated_at).fromNow()}</i>
                           </>
                         } />
                       </ListItemButton>
