@@ -13,13 +13,14 @@ class Notification extends Model
         'user_id',
         'content',
         'link',
+        'type',
     ];
 
     public function sender() {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function receiver() {
+    public function receivers() {
         return $this->belongsToMany(User::class, 'notifications_users', 'notification_id', 'user_id')->withTimestamps();
     }
 }

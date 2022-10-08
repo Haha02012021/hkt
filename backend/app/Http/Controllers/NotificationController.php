@@ -4,11 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\GroupClass;
 use App\Models\Notification;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
+    public function getNotificationsByUserId($id) {
+        try {
+            $notifications = User::find($id)->notifications;
+
+            return response()->json([
+                'statusCode' => 0,
+                'data' => $notifications,
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'statusCode' => -1,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
     public function create(Request $request) {
         try {
             $user = $request->user();
@@ -16,6 +33,7 @@ class NotificationController extends Controller
                 'user_id' => $user->id,
                 'content' => $request->content,
                 'link' => $request->link,
+                'type' => $request->type,
             ]);
 
             if ($request->type === 0) {
@@ -23,15 +41,15 @@ class NotificationController extends Controller
                 $members = [];
 
                 if ($user->role !== 1) {
-                    array_push($members, $class->teacher);
+                    array_push($members, $class->teacher->id);
                 }
 
-                array_push($members, $class->students()->where('users.id', '!=', $user->id));
+                array_push($members, ...$class->students()->where('users.id', '!=', $user->id)->pluck('users.id'));
 
-                $user->ownsNotifications()->attach($members);
+                $newNoti->receivers()->attach($members);
 
             } else if ($request->type === 1) {
-                $user->ownsNotifcations()->attach($request->receiver_id);
+                $newNoti->receivers()->attach([$request->receiver_id]);
             }
 
             return response()->json([
