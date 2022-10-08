@@ -28,7 +28,10 @@ class NotificationController extends Controller
 
                 array_push($members, $class->students()->where('users.id', '!=', $user->id));
 
-                return $members;
+                $user->ownsNotifications()->attach($members);
+
+            } else if ($request->type === 1) {
+                $user->ownsNotifcations()->attach($request->receiver_id);
             }
 
             return response()->json([
