@@ -7,6 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import { useEffect } from "react";
 import { handleGetNotifications } from "../../Services/app";
+import { useNavigate } from "react-router-dom";
 
 const styles = {
   notificationContainer: {
@@ -18,6 +19,7 @@ const styles = {
 const Notification = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [notifications, setNotifications] = useState([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const getNotifications = async () => {
@@ -40,6 +42,10 @@ const Notification = () => {
   const handleNotificationClose = () => {
     setAnchorEl(null);
   };
+
+  const handleClickNoti = (link) => {
+    navigate(link)
+  }
 
   const notificationOpen = Boolean(anchorEl);
   const id = notificationOpen ? "simple-popover" : undefined;
@@ -79,7 +85,7 @@ const Notification = () => {
                 {notifications.map(notification => {
                   return (
                     <ListItem disablePadding>
-                      <ListItemButton>
+                      <ListItemButton onClick={() => handleClickNoti(notification.link)}>
                         <ListItemText primary={
                           <>
                             <b>{notification.sender.username} </b> {notification.content}
