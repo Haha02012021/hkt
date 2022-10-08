@@ -119,7 +119,7 @@ class GroupClassController extends Controller
 
             return response()->json([
                 'statusCode' => 0,
-                'data' => $newClass,
+                'message' => 'Create successfully!',
             ]);
         } catch (Exception $e) {
             return response()->json([

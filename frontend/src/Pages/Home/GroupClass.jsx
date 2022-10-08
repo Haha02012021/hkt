@@ -10,7 +10,12 @@ import { handleGetAllClassApi } from "../../Services/app";
 const GroupClass = () => {
   const [createPostModalOpen, setCreatePostModalOpen] = useState(false);
   const [classes, setClasses] = useState([]);
+  const [reload, setReload] = useState(false);
   const infoUser = useSelector((state) => state.user.infoUser);
+
+  const fetchClass = () => {
+    setReload(!reload);
+  };
 
   useEffect(() => {
     const getOptions = async () => {
@@ -20,7 +25,7 @@ const GroupClass = () => {
       }
     };
     getOptions();
-  }, []);
+  }, [reload]);
 
   return (
     <>
@@ -44,7 +49,14 @@ const GroupClass = () => {
             </Button>
           ) : null}
         </Box>
-        <Box sx={{ marginTop: "20px", display: "flex", gap: "20px" }}>
+        <Box
+          sx={{
+            marginTop: "20px",
+            display: "flex",
+            gap: "40px",
+            flexWrap: "wrap",
+          }}
+        >
           {classes.length > 0
             ? classes.map((classItem) => {
                 return <CardClass item={classItem} />;
@@ -54,6 +66,7 @@ const GroupClass = () => {
         <ModalPostBlog
           open={createPostModalOpen}
           onClose={setCreatePostModalOpen}
+          reload={fetchClass}
         />
       </Box>
     </>

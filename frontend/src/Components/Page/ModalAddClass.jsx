@@ -3,7 +3,8 @@ import { Modal, TextField, Button, Box, Chip } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import Select from "react-select";
 import { toast } from "react-toastify";
-import { handleGetOtherUsersApi } from "../../Services/app";
+import { handleGetOtherUsersApi, handleNewClassApi } from "../../Services/app";
+import { useSelector } from "react-redux";
 
 const styles = {
   addButtonContainer: {
@@ -29,6 +30,7 @@ const ModalPostBlog = (props) => {
   const [loading, setLoading] = useState(false);
   const [options, setOptions] = useState([]);
   const [students, setStudents] = useState([]);
+  const infoUser = useSelector((state) => state.user.infoUser);
 
   useEffect(() => {
     const getOptions = async () => {
@@ -44,10 +46,16 @@ const ModalPostBlog = (props) => {
     try {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
-      console.log({
+      const res = await handleNewClassApi({
         name: data.get("nameClass"),
         students: students,
+        teacher_id: infoUser.id,
       });
+      if (res && res.statusCode === 0) {
+        toast.success(res.message);
+        props.reload();
+        props.onClose(false);
+      }
     } catch (error) {
       console.log("Error: ", error);
       toast.error(error);

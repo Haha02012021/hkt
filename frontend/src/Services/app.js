@@ -29,7 +29,7 @@ const handleGetAllClassApi = () => {
 };
 
 const handleNewClassApi = (data) => {
-  return axios.post(`/api/class/create`);
+  return axios.post(`/api/class/create`, data);
 };
 
 export {
