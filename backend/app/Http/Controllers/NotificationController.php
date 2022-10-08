@@ -10,9 +10,9 @@ use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-    public function getNotificationsByUserId($id) {
+    public function getNotificationsByUserId(Request $request) {
         try {
-            $notifications = User::find($id)->notifications;
+            $notifications = $request->user()->notifications()->with('sender')->orderBy('created_at', 'DESC')->get();
 
             return response()->json([
                 'statusCode' => 0,
