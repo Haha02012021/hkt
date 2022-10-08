@@ -6,12 +6,14 @@ import { useSelector } from "react-redux";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import ModalPostBlog from "../../Components/Page/ModalAddClass";
 import { handleGetAllClassApi } from "../../Services/app";
+import { useNavigate } from "react-router-dom";
 
 const GroupClass = () => {
   const [createPostModalOpen, setCreatePostModalOpen] = useState(false);
   const [classes, setClasses] = useState([]);
   const [reload, setReload] = useState(false);
   const infoUser = useSelector((state) => state.user.infoUser);
+  const navigate = useNavigate();
 
   const fetchClass = () => {
     setReload(!reload);
@@ -37,7 +39,7 @@ const GroupClass = () => {
             alignItems: "center",
           }}
         >
-          <Button>
+          <Button onClick={() => { navigate("/not-turned-in") }}>
             <FactCheckIcon sx={{ marginRight: "5px" }} />
             Việc cần làm
           </Button>
@@ -59,8 +61,8 @@ const GroupClass = () => {
         >
           {classes.length > 0
             ? classes.map((classItem) => {
-                return <CardClass item={classItem} />;
-              })
+              return <CardClass item={classItem} />;
+            })
             : null}
         </Box>
         <ModalPostBlog
