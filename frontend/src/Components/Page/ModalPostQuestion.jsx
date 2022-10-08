@@ -68,7 +68,7 @@ const ModalPostQuestion = (props) => {
 
       data.append("type", 1);
       data.append("class_id", 0);
-      data.append("completed", 1);
+      data.append("completed", 0);
 
       const config = {
         headers: {

@@ -81,21 +81,12 @@ const PostCard = (props) => {
         <Box sx={{ display: "flex", flexDirection: "row" }}>
           {blob && blob.has_tags && blob.has_tags.length > 0
             ? blob.has_tags.map((tag, i) => {
-<<<<<<< Updated upstream
-                return (
-                  <Box sx={styles.tag} key={i}>
-                    {`#${tag.name}`}
-                  </Box>
-                );
-              })
-=======
               return (
                 <Box sx={styles.tag} key={i}>
-                  {tag}
+                  {`#${tag.name}`}
                 </Box>
               );
             })
->>>>>>> Stashed changes
             : null}
         </Box>
         <Box
