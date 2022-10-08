@@ -52,7 +52,7 @@ const PostCard = (props) => {
     setBlob(props.item);
   }, [props.item]);
 
-  useEffect(() => {}, [blob]);
+  useEffect(() => { }, [blob]);
 
   const likePost = async () => {
     const res = await handleLikePostApi(blob.id);
@@ -105,18 +105,18 @@ const PostCard = (props) => {
           >
             {blob.images.length > 0
               ? blob.images.map((image, i) => (
-                  <div
-                    style={{ display: "flex", justifyContent: "center" }}
-                    key={i}
-                  >
-                    <img
-                      src={image.link}
-                      style={{
-                        height: "300px",
-                      }}
-                    ></img>
-                  </div>
-                ))
+                <div
+                  style={{ display: "flex", justifyContent: "center" }}
+                  key={i}
+                >
+                  <img
+                    src={image.link}
+                    style={{
+                      height: "300px",
+                    }}
+                  ></img>
+                </div>
+              ))
               : null}
           </Carousel>
         </Box>

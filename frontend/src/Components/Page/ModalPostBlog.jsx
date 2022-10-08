@@ -143,7 +143,7 @@ const ModalPostBlog = (props) => {
   return (
     <Modal open={props.open} onClose={() => props.onClose(false)}>
       <Box sx={styles.createModal}>
-        <Box style={{ display: "flex", justifyContent: "flex-end" }}>
+        <Box style={{ position: "absolute", right: "2rem", top: "2rem" }}>
           <Box
             sx={{
               fontWeight: "bold",

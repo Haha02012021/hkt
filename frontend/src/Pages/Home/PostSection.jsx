@@ -55,7 +55,11 @@ const PostSection = () => {
     const getPosts = async () => {
       const res = await handleGetPostApi(0, currentPage);
       if (res && res.statusCode === 0) {
-        setListBlogs(res.data.data);
+        const data = res.data.data;
+        data.sort((a, b) => {
+          return new Date(b.created_at) - new Date(a.created_at)
+        });
+        setListBlogs(data);
         const count =
           res.data.total % 10 === 0
             ? parseInt(res.data.total / 10)
