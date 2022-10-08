@@ -13,6 +13,7 @@ import Navbar from "../../Components/Elements/Navbar";
 import DrawerHeader from "../../Components/Elements/DrawerHeader";
 import Drawer from "../../Components/Elements/Drawer";
 import GroupClass from "./GroupClass";
+import ClassRoom from "./ClassRoom";
 
 const Home = () => {
   const [open, setOpen] = React.useState(false);
@@ -47,6 +48,7 @@ const Home = () => {
           <Route path="/posts" element={<PostSection />} />
           <Route path="/questions" element={<Question />} />
           <Route path="/group-class" element={<GroupClass />} />
+          <Route path="/group-class/:id" element={<ClassRoom />} />
         </Routes>
       </Main>
     </Box>

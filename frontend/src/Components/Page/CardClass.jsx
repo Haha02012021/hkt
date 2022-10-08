@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import ImageHeader from "../../Assets/Image/img_bookclub.jpg";
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import Avatar from "@mui/material/Avatar";
+import { useNavigate } from "react-router-dom";
 const styles = {
   boxHeader: {
     backgroundImage: `url(${ImageHeader})`,
@@ -13,6 +14,7 @@ const styles = {
   },
 };
 const CardClass = (props) => {
+  const navigate = useNavigate();
   return (
     <Box
       sx={{
@@ -26,6 +28,7 @@ const CardClass = (props) => {
           cursor: "pointer",
         },
       }}
+      onClick={() => navigate(`/group-class/${props.item.id}`)}
     >
       <Box style={styles.boxHeader}>
         <Box
