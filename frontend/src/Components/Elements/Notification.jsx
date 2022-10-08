@@ -44,9 +44,7 @@ const Notification = () => {
       }
     }
 
-    if (notifications.length < 1) {
-      getNotifications()
-    }
+    getNotifications()
 
     socketClient.on("getNotification", data => {
       dispatch(actions.receiveNotification([data]))
