@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\GroupClass;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -26,11 +27,34 @@ class GroupClassController extends Controller
 
     public function getClassById($id) {
         try {
-            $class = GroupClass::find($id)->with('teacher', 'students')->get();
+            $class = GroupClass::with('teacher', 'students')->where('id', $id)->get();
 
             return response()->json([
                 'statusCode' => 0,
                 'data' => $class,
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'statusCode' => -1,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+    
+    public function getClassesByUserId($id) {
+        try {
+            $user = User::find($id);
+
+            $data = [];
+            if ($user->role === 0) {
+                $data = $user->groupClass()->with('teacher')->get();
+            } else if ($user->role === 1) {
+                $data = $user->classes()->with('teacher')->get();
+            }
+
+            return response()->json([
+                'statusCode' => 0,
+                'data' => $data,
             ]);
         } catch (Exception $e) {
             return response()->json([
@@ -74,21 +98,28 @@ class GroupClassController extends Controller
 
     public function create(Request $request) {
         try {
+            $user = $request->user();
             $fields = $request->validate(
                 [
                     'name' => 'required|string',
-                    'teacher_id' => 'required|integer',
                 ]
             );
 
             $newClass = GroupClass::create([
                 'name' => $fields['name'],
-                'teacher_id' => $fields['teacher_id'],
+                'teacher_id' => $user->id,
             ]);
+
+            if ($request->student_ids) {
+                $newClass->students()->attach($request->student_ids);
+            }
+
+            $newClass->teacher;
+            $newClass->students;
 
             return response()->json([
                 'statusCode' => 0,
-                'data' => $newClass,
+                'message' => 'Create successfully!',
             ]);
         } catch (Exception $e) {
             return response()->json([

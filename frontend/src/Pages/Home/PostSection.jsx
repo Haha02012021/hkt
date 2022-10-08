@@ -55,7 +55,11 @@ const PostSection = () => {
     const getPosts = async () => {
       const res = await handleGetPostApi(0, currentPage);
       if (res && res.statusCode === 0) {
-        setListBlogs(res.data.data);
+        const data = res.data.data;
+        data.sort((a, b) => {
+          return new Date(b.created_at) - new Date(a.created_at)
+        });
+        setListBlogs(data);
         const count =
           res.data.total % 10 === 0
             ? parseInt(res.data.total / 10)
@@ -108,7 +112,7 @@ const PostSection = () => {
             }}
             onClick={() => setCreatePostModalOpen(true)}
           >
-            What are you thinking?
+            <Typography sx={{ color: "rgb(0,0,0,0.6)" }}>What are you thinking?</Typography>
           </Box>
         </CardContent>
       </Card>
@@ -129,7 +133,7 @@ const PostSection = () => {
         />
       )}
 
-      {listBlogs && listBlogs.length ? (
+      {listBlogs && listBlogs.length > 1 ? (
         <Pagination
           count={countPage}
           page={currentPage}

@@ -11,8 +11,12 @@ import CardActions from "@mui/material/CardActions";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentIcon from "@mui/icons-material/Comment";
 import { handleLikePostApi } from "../../Services/app";
-
 import CommentModal from "./CommentModal";
+
+import dayjs from "dayjs"
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
+
 
 const styles = {
   card: {
@@ -52,7 +56,7 @@ const PostCard = (props) => {
     setBlob(props.item);
   }, [props.item]);
 
-  useEffect(() => {}, [blob]);
+  useEffect(() => { }, [blob]);
 
   const likePost = async () => {
     const res = await handleLikePostApi(blob.id);
@@ -70,7 +74,7 @@ const PostCard = (props) => {
       <CardHeader
         avatar={<Avatar sx={styles.image} />}
         title={blob.user.username}
-        subheader={`${blob.updated_at}`}
+        subheader={`${dayjs(blob.updated_at).fromNow()}`}
         sx={styles.header}
       ></CardHeader>
       <Divider />
@@ -81,12 +85,12 @@ const PostCard = (props) => {
         <Box sx={{ display: "flex", flexDirection: "row" }}>
           {blob && blob.has_tags && blob.has_tags.length > 0
             ? blob.has_tags.map((tag, i) => {
-                return (
-                  <Box sx={styles.tag} key={i}>
-                    {`#${tag.name}`}
-                  </Box>
-                );
-              })
+              return (
+                <Box sx={styles.tag} key={i}>
+                  {`#${tag.name}`}
+                </Box>
+              );
+            })
             : null}
         </Box>
         <Box
@@ -105,18 +109,18 @@ const PostCard = (props) => {
           >
             {blob.images.length > 0
               ? blob.images.map((image, i) => (
-                  <div
-                    style={{ display: "flex", justifyContent: "center" }}
-                    key={i}
-                  >
-                    <img
-                      src={image.link}
-                      style={{
-                        height: "300px",
-                      }}
-                    ></img>
-                  </div>
-                ))
+                <div
+                  style={{ display: "flex", justifyContent: "center" }}
+                  key={i}
+                >
+                  <img
+                    src={image.link}
+                    style={{
+                      height: "300px",
+                    }}
+                  ></img>
+                </div>
+              ))
               : null}
           </Carousel>
         </Box>
@@ -135,11 +139,11 @@ const PostCard = (props) => {
         <Typography>{blob.commentCount}</Typography>
       </CardActions>
 
-      <CommentModal
+      {commentModalOpen && <CommentModal
         open={commentModalOpen}
         onClose={closeCommentModal}
-        post_id={blob.id}
-      />
+        post={blob}
+      />}
     </Card>
   );
 };

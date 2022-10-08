@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GroupClassController;
 use App\Http\Controllers\HomeworkController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ReactController;
 use App\Http\Controllers\TagController;
@@ -51,6 +52,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::group(['prefix' => 'class'], function () {
         Route::get('/get-all', [GroupClassController::class, 'getAllClasses']);
         Route::get('/get/{id}', [GroupClassController::class, 'getClassById']);
+        Route::get('/get-by-user-id/{id}', [GroupClassController::class, 'getClassesByUserId']);
         Route::post('/create', [GroupClassController::class, 'create']);
         Route::put('/edit/{id}', [GroupClassController::class, 'edit']);
         Route::delete('/delete/{id}', [GroupClassController::class, 'deleteClassById']);
@@ -63,6 +65,10 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::group(['prefix' => 'user'], function () {
         Route::get('/get-other-users', [UserController::class, 'getOtherUsers']);
+    });
+
+    Route::group(['prefix' => 'notification'], function () {
+        Route::post('/create', [NotificationController::class, 'create']);
     });
 
     Route::get('tag/get-all', [TagController::class, 'getAllTags']);

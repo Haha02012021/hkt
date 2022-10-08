@@ -1,7 +1,8 @@
 import React from "react";
-import { Box, Avatar } from "@mui/material";
+import { Box } from "@mui/material";
 import ImageHeader from "../../Assets/Image/img_bookclub.jpg";
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
+import Avatar from "@mui/material/Avatar";
 const styles = {
   boxHeader: {
     backgroundImage: `url(${ImageHeader})`,
@@ -54,7 +55,7 @@ const CardClass = (props) => {
             textAlign: "left",
           }}
         >
-          {props.item.nameTeacher}
+          {props.item.teacher.username}
         </Box>
         <Avatar
           alt={props.item.nameTeacher}
@@ -66,6 +67,7 @@ const CardClass = (props) => {
             top: "70px",
             backGroundColor: "#a0c3ff",
           }}
+          src={`${props.item.avatar}`}
         />
       </Box>
       <Box

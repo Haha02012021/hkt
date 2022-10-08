@@ -1,11 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, TextField, Button, Box, Chip } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import Select from "react-select";
-import makeAnimated from "react-select/animated";
 import { toast } from "react-toastify";
-
-const animatedComponents = makeAnimated();
+import { handleGetOtherUsersApi, handleNewClassApi } from "../../Services/app";
+import { useSelector } from "react-redux";
 
 const styles = {
   addButtonContainer: {
@@ -27,27 +26,46 @@ const styles = {
   },
 };
 
-const options = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-];
-
 const ModalPostBlog = (props) => {
   const [loading, setLoading] = useState(false);
+  const [options, setOptions] = useState([]);
+  const [students, setStudents] = useState([]);
+  const infoUser = useSelector((state) => state.user.infoUser);
+
+  useEffect(() => {
+    const getOptions = async () => {
+      const res = await handleGetOtherUsersApi();
+      if (res && res.statusCode === 0) {
+        setOptions(res.data);
+      }
+    };
+    getOptions();
+  }, []);
 
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
-
-      const url = "/api/post/create";
       const data = new FormData(event.currentTarget);
+      const res = await handleNewClassApi({
+        name: data.get("nameClass"),
+        students: students,
+        teacher_id: infoUser.id,
+      });
+      if (res && res.statusCode === 0) {
+        toast.success(res.message);
+        props.reload();
+        props.onClose(false);
+      }
     } catch (error) {
       console.log("Error: ", error);
       toast.error(error);
     } finally {
       setLoading(false);
     }
+  };
+  const handleChange = (selected, name) => {
+    const emails = selected.map((s) => s.value);
+    setStudents(emails);
   };
 
   return (
@@ -86,15 +104,16 @@ const ModalPostBlog = (props) => {
             name="nameClass"
             autoComplete="nameClass"
             autoFocus
-            sx={{}}
           ></TextField>
           <Box>
             <Select
               defaultValue={[]}
               isMulti
               name="colors"
+              id="student"
               options={options}
               className="basic-multi-select"
+              onChange={handleChange}
               classNamePrefix="select"
             />
           </Box>
@@ -115,7 +134,7 @@ const ModalPostBlog = (props) => {
                 }}
               />
             ) : (
-              "Create Post"
+              "Tạo mới"
             )}
           </Button>
         </Box>

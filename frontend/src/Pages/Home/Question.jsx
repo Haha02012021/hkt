@@ -60,7 +60,11 @@ const Question = () => {
         setLoading(true);
         const res = await handleGetPostApi(1, currentPage);
         if (res && res.statusCode === 0) {
-          setListQuestions(res.data.data);
+          const data = res.data.data;
+          data.sort((a, b) => {
+            return new Date(b.created_at) - new Date(a.created_at)
+          });
+          setListQuestions(data);
           const count =
             res.data.total % 10 === 0
               ? parseInt(res.data.total / 10)
@@ -120,7 +124,7 @@ const Question = () => {
             }}
             onClick={() => setCreateQuestionModalOpen(true)}
           >
-            What are you having trouble with?
+            <Typography sx={{ color: "rgb(0,0,0,0.6)" }}> What are you having trouble with?</Typography>
           </Box>
         </CardContent>
       </Card>

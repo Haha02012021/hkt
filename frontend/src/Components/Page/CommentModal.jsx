@@ -12,14 +12,16 @@ import {
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentIcon from "@mui/icons-material/Comment";
 import { useState } from "react";
 import { useEffect } from "react";
-import {handleCommentApi, handleCommentsPostApi} from '../../Services/app'
+import { handleCommentApi, handleCommentsPostApi } from "../../Services/app";
 import { useSelector } from "react-redux";
+
+import dayjs from "dayjs"
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
+
 const styles = {
   modal: {
     position: "absolute",
@@ -90,313 +92,47 @@ const styles = {
   },
 };
 
-const CommentModal = ({ open, onClose, post_id }) => {
-  const infoUser = useSelector(state => state.user.infoUser)
+const CommentModal = ({ open, onClose, post }) => {
+  const infoUser = useSelector((state) => state.user.infoUser);
   const input = useRef(null);
   const [data, setData] = useState([]);
-  const [isChangeData, setChangeData] = useState(false)
+  const [isChangeData, setChangeData] = useState(false);
 
   useEffect(() => {
-    getAllComments()
+    getAllComments();
     console.log(isChangeData);
-  }, [isChangeData])
-  // const data = [
-  //   {
-  //     id: 1,
-  //     user_id: 1,
-  //     post_id: 1,
-  //     content: "111111111",
-  //     parent_id: null,
-  //     created_at: "2022-10-07T17:06:48.000000Z",
-  //     updated_at: "2022-10-07T17:06:48.000000Z",
-  //     all_childs: [
-  //       {
-  //         id: 2,
-  //         user_id: 1,
-  //         post_id: 1,
-  //         content: "2222222222222",
-  //         parent_id: 1,
-  //         created_at: "2022-10-07T17:07:06.000000Z",
-  //         updated_at: "2022-10-07T17:07:06.000000Z",
-  //         all_childs: [
-  //           {
-  //             id: 3,
-  //             user_id: 1,
-  //             post_id: 1,
-  //             content: "333333333",
-  //             parent_id: 2,
-  //             created_at: "2022-10-07T17:07:20.000000Z",
-  //             updated_at: "2022-10-07T17:07:20.000000Z",
-  //             all_childs: [],
-  //             user: {
-  //               id: 1,
-  //               username: "bach",
-  //               email: "123@gmail.com",
-  //               email_verified_at: null,
-  //               school: "vnu",
-  //               role: 0,
-  //               avatar: null,
-  //               level_id: 3,
-  //               class_id: null,
-  //               created_at: "2022-10-07T10:05:44.000000Z",
-  //               updated_at: "2022-10-07T10:05:44.000000Z",
-  //             },
-  //           },
-  //         ],
-  //         user: {
-  //           id: 1,
-  //           username: "bach",
-  //           email: "123@gmail.com",
-  //           email_verified_at: null,
-  //           school: "vnu",
-  //           role: 0,
-  //           avatar: null,
-  //           level_id: 3,
-  //           class_id: null,
-  //           created_at: "2022-10-07T10:05:44.000000Z",
-  //           updated_at: "2022-10-07T10:05:44.000000Z",
-  //         },
-  //       },
-  //       {
-  //         id: 2,
-  //         user_id: 1,
-  //         post_id: 1,
-  //         content: "2222222222222",
-  //         parent_id: 1,
-  //         created_at: "2022-10-07T17:07:06.000000Z",
-  //         updated_at: "2022-10-07T17:07:06.000000Z",
-  //         all_childs: [
-  //           {
-  //             id: 3,
-  //             user_id: 1,
-  //             post_id: 1,
-  //             content: "333333333",
-  //             parent_id: 2,
-  //             created_at: "2022-10-07T17:07:20.000000Z",
-  //             updated_at: "2022-10-07T17:07:20.000000Z",
-  //             all_childs: [],
-  //             user: {
-  //               id: 1,
-  //               username: "bach",
-  //               email: "123@gmail.com",
-  //               email_verified_at: null,
-  //               school: "vnu",
-  //               role: 0,
-  //               avatar: null,
-  //               level_id: 3,
-  //               class_id: null,
-  //               created_at: "2022-10-07T10:05:44.000000Z",
-  //               updated_at: "2022-10-07T10:05:44.000000Z",
-  //             },
-  //           },
-  //         ],
-  //         user: {
-  //           id: 1,
-  //           username: "bach",
-  //           email: "123@gmail.com",
-  //           email_verified_at: null,
-  //           school: "vnu",
-  //           role: 0,
-  //           avatar: null,
-  //           level_id: 3,
-  //           class_id: null,
-  //           created_at: "2022-10-07T10:05:44.000000Z",
-  //           updated_at: "2022-10-07T10:05:44.000000Z",
-  //         },
-  //       },
-  //     ],
-  //     user: {
-  //       id: 1,
-  //       username: "bach",
-  //       email: "123@gmail.com",
-  //       email_verified_at: null,
-  //       school: "vnu",
-  //       role: 0,
-  //       avatar: null,
-  //       level_id: 3,
-  //       class_id: null,
-  //       created_at: "2022-10-07T10:05:44.000000Z",
-  //       updated_at: "2022-10-07T10:05:44.000000Z",
-  //     },
-  //   },
-  //   {
-  //     id: 3,
-  //     user_id: 1,
-  //     post_id: 1,
-  //     content: "333333333",
-  //     parent_id: 2,
-  //     created_at: "2022-10-07T17:07:20.000000Z",
-  //     updated_at: "2022-10-07T17:07:20.000000Z",
-  //     all_childs: [
-  //       {
-  //         id: 3,
-  //         user_id: 1,
-  //         post_id: 1,
-  //         content:
-  //           "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum ",
-  //         parent_id: 2,
-  //         created_at: "2022-10-07T17:07:20.000000Z",
-  //         updated_at: "2022-10-07T17:07:20.000000Z",
-  //         all_childs: [],
-  //         user: {
-  //           id: 1,
-  //           username: "bach",
-  //           email: "123@gmail.com",
-  //           email_verified_at: null,
-  //           school: "vnu",
-  //           role: 0,
-  //           avatar: null,
-  //           level_id: 3,
-  //           class_id: null,
-  //           created_at: "2022-10-07T10:05:44.000000Z",
-  //           updated_at: "2022-10-07T10:05:44.000000Z",
-  //         },
-  //       },
-  //     ],
-  //     user: {
-  //       id: 1,
-  //       username: "bach",
-  //       email: "123@gmail.com",
-  //       email_verified_at: null,
-  //       school: "vnu",
-  //       role: 0,
-  //       avatar: null,
-  //       level_id: 3,
-  //       class_id: null,
-  //       created_at: "2022-10-07T10:05:44.000000Z",
-  //       updated_at: "2022-10-07T10:05:44.000000Z",
-  //     },
-  //   },
-  //   {
-  //     id: 3,
-  //     user_id: 1,
-  //     post_id: 1,
-  //     content:
-  //       "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum ",
-  //     parent_id: 2,
-  //     created_at: "2022-10-07T17:07:20.000000Z",
-  //     updated_at: "2022-10-07T17:07:20.000000Z",
-  //     all_childs: [],
-  //     user: {
-  //       id: 1,
-  //       username: "bach",
-  //       email: "123@gmail.com",
-  //       email_verified_at: null,
-  //       school: "vnu",
-  //       role: 0,
-  //       avatar: null,
-  //       level_id: 3,
-  //       class_id: null,
-  //       created_at: "2022-10-07T10:05:44.000000Z",
-  //       updated_at: "2022-10-07T10:05:44.000000Z",
-  //     },
-  //   },
-  //   {
-  //     id: 3,
-  //     user_id: 1,
-  //     post_id: 1,
-  //     content:
-  //       "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum ",
-  //     parent_id: 2,
-  //     created_at: "2022-10-07T17:07:20.000000Z",
-  //     updated_at: "2022-10-07T17:07:20.000000Z",
-  //     all_childs: [],
-  //     user: {
-  //       id: 1,
-  //       username: "bach",
-  //       email: "123@gmail.com",
-  //       email_verified_at: null,
-  //       school: "vnu",
-  //       role: 0,
-  //       avatar: null,
-  //       level_id: 3,
-  //       class_id: null,
-  //       created_at: "2022-10-07T10:05:44.000000Z",
-  //       updated_at: "2022-10-07T10:05:44.000000Z",
-  //     },
-  //   },
-  //   {
-  //     id: 3,
-  //     user_id: 1,
-  //     post_id: 1,
-  //     content:
-  //       "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum ",
-  //     parent_id: 2,
-  //     created_at: "2022-10-07T17:07:20.000000Z",
-  //     updated_at: "2022-10-07T17:07:20.000000Z",
-  //     all_childs: [],
-  //     user: {
-  //       id: 1,
-  //       username: "bach",
-  //       email: "123@gmail.com",
-  //       email_verified_at: null,
-  //       school: "vnu",
-  //       role: 0,
-  //       avatar: null,
-  //       level_id: 3,
-  //       class_id: null,
-  //       created_at: "2022-10-07T10:05:44.000000Z",
-  //       updated_at: "2022-10-07T10:05:44.000000Z",
-  //     },
-  //   },
-  //   {
-  //     id: 3,
-  //     user_id: 1,
-  //     post_id: 1,
-  //     content:
-  //       "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum ",
-  //     parent_id: 2,
-  //     created_at: "2022-10-07T17:07:20.000000Z",
-  //     updated_at: "2022-10-07T17:07:20.000000Z",
-  //     all_childs: [],
-  //     user: {
-  //       id: 1,
-  //       username: "bach",
-  //       email: "123@gmail.com",
-  //       email_verified_at: null,
-  //       school: "vnu",
-  //       role: 0,
-  //       avatar: null,
-  //       level_id: 3,
-  //       class_id: null,
-  //       created_at: "2022-10-07T10:05:44.000000Z",
-  //       updated_at: "2022-10-07T10:05:44.000000Z",
-  //     },
-  //   },
-  // ];
+  }, [isChangeData]);
 
-  const now = new Date()
+  const now = new Date();
 
   const getAllComments = async () => {
-    const res = await handleCommentsPostApi(post_id);
+    const res = await handleCommentsPostApi(post.id);
 
     if (res.statusCode === 0) {
-      setData(res.data)
+      setData(res.data);
     } else {
-
     }
-  }
+  };
 
   const handleComment = () => {
     const req = {
       user_id: infoUser.id,
-      post_id: post_id,
+      post_id: post.id,
       content: input.current.value,
-    }
+    };
 
     const comment = async () => {
-      const res = await handleCommentApi(req)
+      const res = await handleCommentApi(req);
 
       if (res.statusCode === 0) {
-        getAllComments()
-        input.current.value = ""
+        getAllComments();
+        input.current.value = "";
       } else {
-
       }
-    }
+    };
 
-    comment()
-  }
+    comment();
+  };
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -404,34 +140,26 @@ const CommentModal = ({ open, onClose, post_id }) => {
         <Box sx={styles.modalHeader}>
           <Avatar sx={styles.image} />
           <Typography variant="body2">
-            <b>{infoUser.username}</b> ・ {now.toLocaleString()}
+            <b>{infoUser.username}</b> ・ {dayjs(post.created_at).fromNow()}
           </Typography>
         </Box>
         <Box sx={styles.commentsContainer}>
-          {data.map(({ id, post_id, content, updated_at, all_childs, user }, i) => (
-            <Comment
-              key={i}
-              id={id}
-              post_id={post_id}
-              content={content}
-              updated_at={updated_at}
-              all_childs={all_childs}
-              user={user}
-              postComment={() => setChangeData(!isChangeData)}
-            />
-          ))}
+          {data.map(
+            ({ id, post_id, content, updated_at, all_childs, user }, i) => (
+              <Comment
+                key={i}
+                id={id}
+                post_id={post_id}
+                content={content}
+                updated_at={updated_at}
+                all_childs={all_childs}
+                user={user}
+                postComment={() => setChangeData(!isChangeData)}
+              />
+            )
+          )}
         </Box>
         <Box sx={styles.modalFooter}>
-          <Box>
-            <IconButton
-              onClick={() => {
-                console.log(input);
-                input.current.focus();
-              }}
-            >
-              <CommentIcon fontSize="medium" />
-            </IconButton>
-          </Box>
           <Divider sx={{ marginBottom: "1px solid gray" }} />
           <FormControl sx={styles.form}>
             <TextField
@@ -439,6 +167,7 @@ const CommentModal = ({ open, onClose, post_id }) => {
               variant="standard"
               label="Add a comment..."
               multiline
+              autoFocus
               inputProps={{ style: { fontSize: "0.9rem" } }}
               sx={{
                 height: "3rem",
@@ -450,7 +179,13 @@ const CommentModal = ({ open, onClose, post_id }) => {
                 },
               }}
             />
-            <Button onClick={handleComment} type="submit" sx={styles.submitButton}>Post</Button>
+            <Button
+              onClick={handleComment}
+              type="submit"
+              sx={styles.submitButton}
+            >
+              Post
+            </Button>
           </FormControl>
         </Box>
       </Box>
@@ -468,10 +203,10 @@ const Comment = ({
   updated_at,
   all_childs,
   user,
-  postComment
+  postComment,
 }) => {
-  const [isReplying, setReplying] = useState(false)
-  const infoUser = useSelector(state => state.user.infoUser)
+  const [isReplying, setReplying] = useState(false);
+  const infoUser = useSelector((state) => state.user.infoUser);
   const input = useRef(null);
 
   const handleComment = () => {
@@ -480,69 +215,79 @@ const Comment = ({
       post_id: post_id,
       content: input.current.value,
       parent_id: id,
-    }
+    };
 
     const comment = async () => {
-      const res = await handleCommentApi(req)
+      const res = await handleCommentApi(req);
 
       console.log(res);
       if (res.statusCode === 0) {
-        input.current.value = ""
-        postComment()
-        setReplying(false)
+        input.current.value = "";
+        postComment();
+        setReplying(false);
       } else {
-
       }
-    }
+    };
 
-    comment()
-  }
+    comment();
+  };
 
   return (
     <Box sx={styles.comment}>
       <Avatar sx={styles.image} />
       <Box sx={styles.commentDetail}>
         <Typography variant="body2">
-          <b>{user.username}</b> &nbsp;{" "}
-          <i sx={{ color: "rgb(142, 142, 142)" }}>
-            {new Date(updated_at).toLocaleString()}
-          </i>
+          <b>{user.username}</b>
         </Typography>
         <Typography variant="body2"> {content}</Typography>
-        <Typography
-          variant="string"
-          sx={{
-            color: "rgba(0, 0, 0, 0.25)",
-            fontSize: "12px",
-            transition: "300ms",
-            cursor: "pointer",
-            "&:hover": {
-              color: "blue"
-            },
-          }}
-          onClick={() => {setReplying(true)}}
-        >
-          Trả lời
-        </Typography>
-        {isReplying && <FormControl style={{ paddingTop: 0, }} sx={styles.comment}>
-          <TextField
-            inputRef={input}
-            variant="standard"
-            label="Reply a comment..."
-            multiline
-            inputProps={{ style: { fontSize: "0.9rem" } }}
+        <Typography>
+          <Typography display="inline" sx={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.6)" }}>
+            {dayjs(updated_at).fromNow()} &nbsp;&#183;&nbsp;
+          </Typography>
+          <Typography
+            display="inline"
+            variant="string"
             sx={{
-              height: "3rem",
-              paddingRight: "70px",
-              overflowY: "scroll",
-              marginTop: "10px",
-              "&::-webkit-scrollbar": {
-                display: "none",
+              color: "rgba(0, 0, 0, 0.6)",
+              fontSize: "12px",
+              transition: "300ms",
+              cursor: "pointer",
+              "&:hover": {
+                color: "blue"
               },
             }}
-          />
-          <Button onClick={handleComment} type="submit" sx={styles.submitButton}>Post</Button>
-        </FormControl>}
+            onClick={() => { setReplying(!isReplying) }}
+          >
+            Trả lời
+          </Typography>
+        </Typography>
+        {isReplying && (
+          <FormControl style={{ paddingTop: 0 }} sx={styles.comment}>
+            <TextField
+              inputRef={input}
+              variant="standard"
+              label="Reply a comment..."
+              multiline
+              inputProps={{ style: { fontSize: "0.9rem" } }}
+              sx={{
+                height: "3rem",
+                paddingRight: "70px",
+                overflowY: "scroll",
+                marginTop: "10px",
+                "&::-webkit-scrollbar": {
+                  display: "none",
+                },
+              }}
+            />
+            <Button
+              onClick={handleComment}
+              type="submit"
+              sx={styles.submitButton}
+            >
+              Post
+            </Button>
+          </FormControl>
+        )}
         {all_childs.map((item, i) => {
           return (
             <Comment
