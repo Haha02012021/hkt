@@ -15,18 +15,18 @@ const Carosel = (props) => {
       }}
     >
       <Carousel
-        autoPlay="false"
+        autoPlay={true}
+        animation="slide"
+        indicators={false}
         sx={{
           width: "100%",
           height: "80%",
         }}
       >
         {props.files.map((image, i) => {
-          console.log(URL.createObjectURL(image));
           return (
             <div key={i} style={{ display: "flex", justifyContent: "center" }}>
               <div
-                // src={URL.createObjectURL(image)}
                 style={{
                   minWidth: "150px",
                   maxWidth: "340px",

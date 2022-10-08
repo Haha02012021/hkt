@@ -27,6 +27,7 @@ import {
 import { toast } from "react-toastify";
 
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import CommentModal from "./CommentModal";
 
@@ -60,6 +61,7 @@ const styles = {
     textAlign: "left",
     fontSize: "30px!important",
     fontWeight: "bold!important",
+    position: "relative",
   },
   tag: {
     cursor: "pointer",
@@ -77,7 +79,7 @@ const styles = {
 
 const QuestionCard = (props) => {
   const userInfo = useSelector((state) => state.user.infoUser);
-
+  const navigate = useNavigate();
   const [commentModalOpen, setCommentModalOpen] = useState(false);
   const openCommentModal = () => setCommentModalOpen(true);
   const closeCommentModal = () => setCommentModalOpen(false);
@@ -138,6 +140,13 @@ const QuestionCard = (props) => {
         subheader={`${dayjs(blob.updated_at).fromNow()}`}
         sx={styles.header}
       ></CardHeader>
+      <Button
+        sx={{ position: "absolute", top: "20px", right: "10px" }}
+        onClick={() => navigate(`/questions/${blob.id}`)}
+      >
+        Xem chi tiết
+      </Button>
+
       <Divider />
       <CardContent sx={styles.content}>
         <Typography
@@ -175,7 +184,9 @@ const QuestionCard = (props) => {
           }}
         >
           <Carousel
-            autoPlay="false"
+            animation="fade"
+            indicators={false}
+            navButtonsAlwaysVisible={blob.images.length > 0 ? true : false}
             sx={{
               width: "100%",
               height: "100%",
