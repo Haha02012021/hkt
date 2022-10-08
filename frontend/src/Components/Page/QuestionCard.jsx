@@ -152,7 +152,7 @@ const QuestionCard = (props) => {
                 >
                   <img
                     src={image.link}
-                    styles={{
+                    style={{
                       height: "200px"
                     }}
                   ></img>

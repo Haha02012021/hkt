@@ -160,16 +160,6 @@ const CommentModal = ({ open, onClose, post_id }) => {
           )}
         </Box>
         <Box sx={styles.modalFooter}>
-          <Box>
-            <IconButton
-              onClick={() => {
-                console.log(input);
-                input.current.focus();
-              }}
-            >
-              <CommentIcon fontSize="medium" />
-            </IconButton>
-          </Box>
           <Divider sx={{ marginBottom: "1px solid gray" }} />
           <FormControl sx={styles.form}>
             <TextField
@@ -177,6 +167,7 @@ const CommentModal = ({ open, onClose, post_id }) => {
               variant="standard"
               label="Add a comment..."
               multiline
+              autoFocus
               inputProps={{ style: { fontSize: "0.9rem" } }}
               sx={{
                 height: "3rem",
@@ -246,28 +237,29 @@ const Comment = ({
       <Avatar sx={styles.image} />
       <Box sx={styles.commentDetail}>
         <Typography variant="body2">
-          <b>{user.username}</b> &nbsp;{" "}
-          <i sx={{ color: "rgb(142, 142, 142)" }}>
-            {new Date(updated_at).toLocaleString()}
-          </i>
+          <b>{user.username}</b>
         </Typography>
         <Typography variant="body2"> {content}</Typography>
-        <Typography
-          variant="string"
-          sx={{
-            color: "rgba(0, 0, 0, 0.25)",
-            fontSize: "12px",
-            transition: "300ms",
-            cursor: "pointer",
-            "&:hover": {
-              color: "blue",
-            },
-          }}
-          onClick={() => {
-            setReplying(true);
-          }}
-        >
-          Trả lời
+        <Typography>
+          <Typography display="inline" sx={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.6)" }}>
+            {new Date(updated_at).toLocaleString()}&nbsp;&#183;&nbsp;
+          </Typography>
+          <Typography
+            display="inline"
+            variant="string"
+            sx={{
+              color: "rgba(0, 0, 0, 0.6)",
+              fontSize: "12px",
+              transition: "300ms",
+              cursor: "pointer",
+              "&:hover": {
+                color: "blue"
+              },
+            }}
+            onClick={() => { setReplying(!isReplying) }}
+          >
+            Trả lời
+          </Typography>
         </Typography>
         {isReplying && (
           <FormControl style={{ paddingTop: 0 }} sx={styles.comment}>
