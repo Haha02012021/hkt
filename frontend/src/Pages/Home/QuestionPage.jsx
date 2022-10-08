@@ -22,7 +22,7 @@ import {
   handleLikePostApi,
   handleCompleteQuestionApi,
 } from "../../Services/app";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Carousel from "react-material-ui-carousel";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -115,6 +115,8 @@ const QuestionPage = () => {
   const closeCommentModal = () => setCommentModalOpen(false);
   const [loadingComplete, setLoadingComplete] = useState(false);
   const [relatedPosts, setRelatedPosts] = useState([]);
+  const navigate = useNavigate();
+
   const setNewBlobHandle = () => {
     setNewBlob(!newBlob);
   };
@@ -336,7 +338,22 @@ const QuestionPage = () => {
         <Grid item xs={2} sm={4} md={4}>
           <Stack spacing={2}>
             <Typography variant="h5">Suggestions</Typography>
-            {relatedPosts.map((post, i) => (<QuestionCard item={post} key={i} P />))}
+            {relatedPosts.map((post, i) => (post.id !== blog.id) && (
+              <Box sx={{
+                backgroundColor: "white",
+                borderRadius: "5px",
+                border: "1px solid rgba(0,0,0,0.1)",
+                padding: "5px",
+              }}><Typography variant="body2" sx={{
+                wordWrap: "break-word",
+                color: "blue",
+                cursor: "pointer",
+                "&:hover": {
+                  textDecoration: "underline",
+                },
+              }} onClick={(e) => { navigate(`/questions/${post.id}`) }}>{post.content}</Typography></Box>
+            ))}
+
           </Stack>
         </Grid>
       </Grid>

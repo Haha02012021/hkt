@@ -212,7 +212,7 @@ class PostController extends Controller
         $tags = $request->tagId;
         $posts = Post::whereHas('hasTags', function($q) use($tags) { 
             $q->whereIn('tags.id', $tags);
-        })->where('type', $request->type)->with('user', 'hasTags')->orderBy('like_count', 'DESC')->limit(10)->paginate(5);
+        })->where('type', $request->type)->with('user', 'hasTags')->limit(10)->paginate(5);
         return response()->json([
             'statusCode' => 0,
             'data' => $posts,
