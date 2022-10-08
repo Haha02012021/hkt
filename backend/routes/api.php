@@ -48,7 +48,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/create', [PostController::class, 'create']);
         Route::delete('/delete/{id}', [PostController::class, 'deletePostById']);
         Route::post('/complete/{id}', [PostController::class, 'setCompleted']);
-        Route::get('/search', [PostController::class, 'searchPosts']);
+        Route::post('/search', [PostController::class, 'searchPosts']);
         Route::get('/related', [PostController::class, 'relatedPost']);
     });
 

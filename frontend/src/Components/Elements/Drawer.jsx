@@ -11,10 +11,8 @@ import DrawerHeader from "./DrawerHeader";
 import { Link, useLocation } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { Button, Box } from "@mui/material";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-
-import HomeIcon from '@mui/icons-material/Home';
+import HomeIcon from "@mui/icons-material/Home";
+import SearchIcon from "@mui/icons-material/Search";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import FeedIcon from "@mui/icons-material/Feed";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
@@ -65,11 +63,11 @@ const Drawer = styled(MuiDrawer, {
 
 const SideBar = (props) => {
   const location = useLocation();
-  const [pathName, setPathName] = useState()
+  const [pathName, setPathName] = useState();
 
   useEffect(() => {
-    setPathName(location.pathname)
-  }, [location.pathname])
+    setPathName(location.pathname);
+  }, [location.pathname]);
 
   const handleIconClick = (e) => {
     if (props.open) {
@@ -77,17 +75,6 @@ const SideBar = (props) => {
     } else {
       props.onOpen();
     }
-  };
-  const listClass = ["class1", "class2"];
-
-  const ListClass = () => {
-    return (
-      <Box style={{ display: "flex", flexDirection: "column" }}>
-        {listClass.map((classOj) => {
-          return <Button sx={{ width: "100%" }}>{classOj + "1"}</Button>;
-        })}
-      </Box>
-    );
   };
 
   return (
@@ -101,14 +88,15 @@ const SideBar = (props) => {
 
       <Divider />
       <List>
-      <ListItem
+        <ListItem
           key={"Home"}
           disablePadding
           sx={{
             display: "block",
           }}
           style={{
-            backgroundColor: pathName === "/" ? "rgba(0, 0, 0, 0.2)" : "transparent",
+            backgroundColor:
+              pathName === "/" ? "rgba(0, 0, 0, 0.2)" : "transparent",
           }}
         >
           <Link to="/" style={{ textDecoration: "none", color: "black" }}>
@@ -128,7 +116,29 @@ const SideBar = (props) => {
             display: "block",
           }}
           style={{
-            backgroundColor: pathName === "/posts" ? "rgba(0, 0, 0, 0.2)" : "transparent",
+            backgroundColor:
+              pathName === "/search" ? "rgba(0, 0, 0, 0.2)" : "transparent",
+          }}
+        >
+          <Link to="/search" style={{ textDecoration: "none", color: "black" }}>
+            <ListItemButton>
+              <ListItemIcon>
+                <SearchIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Tìm kiếm"} />
+            </ListItemButton>
+          </Link>
+        </ListItem>
+
+        <ListItem
+          key={"Posts"}
+          disablePadding
+          sx={{
+            display: "block",
+          }}
+          style={{
+            backgroundColor:
+              pathName === "/posts" ? "rgba(0, 0, 0, 0.2)" : "transparent",
           }}
         >
           <Link to="/posts" style={{ textDecoration: "none", color: "black" }}>
@@ -144,9 +154,14 @@ const SideBar = (props) => {
         <ListItem
           key={"Questions"}
           disablePadding
-          sx={{ display: "block", backgroundColor: pathName === "/questions" ? "rbga(0, 0, 0, 0.2)" : "transparent", }}
+          sx={{
+            display: "block",
+            backgroundColor:
+              pathName === "/questions" ? "rbga(0, 0, 0, 0.2)" : "transparent",
+          }}
           style={{
-            backgroundColor: pathName === "/questions" ? "rgba(0, 0, 0, 0.2)" : "transparent",
+            backgroundColor:
+              pathName === "/questions" ? "rgba(0, 0, 0, 0.2)" : "transparent",
           }}
         >
           <Link
@@ -165,9 +180,18 @@ const SideBar = (props) => {
         <ListItem
           key={"Class"}
           disablePadding
-          sx={{ display: "block", backgroundColor: pathName === "/group-class" ? "rbga(0, 0, 0, 0.02)" : "transparent", }}
+          sx={{
+            display: "block",
+            backgroundColor:
+              pathName === "/group-class"
+                ? "rbga(0, 0, 0, 0.02)"
+                : "transparent",
+          }}
           style={{
-            backgroundColor: pathName === "/group-class" ? "rgba(0, 0, 0, 0.2)" : "transparent",
+            backgroundColor:
+              pathName === "/group-class"
+                ? "rgba(0, 0, 0, 0.2)"
+                : "transparent",
           }}
         >
           <Link

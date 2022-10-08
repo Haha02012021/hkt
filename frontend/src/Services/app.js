@@ -44,6 +44,10 @@ const handleNewNotificationApi = (req) => {
   return axios.post("/api/notification/create", req);
 };
 
+const handleSearchApi = (data) => {
+  return axios.post(`/api/post/search/?page=${data.page}`, data);
+};
+
 export {
   handleGetPostApi,
   handleLikePostApi,
@@ -56,4 +60,5 @@ export {
   handleGetNotifications,
   handleNewNotificationApi,
   handleGetPostByIdApi,
+  handleSearchApi,
 };

@@ -30,4 +30,17 @@ export const TAGS = [
   { id: 8, name: "N3" },
   { id: 9, name: "N4" },
   { id: 10, name: "N5" },
-]
+];
+
+export const SELECTTAGS = [
+  { value: 1, label: "Nghe hiểu" },
+  { value: 2, label: "Đọc hiểu" },
+  { value: 3, label: "Từ vựng" },
+  { value: 4, label: "Ngữ pháp" },
+  { value: 5, label: "Tiếng Nhật chuyên ngành" },
+  { value: 6, label: "N1" },
+  { value: 7, label: "N2" },
+  { value: 8, label: "N3" },
+  { value: 9, label: "N4" },
+  { value: 10, label: "N5" },
+];

@@ -19,7 +19,6 @@ import { useSelector, useDispatch } from "react-redux";
 import Notification from "./Notification";
 import socketClient from "../../Socket/client";
 
-const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard"];
 const Navbar = (props) => {
   const dispatch = useDispatch();
@@ -111,13 +110,7 @@ const Navbar = (props) => {
               sx={{
                 display: { xs: "block", md: "none" },
               }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+            ></Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
@@ -139,15 +132,7 @@ const Navbar = (props) => {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
+            <Box sx={{ display: "block" }}></Box>
           </Box>
 
           {/* Notification */}

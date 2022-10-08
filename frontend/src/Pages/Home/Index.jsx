@@ -17,6 +17,7 @@ import GroupClass from "./GroupClass";
 import Welcom from "./Home";
 import ClassRoom from "./ClassRoom";
 import NotTurnedIn from "./NotTurnedIn";
+import Search from "./Search";
 import socketClient from "../../Socket/client";
 import { useSelector } from "react-redux";
 
@@ -63,6 +64,7 @@ const Home = () => {
           <Route path="/group-class/:id" element={<ClassRoom />} />
           <Route path="/questions/:id" element={<QuestionPage />} />
           <Route path="/not-turned-in" element={<NotTurnedIn />} />
+          <Route path="/search/*" element={<Search />} />
         </Routes>
       </Main>
     </Box>

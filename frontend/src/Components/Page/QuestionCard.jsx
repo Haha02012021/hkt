@@ -215,7 +215,7 @@ const QuestionCard = (props) => {
           <Carousel
             animation="fade"
             indicators={false}
-            navButtonsAlwaysVisible={blob.images.length > 0 ? true : false}
+            navButtonsAlwaysVisible={blob.images.length > 1 ? true : false}
             sx={{
               width: "100%",
               height: "100%",
