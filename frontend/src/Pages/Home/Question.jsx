@@ -124,7 +124,7 @@ const Question = () => {
             }}
             onClick={() => setCreateQuestionModalOpen(true)}
           >
-            What are you having trouble with?
+            <Typography sx={{ color: "rgb(0,0,0,0.6)" }}> What are you having trouble with?</Typography>
           </Box>
         </CardContent>
       </Card>

@@ -19,6 +19,10 @@ import { useSelector, useDispatch } from "react-redux";
 
 import CommentModal from "./CommentModal";
 
+import dayjs from "dayjs"
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
+
 const styles = {
   card: {
     position: "relative",
@@ -111,7 +115,7 @@ const QuestionCard = (props) => {
       <CardHeader
         avatar={<Avatar sx={styles.image} />}
         title={blob.user.username}
-        subheader={`${blob.updated_at}`}
+        subheader={`${dayjs(blob.updated_at).fromNow()}`}
         sx={styles.header}
       ></CardHeader>
       <Divider />
@@ -201,7 +205,7 @@ const QuestionCard = (props) => {
       <CommentModal
         open={commentModalOpen}
         onClose={closeCommentModal}
-        post_id={blob.id}
+        post={blob}
       />
     </Card >
   );

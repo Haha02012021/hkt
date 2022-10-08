@@ -112,7 +112,7 @@ const PostSection = () => {
             }}
             onClick={() => setCreatePostModalOpen(true)}
           >
-            What are you thinking?
+            <Typography sx={{ color: "rgb(0,0,0,0.6)" }}>What are you thinking?</Typography>
           </Box>
         </CardContent>
       </Card>

@@ -20,6 +20,11 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { handleCommentApi, handleCommentsPostApi } from "../../Services/app";
 import { useSelector } from "react-redux";
+
+import dayjs from "dayjs"
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
+
 const styles = {
   modal: {
     position: "absolute",
@@ -90,23 +95,21 @@ const styles = {
   },
 };
 
-const CommentModal = ({ open, onClose, post_id }) => {
+const CommentModal = ({ open, onClose, post }) => {
   const infoUser = useSelector((state) => state.user.infoUser);
   const input = useRef(null);
   const [data, setData] = useState([]);
   const [isChangeData, setChangeData] = useState(false);
 
   useEffect(() => {
-    if (open === true) {
-      getAllComments();
-    }
+    getAllComments();
     console.log(isChangeData);
   }, [isChangeData]);
 
   const now = new Date();
 
   const getAllComments = async () => {
-    const res = await handleCommentsPostApi(post_id);
+    const res = await handleCommentsPostApi(post.id);
 
     if (res.statusCode === 0) {
       setData(res.data);
@@ -117,7 +120,7 @@ const CommentModal = ({ open, onClose, post_id }) => {
   const handleComment = () => {
     const req = {
       user_id: infoUser.id,
-      post_id: post_id,
+      post_id: post.id,
       content: input.current.value,
     };
 
@@ -140,7 +143,7 @@ const CommentModal = ({ open, onClose, post_id }) => {
         <Box sx={styles.modalHeader}>
           <Avatar sx={styles.image} />
           <Typography variant="body2">
-            <b>{infoUser.username}</b> ・ {now.toLocaleString()}
+            <b>{infoUser.username}</b> ・ {dayjs(post.created_at).fromNow()}
           </Typography>
         </Box>
         <Box sx={styles.commentsContainer}>
@@ -242,7 +245,7 @@ const Comment = ({
         <Typography variant="body2"> {content}</Typography>
         <Typography>
           <Typography display="inline" sx={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.6)" }}>
-            {new Date(updated_at).toLocaleString()}&nbsp;&#183;&nbsp;
+            {dayjs(updated_at).fromNow()} &nbsp;&#183;&nbsp;
           </Typography>
           <Typography
             display="inline"

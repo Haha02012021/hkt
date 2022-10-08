@@ -11,8 +11,12 @@ import CardActions from "@mui/material/CardActions";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentIcon from "@mui/icons-material/Comment";
 import { handleLikePostApi } from "../../Services/app";
-
 import CommentModal from "./CommentModal";
+
+import dayjs from "dayjs"
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
+
 
 const styles = {
   card: {
@@ -70,7 +74,7 @@ const PostCard = (props) => {
       <CardHeader
         avatar={<Avatar sx={styles.image} />}
         title={blob.user.username}
-        subheader={`${blob.updated_at}`}
+        subheader={`${dayjs(blob.updated_at).fromNow()}`}
         sx={styles.header}
       ></CardHeader>
       <Divider />
@@ -135,11 +139,11 @@ const PostCard = (props) => {
         <Typography>{blob.commentCount}</Typography>
       </CardActions>
 
-      <CommentModal
+      {commentModalOpen && <CommentModal
         open={commentModalOpen}
         onClose={closeCommentModal}
-        post_id={blob.id}
-      />
+        post={blob}
+      />}
     </Card>
   );
 };
