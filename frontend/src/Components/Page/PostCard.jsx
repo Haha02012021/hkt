@@ -3,13 +3,14 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import Carousel from "react-material-ui-carousel";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Avatar, Divider, IconButton, Typography, Box } from "@mui/material";
 
 import CardActions from "@mui/material/CardActions";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentIcon from "@mui/icons-material/Comment";
+import { handleLikePostApi } from "../../Services/app";
 
 import CommentModal from "./CommentModal";
 
@@ -45,26 +46,42 @@ const PostCard = (props) => {
   const [commentModalOpen, setCommentModalOpen] = useState(false);
   const openCommentModal = () => setCommentModalOpen(true);
   const closeCommentModal = () => setCommentModalOpen(false);
+  const [blob, setBlob] = useState(props.item);
 
-  const postBlob = { ...props.item };
+  useEffect(() => {
+    setBlob(props.item);
+  }, [props.item]);
+
+  useEffect(() => {}, [blob]);
+
+  const likePost = async () => {
+    const res = await handleLikePostApi(blob.id);
+    if (blob.id === 1) console.log(blob);
+    if (res && res.statusCode === 0) {
+      if (blob.isLike === true) setBlob({ ...blob, like: blob.like-- });
+      else {
+        setBlob({ ...blob, like: blob.like++ });
+      }
+      setBlob({ ...blob, isLike: !blob.isLike });
+    }
+  };
+
   return (
     <Card sx={styles.card}>
       <CardHeader
         avatar={<Avatar sx={styles.image} />}
-        title={postBlob.title}
-        subheader={`${postBlob.user.username}・${new Date(
-          postBlob.updated_at
-        ).toUTCString()}`}
+        title={blob.title}
+        subheader={`${blob.user.username}・${blob.updated_at}`}
         sx={styles.header}
       ></CardHeader>
       <Divider />
       <CardContent sx={styles.content}>
         <Typography variant="body2" sx={{ wordWrap: "break-word" }}>
-          {postBlob.content}
+          {blob.content}
         </Typography>
         <Box sx={{ display: "flex", flexDirection: "row" }}>
-          {postBlob && postBlob.has_tags && postBlob.has_tags.length > 0
-            ? postBlob.has_tags.map((tag, i) => {
+          {blob && blob.has_tags && blob.has_tags.length > 0
+            ? blob.has_tags.map((tag, i) => {
                 return (
                   <Box sx={styles.tag} key={i}>
                     {tag}
@@ -87,8 +104,8 @@ const PostCard = (props) => {
               height: "100%",
             }}
           >
-            {postBlob.images.length > 0
-              ? postBlob.images.map((image, i) => (
+            {blob.images.length > 0
+              ? blob.images.map((image, i) => (
                   <div
                     style={{ display: "flex", justifyContent: "center" }}
                     key={i}
@@ -109,20 +126,22 @@ const PostCard = (props) => {
       </CardContent>
       <Divider />
       <CardActions disableSpacing sx={styles.content}>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+        <IconButton aria-label="add to favorites" onClick={() => likePost()}>
+          <FavoriteIcon
+            sx={{ color: `${blob.isLike === true ? "red" : null}` }}
+          />
         </IconButton>
-        <Typography>{postBlob.like}</Typography>
+        <Typography>{blob.like}</Typography>
         <IconButton aria-label="comment" onClick={openCommentModal}>
           <CommentIcon />
         </IconButton>
-        <Typography>{postBlob.commentCount}</Typography>
+        <Typography>{blob.commentCount}</Typography>
       </CardActions>
 
       <CommentModal
         open={commentModalOpen}
         onClose={closeCommentModal}
-        post_id={props.item.id}
+        post_id={blob.id}
       />
     </Card>
   );

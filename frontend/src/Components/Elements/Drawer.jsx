@@ -124,7 +124,10 @@ const SideBar = (props) => {
           sx={{ display: "block" }}
           onClick={() => setOpenClass(!openClass)}
         >
-          <Link to="/class" style={{ textDecoration: "none", color: "black" }}>
+          <Link
+            to="/group-class"
+            style={{ textDecoration: "none", color: "black" }}
+          >
             <ListItemButton>
               <ListItemIcon>
                 <SchoolIcon />

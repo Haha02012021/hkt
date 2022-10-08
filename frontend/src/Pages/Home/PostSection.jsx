@@ -19,7 +19,6 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    border: "1px solid gray",
     padding: "10px",
     position: "relative",
   },
@@ -46,22 +45,26 @@ const PostSection = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [countPage, setCountPage] = useState(10);
   const [listBlogs, setListBlogs] = useState([]);
+  const [newBlob, setNewBlob] = useState(false);
+
+  const setNewBlobHandle = () => {
+    setNewBlob(!newBlob);
+  };
 
   useEffect(() => {
     const getPosts = async () => {
-      const res = await handleGetPostApi(0);
+      const res = await handleGetPostApi(0, currentPage);
       if (res && res.statusCode === 0) {
         setListBlogs(res.data.data);
         const count =
           res.data.total % 10 === 0
             ? parseInt(res.data.total / 10)
             : parseInt(res.data.total / 10) + 1;
-        console.log(count);
         setCountPage(count);
       }
     };
     getPosts();
-  }, [currentPage]);
+  }, [currentPage, newBlob]);
 
   return (
     <Box sx={styles.postContainer}>
@@ -138,6 +141,7 @@ const PostSection = () => {
         open={createPostModalOpen}
         onClose={setCreatePostModalOpen}
         handleClose={() => setCreatePostModalOpen(false)}
+        setNewBlob={setNewBlobHandle}
       />
     </Box>
   );
