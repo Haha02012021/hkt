@@ -8,14 +8,19 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function getUserByEmail(Request $request) {
+    public function getOtherUsers(Request $request) {
         try {
-            $user = User::where('email', $request->email)->get();
+            $user = $request->user();
+            $users = User::where('id', '!=', $user->id)->where('role', 0)->get(['email', 'username']);
+            $data = [];
+            foreach($users as $item) {
+                array_push($data, ['value' => $item->email, 'label' => 'username']);
+            }
 
             if ($user) {
                 return response()->json([
                     'statusCode' => 0,
-                    'data' => $user,
+                    'data' => $data,
                 ]);
             } else {
                 return response()->json([

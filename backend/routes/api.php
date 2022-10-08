@@ -61,7 +61,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     
     Route::group(['prefix' => 'user'], function () {
-        Route::get('/get-by-email', [UserController::class, 'getUserByEmail']);
+        Route::get('/get-other-users', [UserController::class, 'getOtherUsers']);
     });
 
     Route::get('tag/get-all', [TagController::class, 'getAllTags']);
