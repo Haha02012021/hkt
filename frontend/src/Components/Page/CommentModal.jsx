@@ -303,10 +303,13 @@ const Comment = ({
           return (
             <Comment
               key={i}
+              id={item.id}
               content={item.content}
               updated_at={item.updated_at}
               all_childs={item.all_childs}
               user={item.user}
+              post_id={post_id}
+              postComment={postComment}
             />
           );
         })}

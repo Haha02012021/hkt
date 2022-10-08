@@ -74,7 +74,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::group(['prefix' => 'notification'], function () {
-        Route::get('/get-by-user-id/{id}', [NotificationController::class, 'getNotificationsByUserId']);
+        Route::get('/get-by-user-id', [NotificationController::class, 'getNotificationsByUserId']);
         Route::post('/create', [NotificationController::class, 'create']);
     });
 
