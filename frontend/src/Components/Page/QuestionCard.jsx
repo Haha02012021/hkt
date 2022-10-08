@@ -89,7 +89,7 @@ const QuestionCard = (props) => {
     setBlob(props.item);
   }, [props.item]);
 
-  useEffect(() => {}, [blob]);
+  useEffect(() => { }, [blob]);
 
   const likePost = async () => {
     const res = await handleLikePostApi(blob.id);
@@ -168,12 +168,12 @@ const QuestionCard = (props) => {
         >
           {blob && blob.has_tags && blob.has_tags.length > 0
             ? blob.has_tags.map((tag, i) => {
-                return (
-                  <Box sx={styles.tag} key={i}>
-                    {`${tag.name}`}
-                  </Box>
-                );
-              })
+              return (
+                <Box sx={styles.tag} key={i}>
+                  {`${tag.name}`}
+                </Box>
+              );
+            })
             : null}
         </Box>
         <Box
@@ -194,18 +194,18 @@ const QuestionCard = (props) => {
           >
             {blob.images.length > 0
               ? blob.images.map((image, i) => (
-                  <div
-                    style={{ display: "flex", justifyContent: "center" }}
-                    key={i}
-                  >
-                    <img
-                      src={image.link}
-                      style={{
-                        height: "200px",
-                      }}
-                    ></img>
-                  </div>
-                ))
+                <div
+                  style={{ display: "flex", justifyContent: "center" }}
+                  key={i}
+                >
+                  <img
+                    src={image.link}
+                    style={{
+                      height: "200px",
+                    }}
+                  ></img>
+                </div>
+              ))
               : null}
           </Carousel>
         </Box>
@@ -222,7 +222,7 @@ const QuestionCard = (props) => {
           <CommentIcon />
         </IconButton>
         <Typography>{blob.commentCount}</Typography>
-        {blob.completed ? (
+        {/* {blob.completed ? (
           <IconButton aria-label="completed">
             <CheckIcon />
           </IconButton>
@@ -232,7 +232,7 @@ const QuestionCard = (props) => {
               <SentimentVeryDissatisfiedIcon />
             </IconButton>
           </>
-        )}
+        )} */}
         {userInfo.id === blob.user_id && (
           <Button
             onClick={toggleCompleteQuestion}
