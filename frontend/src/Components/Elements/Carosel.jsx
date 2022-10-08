@@ -20,23 +20,16 @@ const Carosel = (props) => {
         indicators={false}
         sx={{
           width: "100%",
-          height: "80%",
+          height: "95%",
         }}
       >
         {props.files.map((image, i) => {
           return (
-            <div key={i} style={{ display: "flex", justifyContent: "center" }}>
-              <div
-                style={{
-                  minWidth: "150px",
-                  maxWidth: "340px",
-                  height: "340px",
-                  border: "1px solid black",
-                  backgroundImage: `url(${URL.createObjectURL(image)})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              ></div>
+            <div key={i} style={{ display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "cyan" }}>
+              <img
+                style={{ aspectRatio: "1/1", objectFit: "contain" }}
+                src={URL.createObjectURL(image)}
+              ></img>
             </div>
           );
         })}
