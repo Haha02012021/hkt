@@ -14,21 +14,24 @@ export default function Welcom() {
                 <Typography variant="h2" sx={{ fontWeight: "800", }}>U APP</Typography>
                 <Typography variant="subtitle1">Trang web dành cho giảng viên và sinh viên tiếng Nhật!</Typography>
                 <Typography variant="subtitle1">Chúc mừng bạn đã trở thành một thành viên của chúng tôi!</Typography>
-                <div
-                    style={{
-                    display: "flex",
-                    cursor: "pointer",
-                    justifyContent: "center",
-                    fontSize: "16px",
-                    alignItems: "center",
-                    color: "blue",
+                <Box
+                    sx={{
+                        display: "flex",
+                        cursor: "pointer",
+                        justifyContent: "center",
+                        fontSize: "16px",
+                        alignItems: "center",
+                        color: "blue",
+                        "&:hover": {
+                            opacity: "0.8",
+                        },
                     }}
 
                     onClick={() => navigate("/group-class")}
                 >
                     <Typography variant="subtitle1">Vào nhóm học của mình nào</Typography>
                     <ArrowForwardIosIcon fontSize="16px" />
-                </div>
+                </Box>
                 </Box>
             </Grid>
             <Grid item xs={5}>

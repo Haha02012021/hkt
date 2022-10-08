@@ -32,6 +32,10 @@ const handleNewClassApi = (data) => {
   return axios.post(`/api/class/create`, data);
 };
 
+const handleGetNotifications = () => {
+  return axios.get('/api/notification/get-by-user-id')
+}
+
 export {
   handleGetPostApi,
   handleLikePostApi,
@@ -41,4 +45,5 @@ export {
   handleGetOtherUsersApi,
   handleGetAllClassApi,
   handleNewClassApi,
+  handleGetNotifications,
 };

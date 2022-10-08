@@ -128,7 +128,7 @@ const QuestionCard = (props) => {
             ? blob.has_tags.map((tag, i) => {
               return (
                 <Box sx={styles.tag} key={i}>
-                  {tag}
+                  {tag.name}
                 </Box>
               );
             })
