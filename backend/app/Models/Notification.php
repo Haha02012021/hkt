@@ -18,4 +18,8 @@ class Notification extends Model
     public function sender() {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function receiver() {
+        return $this->belongsToMany(User::class, 'notifications_users', 'notification_id', 'user_id')->withTimestamps();
+    }
 }

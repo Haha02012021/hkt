@@ -133,7 +133,7 @@ const PostSection = () => {
         />
       )}
 
-      {listBlogs && listBlogs.length ? (
+      {listBlogs && listBlogs.length > 1 ? (
         <Pagination
           count={countPage}
           page={currentPage}
