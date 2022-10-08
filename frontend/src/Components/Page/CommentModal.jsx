@@ -103,7 +103,7 @@ const CommentModal = ({ open, onClose, post }) => {
 
   useEffect(() => {
     getAllComments();
-  }, [isChangeData]);
+  }, [isChangeData, open]);
 
   const getAllComments = async () => {
     try {
@@ -136,7 +136,7 @@ const CommentModal = ({ open, onClose, post }) => {
 
       }
     } catch (error) {
-      
+
     }
   }
 
@@ -260,7 +260,7 @@ const Comment = ({
         postComment();
         setReplying(false);
         newNotification("đã bình luận bài viết của bạn.", location.pathname + `/${id}` + (location.search ? location.search : "") + `#comment_${id}`)
-        newNotification("đã trả lời bình luận của bạn.", location.pathname + `/${id}` + (location.search ? location.search : "") + `#comment_${id}` )
+        newNotification("đã trả lời bình luận của bạn.", location.pathname + `/${id}` + (location.search ? location.search : "") + `#comment_${id}`)
       } else {
       }
     };
@@ -284,7 +284,7 @@ const Comment = ({
 
       }
     } catch (error) {
-      
+
     }
   }
 
