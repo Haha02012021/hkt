@@ -61,6 +61,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::group(['prefix' => 'homework'], function () {
         Route::post('/asign', [HomeworkController::class, 'asign']);
         Route::post('/submit', [HomeworkController::class, 'submitHandle']);
+        Route::post('/check', [HomeworkController::class, 'check']);
+        Route::get('/notCheck/{classId}', [HomeworkController::class, 'getAllNotCheck']);
+        Route::get('/answers/{homeworkId}', [HomeworkController::class, 'getAllAnswers']);
+        Route::get('/answers/{homeworkId}', [HomeworkController::class, 'getDetail']);
+        Route::get('/homework-list/{classId}', [HomeworkController::class, 'getDetail']);
+        Route::post('/check', [HomeworkController::class, 'check']);
     });
     
     Route::group(['prefix' => 'user'], function () {

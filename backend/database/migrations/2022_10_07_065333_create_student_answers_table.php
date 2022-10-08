@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('student_id');
             $table->bigInteger('homework_id');
+            $table->bigInteger('class_id');
             $table->string('answer_file')->nullable();
             $table->mediumText('comment')->nullable();
             $table->integer('status')->default(-1)->comment('-1: not done, 1: not checked, 0: checked');
