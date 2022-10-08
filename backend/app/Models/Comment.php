@@ -26,7 +26,8 @@ class Comment extends Pivot
         'user_id',
         'post_id',
         'content',
-        'parent_id'
+        'parent_id',
+        'like_count',
     ];
 
     public function childs()
@@ -46,6 +47,10 @@ class Comment extends Pivot
     public function allChilds()
     {
         return $this->childs()->with('allChilds', 'user');
+    }
+
+    public function users() {
+        return $this->belongsToMany(User::class, 'agree', 'comment_id', 'user_id')->withTimestamps();
     }
 
 }

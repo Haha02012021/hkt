@@ -12,14 +12,13 @@ class PostController extends Controller
 {
     public function getAllPosts(Request $request) {
         try {
-            $posts = Post::with('user', 'hasTags', 'images')->where('type', $request->type)->paginate(10);
+            $posts = Post::with('user', 'hasTags', 'images')->where('type', $request->type)->orderBy('id', 'DESC')->paginate(10);
             $user = $request->user();
 
             foreach($posts as $post) {
                 $post->like = $post->likes()->count();
                 $post->commentCount = $post->comments()->count();
                 $post->isLike = $post->likes()->where('user_id', $user->id)->exists();
-
             }
 
             return response()->json([
@@ -69,7 +68,7 @@ class PostController extends Controller
     public function getPostsByTag(Request $request)
     {
         try {
-            $posts = Tag::find($request->tag_id)->posts()->where('type', $request->type)->get();
+            $posts = Tag::find($request->tag_id)->posts()->where('type', $request->type)->orderBy('like_count', 'DESC')->get();
             $user = $request->user();
 
             foreach ($posts as $post) {
@@ -179,21 +178,45 @@ class PostController extends Controller
 
     public function searchPosts(Request $request) {
         try {
-            $posts = [];
-            if($request->tag_id) {
-                $posts = Tag::find($request->tagId)->posts()->where('description', 'like', '%'.$request->searchValue.'%')->orderBy('like_count', 'DESC')->get();
+            $posts = []; 
+            $user = $request->user();
+            if($request->tagId) {
+                $tags = $request->tagId;
+                $posts = Post::whereHas('hasTags', function($q) use($tags) { 
+                    $q->whereIn('tags.id', $tags);
+                })->where('type', $request->type)->with('user', 'hasTags', 'images')->orderBy('like_count', 'DESC')->paginate(10);
             } else {
-                $posts = Post::where('description', 'like', '%'.$request->searchValue.'%')->orderBy('like_count', 'DESC')->get();
+                $posts = Post::where('content', 'like', '%'.$request->searchValue.'%')->where('type', $request->type)
+                ->with('user', 'hasTags', 'images')
+                ->orderBy('like_count', 'DESC')->paginate(10);
+            }
+            foreach($posts as $post) {
+                $posts->like = $post->likes()->count();
+                $posts->commentCount = $post->comments()->count();
+                $posts->isLike = $post->likes()->where('user_id', $user->id)->exists();
             }
             return response()->json([
+                'statusCode' => 0,
                 'data' => $posts,
                 'message' => 'success'
             ]);
         } catch (Exception $err) {
             return response()->json([
-                'success' => false,
+                'statusCode' => -1,
                 'message' => $err->getMessage()
             ]);
         }
+    }
+
+    public function relatedPost(Request $request) {
+        $tags = $request->tagId;
+        $posts = Post::whereHas('hasTags', function($q) use($tags) { 
+            $q->whereIn('tags.id', $tags);
+        })->where('type', $request->type)->with('user', 'hasTags')->limit(10)->paginate(5);
+        return response()->json([
+            'statusCode' => 0,
+            'data' => $posts,
+            'messsage' => 'sucess',
+        ]);
     }
 }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->bigInteger('post_id');
             $table->longText('content');
             $table->bigInteger('parent_id')->nullable();
+            $table->integer('like_count')->default(0);
             $table->timestamps();
         });
     }

@@ -27,6 +27,7 @@ import {
 import { toast } from "react-toastify";
 
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import CommentModal from "./CommentModal";
 
@@ -60,6 +61,7 @@ const styles = {
     textAlign: "left",
     fontSize: "30px!important",
     fontWeight: "bold!important",
+    position: "relative",
   },
   tag: {
     cursor: "pointer",
@@ -77,7 +79,7 @@ const styles = {
 
 const QuestionCard = (props) => {
   const userInfo = useSelector((state) => state.user.infoUser);
-
+  const navigate = useNavigate();
   const [commentModalOpen, setCommentModalOpen] = useState(false);
   const openCommentModal = () => setCommentModalOpen(true);
   const closeCommentModal = () => setCommentModalOpen(false);
@@ -90,7 +92,8 @@ const QuestionCard = (props) => {
   useEffect(() => {}, [blob]);
 
   const likePost = async () => {
-    const res = await handleLikePostApi(blob.id);
+    const value = blob.isLike ? -1 : 1;
+    const res = await handleLikePostApi(blob.id, value);
 
     if (res && res.statusCode === 0) {
       if (blob.isLike === true) setBlob({ ...blob, like: blob.like-- });
@@ -138,6 +141,13 @@ const QuestionCard = (props) => {
         subheader={`${dayjs(blob.updated_at).fromNow()}`}
         sx={styles.header}
       ></CardHeader>
+      <Button
+        sx={{ position: "absolute", top: "20px", right: "10px" }}
+        onClick={() => navigate(`/questions/${blob.id}`)}
+      >
+        Xem chi tiết
+      </Button>
+
       <Divider />
       <CardContent sx={styles.content}>
         <Typography
@@ -175,7 +185,9 @@ const QuestionCard = (props) => {
           }}
         >
           <Carousel
-            autoPlay="false"
+            animation="fade"
+            indicators={false}
+            navButtonsAlwaysVisible={blob.images.length > 0 ? true : false}
             sx={{
               width: "100%",
               height: "100%",
@@ -211,7 +223,7 @@ const QuestionCard = (props) => {
           <CommentIcon />
         </IconButton>
         <Typography>{blob.commentCount}</Typography>
-        {blob.completed ? (
+        {/* {blob.completed ? (
           <IconButton aria-label="completed">
             <CheckIcon />
           </IconButton>
@@ -221,7 +233,7 @@ const QuestionCard = (props) => {
               <SentimentVeryDissatisfiedIcon />
             </IconButton>
           </>
-        )}
+        )} */}
         {userInfo.id === blob.user_id && (
           <Button
             onClick={toggleCompleteQuestion}

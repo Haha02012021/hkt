@@ -104,7 +104,7 @@ const CommentModal = ({ open, onClose, post }) => {
 
   useEffect(() => {
     getAllComments();
-  }, [isChangeData]);
+  }, [isChangeData, open]);
 
   const getAllComments = async () => {
     try {
@@ -139,7 +139,7 @@ const CommentModal = ({ open, onClose, post }) => {
 
       }
     } catch (error) {
-      
+
     }
   }
 
@@ -292,7 +292,7 @@ const Comment = ({
 
       }
     } catch (error) {
-      
+
     }
   }
 

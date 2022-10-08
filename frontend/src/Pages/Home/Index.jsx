@@ -6,6 +6,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 
 import Section1 from "./Section1";
 import Question from "./Question";
+import QuestionPage from "./QuestionPage";
 
 import PostSection from "./PostSection";
 
@@ -52,7 +53,7 @@ const Home = () => {
       />
       <Main open={open} sx={{ maxWidth: "1200px", minHeight: "100vh" }}>
         <DrawerHeader></DrawerHeader>
-        
+
         <Routes>
           <Route path="/" element={<Welcom />} />
           <Route path="/section1" element={<Section1 />} />
@@ -60,6 +61,7 @@ const Home = () => {
           <Route path="/questions" element={<Question />} />
           <Route path="/group-class" element={<GroupClass />} />
           <Route path="/group-class/:id" element={<ClassRoom />} />
+          <Route path="/questions/:id" element={<QuestionPage />} />
           <Route path="/not-turned-in" element={<NotTurnedIn />} />
         </Routes>
       </Main>
