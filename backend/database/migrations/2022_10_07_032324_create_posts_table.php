@@ -20,6 +20,7 @@ return new class extends Migration
             $table->bigInteger('class_id')->nullable();
             $table->bigInteger('user_id');
             $table->tinyInteger('completed')->nullable()->comment('0:chua xong, 1:da xong');
+            $table->integer('like_count')->default(0);
             $table->timestamps();
         });
     }

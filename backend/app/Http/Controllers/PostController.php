@@ -176,4 +176,24 @@ class PostController extends Controller
             'messsage' => 'completed'
         ]);
     }
+
+    public function searchPosts(Request $request) {
+        try {
+            $posts = [];
+            if($request->tag_id) {
+                $posts = Tag::find($request->tagId)->posts()->where('description', 'like', '%'.$request->searchValue.'%')->orderBy('like_count', 'DESC')->get();
+            } else {
+                $posts = Post::where('description', 'like', '%'.$request->searchValue.'%')->orderBy('like_count', 'DESC')->get();
+            }
+            return response()->json([
+                'data' => $posts,
+                'message' => 'success'
+            ]);
+        } catch (Exception $err) {
+            return response()->json([
+                'success' => false,
+                'message' => $err->getMessage()
+            ]);
+        }
+    }
 }

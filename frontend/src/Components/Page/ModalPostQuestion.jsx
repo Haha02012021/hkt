@@ -71,9 +71,9 @@ const ModalPostQuestion = (props) => {
       data.append("type", 1);
       data.append("class_id", 0);
       data.append("completed", 0);
-      selectedTags.forEach(tagId => {
-        data.append("tag_ids[]", tagId)
-      })
+      selectedTags.forEach((tagId) => {
+        data.append("tag_ids[]", tagId);
+      });
 
       const config = {
         headers: {
@@ -150,6 +150,9 @@ const ModalPostQuestion = (props) => {
             sx={{
               fontWeight: "bold",
               "&:hover": { cursor: "pointer", color: "blue" },
+              position: "absolute",
+              top: "10px",
+              right: "20px",
             }}
             onClick={() => props.onClose(false)}
           >
@@ -165,37 +168,27 @@ const ModalPostQuestion = (props) => {
           Create Question
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <Box>
-            <Box
-              style={{
-                paddingBottom: "5px",
-                fontSize: "15px",
-                fontWeight: "400",
-              }}
-            >
-              Choose what you want to ask so others can easily reach you.
-            </Box>
-            {TAGS.map((tag) => {
-              return (
-                <Chip
-                  key={tag.id}
-                  label={tag.name}
-                  color="primary"
-                  variant={selectedTags.includes(tag.id) ? "" : "outlined"}
-                  clickable
-                  sx={{ marginRight: "5px", marginBottom: "5px" }}
-                  onClick={() => {
-                    if (selectedTags.includes(tag.id)) {
-                      setSelectedTags(() => selectedTags.filter((id) => id != tag.id));
-                    } else {
-                      setSelectedTags(() => [...selectedTags, tag.id]);
-                    }
-                  }}
-                />
-              );
-            })}
-          </Box>
-
+          {TAGS.map((tag) => {
+            return (
+              <Chip
+                key={tag.id}
+                label={tag.name}
+                color="primary"
+                variant={selectedTags.includes(tag.id) ? "" : "outlined"}
+                clickable
+                sx={{ marginRight: "5px", marginBottom: "5px" }}
+                onClick={() => {
+                  if (selectedTags.includes(tag.id)) {
+                    setSelectedTags(() =>
+                      selectedTags.filter((id) => id != tag.id)
+                    );
+                  } else {
+                    setSelectedTags(() => [...selectedTags, tag.id]);
+                  }
+                }}
+              />
+            );
+          })}
           <Typography variant="body1">Content: </Typography>
           <textarea
             required
@@ -211,18 +204,19 @@ const ModalPostQuestion = (props) => {
               width: "100%",
               padding: "10px",
             }}
-            rows={lineTextArea}
+            rows={lineTextArea > 2 ? lineTextArea : 2}
             onChange={(e) => {
               setLineTextArea(e.target.value.length / 97);
             }}
           />
+
           <Box>
             <label for="images[]">
               <Box
                 sx={{
                   border: "1px solid #ccc",
                   borderRadius: "15px",
-                  height: "25vh",
+                  height: "350px",
                   width: "100%",
                   backgroundColor: "#f7f8fa",
                   display: "flex",
@@ -268,6 +262,17 @@ const ModalPostQuestion = (props) => {
               "Create Post"
             )}
           </Button>
+        </Box>
+        <Box>
+          <Box
+            style={{
+              paddingBottom: "5px",
+              fontSize: "15px",
+              fontWeight: "400",
+            }}
+          >
+            Choose what you want to ask so others can easily reach you.
+          </Box>
         </Box>
       </Box>
     </Modal>

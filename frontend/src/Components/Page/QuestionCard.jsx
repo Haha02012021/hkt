@@ -5,23 +5,34 @@ import Carousel from "react-material-ui-carousel";
 
 import { useState, useEffect } from "react";
 
-import { Avatar, Divider, IconButton, Typography, Box, Button, CircularProgress } from "@mui/material";
+import {
+  Avatar,
+  Divider,
+  IconButton,
+  Typography,
+  Box,
+  Button,
+  CircularProgress,
+} from "@mui/material";
 
 import CardActions from "@mui/material/CardActions";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import CheckIcon from '@mui/icons-material/Check';
-import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import CheckIcon from "@mui/icons-material/Check";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import CommentIcon from "@mui/icons-material/Comment";
-import { handleLikePostApi, handleCompleteQuestionApi } from "../../Services/app";
+import {
+  handleLikePostApi,
+  handleCompleteQuestionApi,
+} from "../../Services/app";
 import { toast } from "react-toastify";
 
 import { useSelector, useDispatch } from "react-redux";
 
 import CommentModal from "./CommentModal";
 
-import dayjs from "dayjs"
-import relativeTime from 'dayjs/plugin/relativeTime'
-dayjs.extend(relativeTime)
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 
 const styles = {
   card: {
@@ -29,7 +40,6 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     marginBottom: "20px",
-    // width: "960px",
     padding: "5px",
   },
   image: {
@@ -39,6 +49,7 @@ const styles = {
   content: {
     padding: "20px 7px",
     textAlign: "left",
+    "&:hover": { cursor: "pointer" },
   },
   actions: {
     padding: "10px",
@@ -52,7 +63,15 @@ const styles = {
   },
   tag: {
     cursor: "pointer",
-    color: "blue",
+    color: "gray",
+    wordWrap: "none",
+    backgroundColor: "#e1ecf4",
+    borderRadius: "4px",
+    padding: "4px",
+    height: "32px",
+    "&:hover": {
+      backgroundColor: "#bfdff7",
+    },
   },
 };
 
@@ -68,7 +87,7 @@ const QuestionCard = (props) => {
     setBlob(props.item);
   }, [props.item]);
 
-  useEffect(() => { }, [blob]);
+  useEffect(() => {}, [blob]);
 
   const likePost = async () => {
     const res = await handleLikePostApi(blob.id);
@@ -89,29 +108,30 @@ const QuestionCard = (props) => {
       setLoadingComplete(true);
       const res = await handleCompleteQuestionApi(blob.id);
       if (res && res.statusCode === 0) {
-        setBlob({ ...blob, completed: res.data.completed })
-        toast.success("Success!")
+        setBlob({ ...blob, completed: res.data.completed });
+        toast.success("Success!");
       } else {
-        throw new Error("Res not found")
+        throw new Error("Res not found");
       }
     } catch (error) {
       console.log("TOGGLE COMPLETE QUESTION CARD", error);
-      toast.error(error.message)
+      toast.error(error.message);
     } finally {
       setLoadingComplete(false);
     }
-  }
+  };
 
   return (
-    <Card sx={{
-      position: "relative",
-      display: "flex",
-      flexDirection: "column",
-      marginBottom: "20px",
-      // width: "960px",
-      padding: "5px",
-      borderBottom: `5px solid ${blob.completed ? "green" : "red"}`
-    }}>
+    <Card
+      sx={{
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        marginBottom: "20px",
+        padding: "5px",
+        borderBottom: `5px solid ${blob.completed ? "green" : "red"}`,
+      }}
+    >
       <CardHeader
         avatar={<Avatar sx={styles.image} />}
         title={blob.user.username}
@@ -120,18 +140,31 @@ const QuestionCard = (props) => {
       ></CardHeader>
       <Divider />
       <CardContent sx={styles.content}>
-        <Typography variant="body2" sx={{ wordWrap: "break-word" }}>
-          {blob.content}
+        <Typography
+          variant="body2"
+          sx={{ wordWrap: "break-word", height: "60px" }}
+        >
+          {blob.content.length > 100
+            ? blob.content.substring(0, 100) + "..."
+            : blob.content}
         </Typography>
-        <Box sx={{ display: "flex", flexDirection: "row" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            height: "60px",
+            gap: "5px",
+          }}
+        >
           {blob && blob.has_tags && blob.has_tags.length > 0
             ? blob.has_tags.map((tag, i) => {
-              return (
-                <Box sx={styles.tag} key={i}>
-                  {`#${tag.name}`}
-                </Box>
-              );
-            })
+                return (
+                  <Box sx={styles.tag} key={i}>
+                    {`${tag.name}`}
+                  </Box>
+                );
+              })
             : null}
         </Box>
         <Box
@@ -150,18 +183,18 @@ const QuestionCard = (props) => {
           >
             {blob.images.length > 0
               ? blob.images.map((image, i) => (
-                <div
-                  style={{ display: "flex", justifyContent: "center" }}
-                  key={i}
-                >
-                  <img
-                    src={image.link}
-                    style={{
-                      height: "200px"
-                    }}
-                  ></img>
-                </div>
-              ))
+                  <div
+                    style={{ display: "flex", justifyContent: "center" }}
+                    key={i}
+                  >
+                    <img
+                      src={image.link}
+                      style={{
+                        height: "200px",
+                      }}
+                    ></img>
+                  </div>
+                ))
               : null}
           </Carousel>
         </Box>
@@ -178,28 +211,40 @@ const QuestionCard = (props) => {
           <CommentIcon />
         </IconButton>
         <Typography>{blob.commentCount}</Typography>
-        {blob.completed ?
+        {blob.completed ? (
           <IconButton aria-label="completed">
             <CheckIcon />
           </IconButton>
-          :
+        ) : (
           <>
             <IconButton aria-label="uncompleted">
               <SentimentVeryDissatisfiedIcon />
             </IconButton>
-          </>}
-        {userInfo.id === blob.user_id &&
-          <Button onClick={toggleCompleteQuestion} color={blob.completed ? "error" : "success"} sx={{ marginLeft: "auto", fontWeight: 600 }}>
-            {loadingComplete ? <CircularProgress
-              thickness={5}
-              size={25}
-              sx={{
-                color: blob.completed ? "red" : "green",
-                height: "20px",
-                width: "20px",
-              }}
-            /> : (!blob.completed ? "Complete" : "Undo")}
-          </Button>}
+          </>
+        )}
+        {userInfo.id === blob.user_id && (
+          <Button
+            onClick={toggleCompleteQuestion}
+            color={blob.completed ? "error" : "success"}
+            sx={{ marginLeft: "auto", fontWeight: 600 }}
+          >
+            {loadingComplete ? (
+              <CircularProgress
+                thickness={5}
+                size={25}
+                sx={{
+                  color: blob.completed ? "red" : "green",
+                  height: "20px",
+                  width: "20px",
+                }}
+              />
+            ) : !blob.completed ? (
+              "Complete"
+            ) : (
+              "Undo"
+            )}
+          </Button>
+        )}
       </CardActions>
 
       <CommentModal
@@ -207,7 +252,7 @@ const QuestionCard = (props) => {
         onClose={closeCommentModal}
         post={blob}
       />
-    </Card >
+    </Card>
   );
 };
 

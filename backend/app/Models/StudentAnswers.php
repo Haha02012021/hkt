@@ -13,7 +13,12 @@ class StudentAnswers extends Pivot
         'student_id',
         'homework_id',
         'answer_file',
+        'class_id',
         'status',
         'comment',
     ];
+
+    public function GroupClass() {
+        return $this->belongsTo(GroupClass::class, 'class_id', 'id');
+    }
 }

@@ -43,6 +43,7 @@ const styles = {
   tag: {
     cursor: "pointer",
     color: "blue",
+    wordWrap: "noWrap",
   },
 };
 

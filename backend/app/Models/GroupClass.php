@@ -24,5 +24,9 @@ class GroupClass extends Model
     public function students() {
         return $this->belongsToMany(User::class, 'class_student', 'class_id', 'student_id')->withTimestamps();
     }
+
+    public function answers() {
+        return $this->hasMany(StudentAnswers::class, 'class_id', 'id');
+    }
     
 }
