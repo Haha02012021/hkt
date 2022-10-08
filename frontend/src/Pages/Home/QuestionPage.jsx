@@ -204,12 +204,12 @@ const QuestionPage = () => {
                   >
                     {blog && blog.has_tags && blog.has_tags.length > 0
                       ? blog.has_tags.map((tag, i) => {
-                          return (
-                            <Box sx={styles.tag} key={i}>
-                              {`${tag.name}`}
-                            </Box>
-                          );
-                        })
+                        return (
+                          <Box sx={styles.tag} key={i}>
+                            {`${tag.name}`}
+                          </Box>
+                        );
+                      })
                       : null}
                   </Box>
                   <Box
@@ -231,21 +231,21 @@ const QuestionPage = () => {
                     >
                       {blog && blog.images && blog.images.length > 0
                         ? blog.images.map((image, i) => (
-                            <div
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                            }}
+                            key={i}
+                          >
+                            <img
+                              src={image.link}
                               style={{
-                                display: "flex",
-                                justifyContent: "center",
+                                height: "400px",
                               }}
-                              key={i}
-                            >
-                              <img
-                                src={image.link}
-                                style={{
-                                  height: "400px",
-                                }}
-                              ></img>
-                            </div>
-                          ))
+                            ></img>
+                          </div>
+                        ))
                         : null}
                     </Carousel>
                   </Box>
