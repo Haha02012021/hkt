@@ -41,7 +41,7 @@ class HomeworkController extends Controller
 
             $students = GroupClass::find($request->class_id)->students;
 
-            $homework->students()->attach($students->pluck('id'));
+            $homework->students()->attach($students->pluck('id'), ['class_id' => $request->class_id]);
 
             return response()->json([
                 'statusCode' => 0,
@@ -69,7 +69,7 @@ class HomeworkController extends Controller
         }
         $homework = StudentAnswers::where('homework_id', $request->homework_id)->where('student_id', $user->id)->first();
         if(!$homework) {
-            $user->doHomework()->attach($request->homework_id, ['answer_file' => $path, 'status' => 1]);
+            $user->doHomework()->attach($request->homework_id, ['answer_file' => $path, 'status' => 1, 'class_id' => $request->class_id]);
             return response()->json([
                 'statusCode' => 0,
                 'data' => $path,
@@ -87,6 +87,7 @@ class HomeworkController extends Controller
                 }
                 $homework->answer_file = $path;
             }
+            $homework->class_id = $request->class_id;
             $homework->save();
             return response()->json([
                 'statusCode' => 0,
@@ -105,6 +106,64 @@ class HomeworkController extends Controller
             'statusCode' => 0,
             'data' => $answer,
             'message' => 'teacher checked'
+        ]);
+    }
+
+    public function getHomeworkList($classId) {
+        $list = Homework::where('class_id', $classId)->get();
+        return response()->json([
+            'statusCode' => 0,
+            'data' => $list,
+            'message' => 'success'
+        ]);
+    }
+
+    public function getAllAnswers($homeworkId) {
+        $answers = Homework::find($homeworkId)->students;
+        $notDone=[];
+        $notChecked=[];
+        $checked=[];
+        foreach($answers as $answer) {
+            if($answer->pivot->status == -1) {
+                array_push($notDone, $answer);
+            } else if ($answer->pivot->status == 1) {
+                array_push($notChecked, $answer);
+            } else {
+                array_push($checked, $answer);
+            }
+        }
+        return response()->json([
+            'statusCode' => 0,
+            'data' => [
+                'notDone' => $notDone,
+                'notChecked' => $notChecked,
+                'checked' => $checked,
+            ],
+            'message' => 'success'
+        ]);
+    }
+
+    public function getAllNotCheck($classId) {
+        $all = GroupClass::find($classId)->homeworks;
+        $data = [];
+        foreach($all as $item) {
+            
+                $data = [...$data, ...$item->students()->where('status', 1)->get()];
+
+        }
+        return response()->json([
+            'statusCode' => 0,
+            'data' => $data,
+            'messsage' => 'success'
+        ]);
+    }
+
+    public function detailAnswer($id) {
+        $detail = StudentAnswers::find($id);
+        return response()->json([
+            'statusCode' => 0,
+            'data' => $detail,
+            'message' => 'success'
         ]);
     }
 }
