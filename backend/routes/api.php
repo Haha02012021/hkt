@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GroupClassController;
 use App\Http\Controllers\HomeworkController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ReactController;
 use App\Http\Controllers\TagController;
@@ -63,6 +64,10 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::group(['prefix' => 'user'], function () {
         Route::get('/get-other-users', [UserController::class, 'getOtherUsers']);
+    });
+
+    Route::group(['prefix' => 'notification'], function () {
+        Route::post('/create', [NotificationController::class, 'create']);
     });
 
     Route::get('tag/get-all', [TagController::class, 'getAllTags']);
