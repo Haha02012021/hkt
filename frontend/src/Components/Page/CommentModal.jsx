@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import CommentIcon from "@mui/icons-material/Comment";
+import LinearProgress from '@mui/material/LinearProgress';
 import { useState } from "react";
 import { useEffect } from "react";
 import { handleCommentApi, handleCommentsPostApi } from "../../Services/app";
@@ -36,6 +36,7 @@ const styles = {
     display: "block",
     maxHeight: "70vh",
     borderRadius: "7px",
+    border: "1px solid black",
     "&::-webkit-scrollbar": {
       display: "none",
     },
@@ -93,6 +94,7 @@ const styles = {
 };
 
 const CommentModal = ({ open, onClose, post }) => {
+  const [loadingComments, setLoadingComments] = useState(false);
   const infoUser = useSelector((state) => state.user.infoUser);
   const input = useRef(null);
   const [data, setData] = useState([]);
@@ -106,11 +108,18 @@ const CommentModal = ({ open, onClose, post }) => {
   const now = new Date();
 
   const getAllComments = async () => {
-    const res = await handleCommentsPostApi(post.id);
+    try {
+      setLoadingComments(true);
+      const res = await handleCommentsPostApi(post.id);
 
-    if (res.statusCode === 0) {
-      setData(res.data);
-    } else {
+      if (res.statusCode === 0) {
+        setData(res.data);
+      } else {
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoadingComments(false);
     }
   };
 
@@ -143,6 +152,9 @@ const CommentModal = ({ open, onClose, post }) => {
             <b>{infoUser.username}</b> ・ {dayjs(post.created_at).fromNow()}
           </Typography>
         </Box>
+        {loadingComments && <Box sx={{ width: '100%' }}>
+          <LinearProgress />
+        </Box>}
         <Box sx={styles.commentsContainer}>
           {data.map(
             ({ id, post_id, content, updated_at, all_childs, user }, i) => (
@@ -160,7 +172,6 @@ const CommentModal = ({ open, onClose, post }) => {
           )}
         </Box>
         <Box sx={styles.modalFooter}>
-          <Divider sx={{ marginBottom: "1px solid gray" }} />
           <FormControl sx={styles.form}>
             <TextField
               inputRef={input}
