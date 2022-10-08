@@ -17,9 +17,9 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('user_id');
             $table->bigInteger('homework_id');
-            $table->integer('exercise_number');
-            $table->tinyText('answer');
-            $table->integer('point');
+            $table->string('answer_file');
+            $table->mediumText('comment');
+            $table->integer('status')->comment('1: checked, 0: not checked');
             $table->timestamps();
         });
     }
