@@ -151,11 +151,9 @@ const QuestionCard = (props) => {
                   key={i}
                 >
                   <img
-                    src={image}
+                    src={image.link}
                     styles={{
-                      width: "100%",
-                      height: "500px",
-                      border: "1px solid black",
+                      height: "200px"
                     }}
                   ></img>
                 </div>
@@ -196,7 +194,7 @@ const QuestionCard = (props) => {
                 height: "20px",
                 width: "20px",
               }}
-            /> : (!blob.completed ? "Set Completed" : "Undo")}
+            /> : (!blob.completed ? "Complete" : "Undo")}
           </Button>}
       </CardActions>
 

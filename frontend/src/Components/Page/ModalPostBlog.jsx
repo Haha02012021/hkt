@@ -4,6 +4,8 @@ import AddToPhotosIcon from "@mui/icons-material/AddToPhotos";
 import Carosel from "../Elements/Carosel";
 import CircularProgress from "@mui/material/CircularProgress";
 
+import { TAGS } from "../../config/constants";
+
 import Axios from "../../config/axios";
 import { toast } from "react-toastify";
 
@@ -27,7 +29,7 @@ const styles = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 800,
+    width: "55vw",
     bgcolor: "background.paper",
     borderRadius: "10px",
     boxShadow: 24,
@@ -67,6 +69,9 @@ const ModalPostBlog = (props) => {
 
       data.append("type", 0);
       data.append("class_id", 0);
+      selectedTags.forEach(tagId => {
+        data.append("tag_ids[]", tagId)
+      })
 
       const config = {
         headers: {
@@ -169,20 +174,20 @@ const ModalPostBlog = (props) => {
               Chọn nội dung muốn chia sẻ để người khác dễ tiếp cận với bài viết
               của bạn
             </Box>
-            {["homework", "N2", "N3", "N4", "N5"].map((tag) => {
+            {TAGS.map((tag) => {
               return (
                 <Chip
-                  key={tag}
-                  label={tag}
+                  key={tag.id}
+                  label={tag.name}
                   color="primary"
-                  variant={selectedTags.includes(tag) ? "" : "outlined"}
+                  variant={selectedTags.includes(tag.id) ? "" : "outlined"}
                   clickable
                   sx={{ marginRight: "5px", marginBottom: "5px" }}
                   onClick={() => {
-                    if (selectedTags.includes(tag)) {
-                      setSelectedTags(selectedTags.filter((t) => t !== tag));
+                    if (selectedTags.includes(tag.id)) {
+                      setSelectedTags(() => selectedTags.filter((id) => id != tag.id));
                     } else {
-                      setSelectedTags([...selectedTags, tag]);
+                      setSelectedTags(() => [...selectedTags, tag.id]);
                     }
                   }}
                 />
@@ -216,7 +221,7 @@ const ModalPostBlog = (props) => {
                 sx={{
                   border: "1px solid #ccc",
                   borderRadius: "15px",
-                  height: "350px",
+                  height: "25vh",
                   width: "100%",
                   backgroundColor: "#f7f8fa",
                   display: "flex",
