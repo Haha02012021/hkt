@@ -11,11 +11,11 @@ class Homework extends Model
     protected $fillable = [
         'title',
         'file_link',
-        'class_id',
         'teacher_id',
         'class_id',
-        'total_point',
         'deadline',
+        'listen_file',
+        'description',
     ];
 
     public function teacher() {
@@ -27,7 +27,7 @@ class Homework extends Model
     }
 
     public function students() {
-        return $this->belongsToMany(User::class, 'student_answer', 'homework_id', 'user_id')->using(StudentAnswers::class)
+        return $this->belongsToMany(User::class, 'student_answer', 'homework_id', 'student_id')->using(StudentAnswers::class)
         ->withPivot('id', 'answer_file','status','comment')->withTimestamps();
     }
 }

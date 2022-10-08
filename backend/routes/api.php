@@ -60,6 +60,7 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::group(['prefix' => 'homework'], function () {
         Route::post('/asign', [HomeworkController::class, 'asign']);
+        Route::post('/submit', [HomeworkController::class, 'submitHandle']);
     });
     
     Route::group(['prefix' => 'user'], function () {
@@ -77,14 +78,4 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/signup', [AuthController::class, 'signup']);
     Route::post('/login', [AuthController::class, 'login']);
     Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
-});
-
-Route::post('/loadAudio', function (Request $request) {
-    $file = $request->file('listening');
-    //dd($file);
-    $filename = time().rand(1,10). '.' . $request->file('listening')->getClientOriginalExtension();
-    $file->move(public_path('listening/', $filename));
-
-    $path = asset('listening/'). '/' .$filename;
-    return $path;
 });

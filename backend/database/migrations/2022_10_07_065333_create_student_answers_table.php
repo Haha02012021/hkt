@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('student_answer', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id');
+            $table->bigInteger('student_id');
             $table->bigInteger('homework_id');
-            $table->string('answer_file');
-            $table->mediumText('comment');
-            $table->integer('status')->comment('1: checked, 0: not checked');
+            $table->string('answer_file')->nullable();
+            $table->mediumText('comment')->nullable();
+            $table->integer('status')->default(-1)->comment('-1: not done, 1: not checked, 0: checked');
             $table->timestamps();
         });
     }
