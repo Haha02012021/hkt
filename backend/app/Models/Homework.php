@@ -28,6 +28,6 @@ class Homework extends Model
 
     public function students() {
         return $this->belongsToMany(User::class, 'student_answer', 'homework_id', 'student_id')->using(StudentAnswers::class)
-        ->withPivot('id', 'answer_file','status','comment')->withTimestamps();
+        ->withPivot('id', 'answer_file','status','comment', 'class_id')->withTimestamps();
     }
 }
