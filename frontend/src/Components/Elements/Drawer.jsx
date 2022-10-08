@@ -69,7 +69,6 @@ const SideBar = (props) => {
 
   useEffect(() => {
     setPathName(location.pathname)
-    console.log(location.pathname);
   }, [location.pathname])
 
   const handleIconClick = (e) => {
