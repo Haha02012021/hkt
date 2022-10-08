@@ -36,7 +36,6 @@ const styles = {
     display: "block",
     maxHeight: "70vh",
     borderRadius: "7px",
-    border: "1px solid black",
     "&::-webkit-scrollbar": {
       display: "none",
     },
@@ -105,8 +104,6 @@ const CommentModal = ({ open, onClose, post }) => {
     console.log(isChangeData);
   }, [isChangeData]);
 
-  const now = new Date();
-
   const getAllComments = async () => {
     try {
       setLoadingComments(true);
@@ -170,6 +167,9 @@ const CommentModal = ({ open, onClose, post }) => {
               />
             )
           )}
+          {!data.length > 0 && !loadingComments &&
+            <Typography sx={{ m: "10px" }}>There's no comment yet! 😢</Typography>
+          }
         </Box>
         <Box sx={styles.modalFooter}>
           <FormControl sx={styles.form}>
