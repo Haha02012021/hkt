@@ -13,6 +13,7 @@ class Notification extends Model
         'user_id',
         'content',
         'link',
+        'type',
     ];
 
     public function sender() {
