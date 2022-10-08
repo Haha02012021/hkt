@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GroupClassController;
+use App\Http\Controllers\HomeworkController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ReactController;
 use App\Http\Controllers\TagController;
@@ -44,6 +45,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/get-by-tag', [PostController::class, 'getPostsByTag']);
         Route::post('/create', [PostController::class, 'create']);
         Route::delete('/delete/{id}', [PostController::class, 'deletePostById']);
+        Route::post('/complete/{id}', [PostController::class, 'setCompleted']);
     });
 
     Route::group(['prefix' => 'class'], function () {
@@ -53,7 +55,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/edit/{id}', [GroupClassController::class, 'edit']);
         Route::delete('/delete/{id}', [GroupClassController::class, 'deleteClassById']);
     });
-
+    
+    Route::group(['prefix' => 'homework'], function () {
+        Route::post('/asign', [HomeworkController::class, 'asign']);
+    });
+    
     Route::group(['prefix' => 'user'], function () {
         Route::get('/get-by-email', [UserController::class, 'getUserByEmail']);
     });
@@ -65,4 +71,14 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/signup', [AuthController::class, 'signup']);
     Route::post('/login', [AuthController::class, 'login']);
     Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+});
+
+Route::post('/loadAudio', function (Request $request) {
+    $file = $request->file('listening');
+    //dd($file);
+    $filename = time().rand(1,10). '.' . $request->file('listening')->getClientOriginalExtension();
+    $file->move(public_path('listening/', $filename));
+
+    $path = asset('listening/'). '/' .$filename;
+    return $path;
 });

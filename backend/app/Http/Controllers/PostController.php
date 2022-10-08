@@ -164,4 +164,14 @@ class PostController extends Controller
             ]);
         }
     }
+
+    public function setCompleted($id) {
+        $question = Post::find($id);
+        $question->completed = 1-$question->completed;
+        return response()->json([
+            'statusCode' => 0,
+            'data' => $question,
+            'messsage' => 'completed'
+        ]);
+    }
 }
