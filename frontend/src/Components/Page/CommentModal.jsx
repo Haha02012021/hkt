@@ -4,6 +4,7 @@ import { useRef } from "react";
 import {
   Avatar,
   Button,
+  CircularProgress,
   Divider,
   FormControl,
   IconButton,
@@ -22,6 +23,7 @@ import dayjs from "dayjs"
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { useLocation } from "react-router-dom";
 import socketClient from "../../Socket/client";
+import { toast } from "react-toastify";
 dayjs.extend(relativeTime)
 
 const styles = {
@@ -96,6 +98,7 @@ const styles = {
 
 const CommentModal = ({ open, onClose, post }) => {
   const [loadingComments, setLoadingComments] = useState(false);
+  const [loadingPostComment, setLoadingPostComment] = useState(false);
   const infoUser = useSelector((state) => state.user.infoUser);
   const input = useRef(null);
   const [data, setData] = useState([]);
@@ -133,7 +136,7 @@ const CommentModal = ({ open, onClose, post }) => {
       const res = await handleNewNotificationApi(req)
       if (res.statusCode === 0) {
         if (infoUser.id !== post.user_id) {
-          socketClient.emit("sendNotification", {...res.data, receiver_id: req.receiver_id})
+          socketClient.emit("sendNotification", { ...res.data, receiver_id: req.receiver_id })
         }
       } else {
 
@@ -143,25 +146,30 @@ const CommentModal = ({ open, onClose, post }) => {
     }
   }
 
-  const handleComment = () => {
-    const req = {
-      user_id: infoUser.id,
-      post_id: post.id,
-      content: input.current.value,
-    };
+  const handleComment = async () => {
+    try {
+      const req = {
+        user_id: infoUser.id,
+        post_id: post.id,
+        content: input.current.value,
+      };
 
-    const comment = async () => {
+      setLoadingPostComment(true);
       const res = await handleCommentApi(req);
 
       if (res.statusCode === 0) {
-        getAllComments();
+        await getAllComments();
         input.current.value = "";
-        newNotification(res.data.id)
+        await newNotification(res.data.id);
       } else {
       }
-    };
 
-    comment();
+    } catch (error) {
+      console.log("POST COMMENT ERROR", error)
+      toast.error(error.message)
+    } finally {
+      setLoadingPostComment(false);
+    }
   };
 
   return (
@@ -220,8 +228,21 @@ const CommentModal = ({ open, onClose, post }) => {
               onClick={handleComment}
               type="submit"
               sx={styles.submitButton}
+              disabled={loadingPostComment}
             >
-              Post
+              {loadingPostComment ? (
+                <CircularProgress
+                  thickness={5}
+                  size={25}
+                  sx={{
+                    color: "primary",
+                    height: "20px",
+                    width: "20px",
+                  }}
+                />
+              ) : (
+                "Post"
+              )}
             </Button>
           </FormControl>
         </Box>
@@ -287,7 +308,7 @@ const Comment = ({
       const res = await handleNewNotificationApi(req)
       console.log(res);
       if (res.statusCode === 0) {
-        socketClient.emit("sendNotification", {...res.data, receiver_id: req.receiver_id})
+        socketClient.emit("sendNotification", { ...res.data, receiver_id: req.receiver_id })
       } else {
 
       }
