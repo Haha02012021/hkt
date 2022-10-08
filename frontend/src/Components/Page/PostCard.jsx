@@ -10,11 +10,14 @@ import { Avatar, Divider, IconButton, Typography, Box } from "@mui/material";
 import CardActions from "@mui/material/CardActions";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentIcon from "@mui/icons-material/Comment";
-import { handleLikePostApi } from "../../Services/app";
+import { handleLikePostApi, handleNewNotificationApi } from "../../Services/app";
 import CommentModal from "./CommentModal";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import socketClient from "../../Socket/client";
 dayjs.extend(relativeTime);
 
 const styles = {
@@ -51,24 +54,51 @@ const PostCard = (props) => {
   const openCommentModal = () => setCommentModalOpen(true);
   const closeCommentModal = () => setCommentModalOpen(false);
   const [blob, setBlob] = useState(props.item);
+  const location = useLocation()
+  const infoUser = useSelector((state) => state.user.infoUser)
 
   useEffect(() => {
     setBlob(props.item);
+    console.log("blob", props.item);
   }, [props.item]);
 
-  useEffect(() => {}, [blob]);
+  useEffect(() => { }, [blob]);
 
   const likePost = async () => {
     const value = blob.isLike ? -1 : 1;
     const res = await handleLikePostApi(blob.id, value);
     if (res && res.statusCode === 0) {
-      if (blob.isLike === true) setBlob({ ...blob, like: blob.like-- });
+      if (blob.isLike === true) {
+        setBlob({ ...blob, like: blob.like-- });
+        newNotification()
+      }
       else {
         setBlob({ ...blob, like: blob.like++ });
       }
       setBlob({ ...blob, isLike: !blob.isLike });
     }
   };
+
+  const newNotification = async () => {
+    try {
+      const req = {
+        content: "đã thả cảm xúc về bài viết của bạn.",
+        link: location.pathname + `/${blob.id}` + (location.search ? location.search : ""),
+        type: 1,
+        receiver_id: blob.user_id,
+      }
+      const res = await handleNewNotificationApi(req)
+      if (res.statusCode === 0) {
+        if (infoUser.id !== blob.user_id) {
+          socketClient.emit("sendNotification", {...res.data, receiver_id: req.receiver_id})
+        }
+      } else {
+
+      }
+    } catch (error) {
+
+    }
+  }
 
   return (
     <Card sx={styles.card}>

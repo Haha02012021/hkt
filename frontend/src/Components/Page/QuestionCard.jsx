@@ -23,16 +23,18 @@ import CommentIcon from "@mui/icons-material/Comment";
 import {
   handleLikePostApi,
   handleCompleteQuestionApi,
+  handleNewNotificationApi,
 } from "../../Services/app";
 import { toast } from "react-toastify";
 
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import CommentModal from "./CommentModal";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import socketClient from "../../Socket/client";
 dayjs.extend(relativeTime);
 
 const styles = {
@@ -84,6 +86,8 @@ const QuestionCard = (props) => {
   const openCommentModal = () => setCommentModalOpen(true);
   const closeCommentModal = () => setCommentModalOpen(false);
   const [blob, setBlob] = useState(props.item);
+  const location = useLocation()
+  const infoUser = useSelector((state) => state.user.infoUser)
 
   useEffect(() => {
     setBlob(props.item);
@@ -96,9 +100,12 @@ const QuestionCard = (props) => {
     const res = await handleLikePostApi(blob.id, value);
 
     if (res && res.statusCode === 0) {
-      if (blob.isLike === true) setBlob({ ...blob, like: blob.like-- });
+      if (blob.isLike === true) {
+        setBlob({ ...blob, like: blob.like-- });
+      }
       else {
         setBlob({ ...blob, like: blob.like++ });
+        newNotification()
       }
       setBlob({ ...blob, isLike: !blob.isLike });
     }
@@ -123,6 +130,27 @@ const QuestionCard = (props) => {
       setLoadingComplete(false);
     }
   };
+
+  const newNotification = async () => {
+    try {
+      const req = {
+        content: "đã thả cảm xúc về bài viết của bạn.",
+        link: location.pathname + `/${blob.id}` + (location.search ? location.search : ""),
+        type: 1,
+        receiver_id: blob.user_id,
+      }
+      const res = await handleNewNotificationApi(req)
+      if (res.statusCode === 0) {
+        if (infoUser.id !== blob.user_id) {
+          socketClient.emit("sendNotification", {...res.data, receiver_id: req.receiver_id})
+        }
+      } else {
+
+      }
+    } catch (error) {
+
+    }
+  }
 
   return (
     <Card
