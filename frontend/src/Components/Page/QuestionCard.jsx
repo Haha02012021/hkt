@@ -40,7 +40,6 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     marginBottom: "20px",
-    // width: "960px",
     padding: "5px",
   },
   image: {
@@ -50,6 +49,7 @@ const styles = {
   content: {
     padding: "20px 7px",
     textAlign: "left",
+    "&:hover": { cursor: "pointer" },
   },
   actions: {
     padding: "10px",
@@ -63,8 +63,15 @@ const styles = {
   },
   tag: {
     cursor: "pointer",
-    color: "blue",
+    color: "gray",
     wordWrap: "none",
+    backgroundColor: "#e1ecf4",
+    borderRadius: "4px",
+    padding: "4px",
+    height: "32px",
+    "&:hover": {
+      backgroundColor: "#bfdff7",
+    },
   },
 };
 
@@ -121,7 +128,6 @@ const QuestionCard = (props) => {
         display: "flex",
         flexDirection: "column",
         marginBottom: "20px",
-        // width: "960px",
         padding: "5px",
         borderBottom: `5px solid ${blob.completed ? "green" : "red"}`,
       }}
@@ -134,15 +140,28 @@ const QuestionCard = (props) => {
       ></CardHeader>
       <Divider />
       <CardContent sx={styles.content}>
-        <Typography variant="body2" sx={{ wordWrap: "break-word" }}>
-          {blob.content}
+        <Typography
+          variant="body2"
+          sx={{ wordWrap: "break-word", height: "60px" }}
+        >
+          {blob.content.length > 100
+            ? blob.content.substring(0, 100) + "..."
+            : blob.content}
         </Typography>
-        <Box sx={{ display: "flex", flexDirection: "row" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            height: "60px",
+            gap: "5px",
+          }}
+        >
           {blob && blob.has_tags && blob.has_tags.length > 0
             ? blob.has_tags.map((tag, i) => {
                 return (
                   <Box sx={styles.tag} key={i}>
-                    {`#${tag.name}`}
+                    {`${tag.name}`}
                   </Box>
                 );
               })

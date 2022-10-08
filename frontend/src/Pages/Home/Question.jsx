@@ -6,7 +6,7 @@ import {
   Typography,
   Pagination,
   CircularProgress,
-  Grid
+  Grid,
 } from "@mui/material";
 import React, { useEffect } from "react";
 
@@ -62,7 +62,7 @@ const Question = () => {
         if (res && res.statusCode === 0) {
           const data = res.data.data;
           data.sort((a, b) => {
-            return new Date(b.created_at) - new Date(a.created_at)
+            return new Date(b.created_at) - new Date(a.created_at);
           });
           setListQuestions(data);
           const count =
@@ -71,10 +71,9 @@ const Question = () => {
               : parseInt(res.data.total / 10) + 1;
           setCountPage(count);
         }
-
       } catch (error) {
         console.log("GetQuestionsError", error);
-        toast.error(error.message)
+        toast.error(error.message);
       } finally {
         setLoading(false);
       }
@@ -90,7 +89,6 @@ const Question = () => {
           marginBottom: "20px",
           padding: "0px",
           width: "100%",
-          maxWidth: "960px",
         }}
       >
         <Typography
@@ -98,50 +96,55 @@ const Question = () => {
           variant="h5"
           style={{ textAlign: "left", padding: "20px 0 0 20px" }}
         >
-          Dat cau hoi de nhan duoc su giup do
+          Đặt câu hỏi để nhận được sự giúp đỡ
         </Typography>
 
         <CardContent
-          sx={{ textAlign: "left", display: "flex", alignItems: "center" }}
+          sx={{
+            textAlign: "left",
+            display: "flex",
+            alignItems: "center",
+            width: "140px",
+          }}
         >
-          <Avatar sx={{ width: "2rem", height: "2rem", marginRight: "5px" }} />
           <Box
             sx={{
               padding: "5px",
               flexGrow: 1,
-              borderBottomLeftRadius: "50px",
-              borderTopLeftRadius: "50px",
-              borderBottomRightRadius: "50px",
-              borderTopRightRadius: "50px",
               paddingLeft: "10px",
               transition: "all 0.1s ease-in-out",
-              backgroundColor: "#E4E6EB",
-
+              backgroundColor: "#0a95ff",
+              color: "white",
+              width: "120px",
               "&:hover": {
-                backgroundColor: "#E4E6EB",
+                backgroundColor: "#0074cc",
                 cursor: "pointer",
               },
             }}
             onClick={() => setCreateQuestionModalOpen(true)}
           >
-            <Typography sx={{ color: "rgb(0,0,0,0.6)" }}> What are you having trouble with?</Typography>
+            Tạo câu hỏi
           </Box>
         </CardContent>
       </Card>
 
-
-
-      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-        {listQuestions && listQuestions.length > 0 ? (
-          listQuestions.map((item, index) => {
-            return <Grid item xs={2} sm={4} md={4} key={index}>
-              <QuestionCard item={item} />
-            </Grid>;
-          })
-        ) : null}
+      <Grid
+        container
+        spacing={{ xs: 2, md: 3 }}
+        columns={{ xs: 4, sm: 8, md: 12 }}
+      >
+        {listQuestions && listQuestions.length > 0
+          ? listQuestions.map((item, index) => {
+              return (
+                <Grid item xs={2} sm={4} md={4} key={index}>
+                  <QuestionCard item={item} />
+                </Grid>
+              );
+            })
+          : null}
       </Grid>
 
-      {loading &&
+      {loading && (
         <CircularProgress
           thickness={5}
           size={25}
@@ -149,10 +152,10 @@ const Question = () => {
           sx={{
             height: "20px",
             width: "20px",
-            marginTop: "20px"
+            marginTop: "20px",
           }}
         />
-      }
+      )}
 
       {listQuestions && listQuestions.length ? (
         <Pagination
@@ -171,6 +174,5 @@ const Question = () => {
     </Box>
   );
 };
-
 
 export default Question;
