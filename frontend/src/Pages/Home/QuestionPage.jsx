@@ -149,14 +149,18 @@ const QuestionPage = () => {
         console.log("BLOG", res);
 
         // Get suggestion for the post type and tags
-        const resSuggestion = await Axios.get(`/api/post/related/`, {
-          params: {
+        if (res.data.has_tags.length > 0) {
+          const params = {
             type: res.data.type,
             tagId: res.data.has_tags.map((tag) => tag.id),
           }
-        });
-        if (resSuggestion && resSuggestion.status === 200) {
-          setRelatedPosts(resSuggestion.data.data);
+          const resSuggestion = await Axios.get(`/api/post/related/`, {
+            params
+          });
+          console.log("RES SUGGESTION", resSuggestion);
+          if (resSuggestion && resSuggestion.statusCode === 0) {
+            setRelatedPosts(resSuggestion.data.data);
+          }
         }
 
       } catch (error) {
@@ -332,7 +336,7 @@ const QuestionPage = () => {
         <Grid item xs={2} sm={4} md={4} sx={{ border: "1px solid black" }}>
           <Stack spacing={2}>
             <Typography variant="h5">Suggestions</Typography>
-            {relatedPosts.map((post, i) => (<QuestionCard item={post} />))}
+            {relatedPosts.map((post, i) => (<QuestionCard item={post} key={i} />))}
           </Stack>
         </Grid>
       </Grid>

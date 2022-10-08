@@ -82,19 +82,19 @@ const Notification = () => {
             <>Không có thông báo nào!</>
           ) : (
             <List>
-                {notifications.map(notification => {
-                  return (
-                    <ListItem disablePadding>
-                      <ListItemButton onClick={() => handleClickNoti(notification.link)}>
-                        <ListItemText primary={
-                          <>
-                            <b>{notification.sender.username} </b> {notification.content}
-                          </>
-                        } />
-                      </ListItemButton>
-                    </ListItem>
-                  )
-                })}
+              {notifications.map(notification => {
+                return (
+                  <ListItem disablePadding key={notification.content}>
+                    <ListItemButton onClick={() => handleClickNoti(notification.link)}>
+                      <ListItemText primary={
+                        <>
+                          <b>{notification.sender.username} </b> {notification.content}
+                        </>
+                      } />
+                    </ListItemButton>
+                  </ListItem>
+                )
+              })}
             </List>
           )}
           {/* Notification Card */}
