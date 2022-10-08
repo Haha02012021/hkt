@@ -180,10 +180,12 @@ class PostController extends Controller
     public function searchPosts(Request $request) {
         try {
             $posts = [];
-            if($request->tag_id) {
-                $posts = Tag::find($request->tagId)->posts()->where('description', 'like', '%'.$request->searchValue.'%')->orderBy('like_count', 'DESC')->get();
+            if($request->tagId) {
+                $posts = Tag::find($request->tagId)->posts()->where('content', 'like', '%'.$request->searchValue.'%')
+                ->where('type', $request->type)->orderBy('like_count', 'DESC')->get();
             } else {
-                $posts = Post::where('description', 'like', '%'.$request->searchValue.'%')->orderBy('like_count', 'DESC')->get();
+                $posts = Post::where('content', 'like', '%'.$request->searchValue.'%')->where('type', $request->type)
+                ->orderBy('like_count', 'DESC')->get();
             }
             return response()->json([
                 'data' => $posts,
