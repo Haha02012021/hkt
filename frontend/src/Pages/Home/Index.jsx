@@ -13,7 +13,7 @@ import Navbar from "../../Components/Elements/Navbar";
 import DrawerHeader from "../../Components/Elements/DrawerHeader";
 import Drawer from "../../Components/Elements/Drawer";
 import GroupClass from "./GroupClass";
-import { Grid, Typography } from "@mui/material";
+import Welcom from "./Home";
 
 const Home = () => {
   const [open, setOpen] = React.useState(false);
@@ -41,23 +41,11 @@ const Home = () => {
         onClose={handleDrawerClose}
         onOpen={handleDrawerOpen}
       />
-      <Main open={open} sx={{ maxWidth: "1200px", minHeight: "100vh", display: "flex", justifyContent: "center", alignItems: "center", }}>
+      <Main open={open} sx={{ maxWidth: "1200px", minHeight: "100vh" }}>
         <DrawerHeader></DrawerHeader>
-        <Grid container spacing={2}>
-          <Grid item xs={5} style={{ display: "flex", alignItems: "center", }}>
-            <Box>
-              <Typography variant="h2" sx={{ fontWeight: "800", }}>U APP</Typography>
-              <Typography variant="subtitle1">Trang web dành cho giảng viên và sinh viên tiếng Nhật!</Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={5}>
-            <img
-              style={{ display: "block", objectFit: "cover", width: "480px" }}
-              src="https://images.shiksha.ws/mediadata/images/articles/126932253.jpg"
-            />
-          </Grid>
-        </Grid>
+        
         <Routes>
+          <Route path="/" element={<Welcom />} />
           <Route path="/section1" element={<Section1 />} />
           <Route path="/posts" element={<PostSection />} />
           <Route path="/questions" element={<Question />} />
