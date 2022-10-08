@@ -87,4 +87,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Notification::class, 'notifications_users', 'user_id', 'notification_id')->withTimestamps();
     }
+
+    public function agreed() {
+        return $this->belongsToMany(Comment::class, 'agree', 'user_id', 'comment_id')->withTimestamps();
+    }
 }

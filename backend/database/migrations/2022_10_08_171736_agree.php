@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('comment', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        //
+        Schema::create('agree', function (Blueprint $table) {
+            $table->id();
             $table->bigInteger('user_id');
-            $table->bigInteger('post_id');
-            $table->longText('content');
-            $table->bigInteger('parent_id')->nullable();
-            $table->integer('like_count')->default(0);
+            $table->bigInteger('comment_id');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comment');
+        //
     }
 };
