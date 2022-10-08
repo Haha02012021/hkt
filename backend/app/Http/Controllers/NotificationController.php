@@ -26,9 +26,7 @@ class NotificationController extends Controller
                     array_push($members, $class->teacher);
                 }
 
-                if ($user->role !== 0) {
-                    array_push($members, $class->students()->where('students.id', '!=', $user->id));
-                }
+                array_push($members, $class->students()->where('users.id', '!=', $user->id));
 
                 return $members;
             }
