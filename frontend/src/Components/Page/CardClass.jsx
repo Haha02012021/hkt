@@ -2,7 +2,6 @@ import React from "react";
 import { Box, Avatar } from "@mui/material";
 import ImageHeader from "../../Assets/Image/img_bookclub.jpg";
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
-import FactCheckIcon from "@mui/icons-material/FactCheck";
 const styles = {
   boxHeader: {
     backgroundImage: `url(${ImageHeader})`,

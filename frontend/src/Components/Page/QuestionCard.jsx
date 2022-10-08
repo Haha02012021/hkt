@@ -5,14 +5,15 @@ import Carousel from "react-material-ui-carousel";
 
 import { useState, useEffect } from "react";
 
-import { Avatar, Divider, IconButton, Typography, Box, Button } from "@mui/material";
+import { Avatar, Divider, IconButton, Typography, Box, Button, CircularProgress } from "@mui/material";
 
 import CardActions from "@mui/material/CardActions";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CheckIcon from '@mui/icons-material/Check';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import CommentIcon from "@mui/icons-material/Comment";
-import { handleLikePostApi } from "../../Services/app";
+import { handleLikePostApi, handleCompleteQuestionApi } from "../../Services/app";
+import { toast } from "react-toastify";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -67,7 +68,7 @@ const QuestionCard = (props) => {
 
   const likePost = async () => {
     const res = await handleLikePostApi(blob.id);
-    if (blob.id === 1) console.log(blob);
+
     if (res && res.statusCode === 0) {
       if (blob.isLike === true) setBlob({ ...blob, like: blob.like-- });
       else {
@@ -76,6 +77,26 @@ const QuestionCard = (props) => {
       setBlob({ ...blob, isLike: !blob.isLike });
     }
   };
+
+  const [loadingComplete, setLoadingComplete] = useState(false);
+
+  const toggleCompleteQuestion = async () => {
+    try {
+      setLoadingComplete(true);
+      const res = await handleCompleteQuestionApi(blob.id);
+      if (res && res.statusCode === 0) {
+        setBlob({ ...blob, completed: res.data.completed })
+        toast.success("Success!")
+      } else {
+        throw new Error("Res not found")
+      }
+    } catch (error) {
+      console.log("TOGGLE COMPLETE QUESTION CARD", error);
+      toast.error(error.message)
+    } finally {
+      setLoadingComplete(false);
+    }
+  }
 
   return (
     <Card sx={{
@@ -166,8 +187,16 @@ const QuestionCard = (props) => {
             </IconButton>
           </>}
         {userInfo.id === blob.user_id &&
-          <Button color={blob.completed ? "error" : "success"} sx={{ marginLeft: "auto", fontWeight: 600 }}>
-            {!blob.completed ? "Set Completed" : "Undo"}
+          <Button onClick={toggleCompleteQuestion} color={blob.completed ? "error" : "success"} sx={{ marginLeft: "auto", fontWeight: 600 }}>
+            {loadingComplete ? <CircularProgress
+              thickness={5}
+              size={25}
+              sx={{
+                color: blob.completed ? "red" : "green",
+                height: "20px",
+                width: "20px",
+              }}
+            /> : (!blob.completed ? "Set Completed" : "Undo")}
           </Button>}
       </CardActions>
 
