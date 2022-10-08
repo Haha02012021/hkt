@@ -67,7 +67,8 @@ class User extends Authenticatable
     }
 
     public function doHomework() {
-        return $this->belongsToMany(Homework::class, 'student_answer', 'user_id', 'homework_id')->using(StudentAnswers::class)->withPivot('id', 'exercise_number', 'answer', 'point')->withTimestamps();
+        return $this->belongsToMany(Homework::class, 'student_answer', 'user_id', 'homework_id')->using(StudentAnswers::class)
+            ->withPivot('id', 'answer_file','status','comment')->withTimestamps();
     }
 
     public function groupClass() {
