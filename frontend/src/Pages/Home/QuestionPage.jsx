@@ -333,10 +333,10 @@ const QuestionPage = () => {
             ) : null}
           </Box>
         </Grid>
-        <Grid item xs={2} sm={4} md={4} sx={{ border: "1px solid black" }}>
+        <Grid item xs={2} sm={4} md={4}>
           <Stack spacing={2}>
             <Typography variant="h5">Suggestions</Typography>
-            {relatedPosts.map((post, i) => (<QuestionCard item={post} key={i} />))}
+            {relatedPosts.map((post, i) => (<QuestionCard item={post} key={i} P />))}
           </Stack>
         </Grid>
       </Grid>
