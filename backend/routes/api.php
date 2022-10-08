@@ -58,6 +58,7 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::group(['prefix' => 'homework'], function () {
         Route::post('/asign', [HomeworkController::class, 'asign']);
+        Route::post('/submit', [HomeworkController::class, 'submitHandle']);
     });
     
     Route::group(['prefix' => 'user'], function () {
