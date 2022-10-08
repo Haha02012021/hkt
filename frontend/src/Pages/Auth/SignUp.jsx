@@ -215,11 +215,11 @@ export default function SignUp() {
               justifyContent={"space-between"}
               flexDirection="row"
             >
-              <Link href="#" variant="body2">
+              <Link href="#" variant="body2" style={{textDecoration: "none"}}>
                 Forgot password?
               </Link>
 
-              <Link to="/login" variant="body2">
+              <Link to="/login" variant="body2" style={{textDecoration: "none"}}>
                 {"You have an account? Login"}
               </Link>
             </Box>

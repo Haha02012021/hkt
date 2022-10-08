@@ -7,7 +7,7 @@ use App\Http\Controllers\HomeworkController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ReactController;
 use App\Http\Controllers\TagController;
-use App\Models\User;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
@@ -55,19 +55,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/edit/{id}', [GroupClassController::class, 'edit']);
         Route::delete('/delete/{id}', [GroupClassController::class, 'deleteClassById']);
     });
-
-    Route::get('/getAllUser', function (Request $request) {
-        $user = $request->user();
-        $users = User::where('id', '!=', $user->id)->get(['email', 'username']);
-        $data = [];
-        foreach($users as $item) {
-            array_push($data, ['value' => $item->email, 'label' => 'username']);
-        }
-        return $data;
-    });
-
+    
     Route::group(['prefix' => 'homework'], function () {
         Route::post('/asign', [HomeworkController::class, 'asign']);
+    });
+    
+    Route::group(['prefix' => 'user'], function () {
+        Route::get('/get-other-users', [UserController::class, 'getOtherUsers']);
     });
 
     Route::get('tag/get-all', [TagController::class, 'getAllTags']);

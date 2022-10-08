@@ -5,7 +5,30 @@ const handleGetPostApi = (type, page) => {
 };
 
 const handleLikePostApi = (id) => {
-  return axios.post(`http://127.0.0.1:8000/api/reaction/post/${id}`);
+  return axios.post(`/api/reaction/post/${id}`);
 };
 
-export { handleGetPostApi, handleLikePostApi };
+const handleCompleteQuestionApi = (id) => {
+  return axios.post(`/api/post/complete/${id}`);
+};
+
+const handleCommentsPostApi = (id) => {
+  return axios.get(`/api/comments/post/${id}`);
+};
+
+const handleCommentApi = (req) => {
+  return axios.post(`/api/comments/add`, req);
+};
+
+const handleGetOtherUsersApi = () => {
+  return axios.post(`/api/user/get-other-users`);
+};
+
+export {
+  handleGetPostApi,
+  handleLikePostApi,
+  handleCommentsPostApi,
+  handleCommentApi,
+  handleCompleteQuestionApi,
+  handleGetOtherUsersApi,
+};
