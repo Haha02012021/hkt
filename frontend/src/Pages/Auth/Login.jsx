@@ -33,7 +33,7 @@ export default function Login() {
       );
       if (res === true) navigate("/");
     } catch (error) {
-      console.log(error);
+      console.log("LOGIN ERROR:", error);
     } finally {
       setLoading(false);
     }
@@ -108,11 +108,11 @@ export default function Login() {
               justifyContent={"space-between"}
               flexDirection="row"
             >
-              <Link href="#" variant="body2">
+              <Link href="#" variant="body2" style={{textDecoration: "none"}}>
                 Forgot password?
               </Link>
 
-              <Link to="/sign-up" variant="body2">
+              <Link to="/sign-up" variant="body2" style={{textDecoration: "none"}}>
                 {"Don't have an account? Sign Up"}
               </Link>
             </Box>

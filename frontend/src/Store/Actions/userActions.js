@@ -33,7 +33,8 @@ export const userLogin = (data) => {
       toast.error(res.message);
       return false;
     } catch (err) {
-      console.error(err);
+      console.error("ACTION ERROR", err);
+      toast.error(err.message);
       return false;
     }
   };

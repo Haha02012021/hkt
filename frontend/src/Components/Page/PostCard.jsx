@@ -56,7 +56,6 @@ const PostCard = (props) => {
 
   const likePost = async () => {
     const res = await handleLikePostApi(blob.id);
-    if (blob.id === 1) console.log(blob);
     if (res && res.statusCode === 0) {
       if (blob.isLike === true) setBlob({ ...blob, like: blob.like-- });
       else {
@@ -84,7 +83,7 @@ const PostCard = (props) => {
             ? blob.has_tags.map((tag, i) => {
                 return (
                   <Box sx={styles.tag} key={i}>
-                    {tag}
+                    {`#${tag.name}`}
                   </Box>
                 );
               })
