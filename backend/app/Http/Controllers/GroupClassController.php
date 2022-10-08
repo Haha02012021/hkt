@@ -10,7 +10,7 @@ class GroupClassController extends Controller
 {
     public function getAllClasses() {
         try {
-            $classes = GroupClass::all();
+            $classes = GroupClass::with('teacher')->get();
 
             return response()->json([
                 'successCode' => 0,
