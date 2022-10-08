@@ -21,7 +21,15 @@ const handleCommentApi = (req) => {
 };
 
 const handleGetOtherUsersApi = () => {
-  return axios.post(`/api/user/get-other-users`);
+  return axios.get(`/api/user/get-other-users`);
+};
+
+const handleGetAllClassApi = () => {
+  return axios.get(`/api/class/get-all`);
+};
+
+const handleNewClassApi = (data) => {
+  return axios.post(`/api/class/create`);
 };
 
 export {
@@ -31,4 +39,6 @@ export {
   handleCommentApi,
   handleCompleteQuestionApi,
   handleGetOtherUsersApi,
+  handleGetAllClassApi,
+  handleNewClassApi,
 };

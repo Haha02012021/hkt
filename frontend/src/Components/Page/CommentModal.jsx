@@ -18,7 +18,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentIcon from "@mui/icons-material/Comment";
 import { useState } from "react";
 import { useEffect } from "react";
-import { handleCommentApi, handleCommentsPostApi } from '../../Services/app'
+import { handleCommentApi, handleCommentsPostApi } from "../../Services/app";
 import { useSelector } from "react-redux";
 const styles = {
   modal: {
@@ -91,48 +91,48 @@ const styles = {
 };
 
 const CommentModal = ({ open, onClose, post_id }) => {
-  const infoUser = useSelector(state => state.user.infoUser)
+  const infoUser = useSelector((state) => state.user.infoUser);
   const input = useRef(null);
   const [data, setData] = useState([]);
-  const [isChangeData, setChangeData] = useState(false)
+  const [isChangeData, setChangeData] = useState(false);
 
   useEffect(() => {
-    getAllComments()
+    if (open === true) {
+      getAllComments();
+    }
     console.log(isChangeData);
-  }, [isChangeData])
+  }, [isChangeData]);
 
-  const now = new Date()
+  const now = new Date();
 
   const getAllComments = async () => {
     const res = await handleCommentsPostApi(post_id);
 
     if (res.statusCode === 0) {
-      setData(res.data)
+      setData(res.data);
     } else {
-
     }
-  }
+  };
 
   const handleComment = () => {
     const req = {
       user_id: infoUser.id,
       post_id: post_id,
       content: input.current.value,
-    }
+    };
 
     const comment = async () => {
-      const res = await handleCommentApi(req)
+      const res = await handleCommentApi(req);
 
       if (res.statusCode === 0) {
-        getAllComments()
-        input.current.value = ""
+        getAllComments();
+        input.current.value = "";
       } else {
-
       }
-    }
+    };
 
-    comment()
-  }
+    comment();
+  };
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -144,18 +144,20 @@ const CommentModal = ({ open, onClose, post_id }) => {
           </Typography>
         </Box>
         <Box sx={styles.commentsContainer}>
-          {data.map(({ id, post_id, content, updated_at, all_childs, user }, i) => (
-            <Comment
-              key={i}
-              id={id}
-              post_id={post_id}
-              content={content}
-              updated_at={updated_at}
-              all_childs={all_childs}
-              user={user}
-              postComment={() => setChangeData(!isChangeData)}
-            />
-          ))}
+          {data.map(
+            ({ id, post_id, content, updated_at, all_childs, user }, i) => (
+              <Comment
+                key={i}
+                id={id}
+                post_id={post_id}
+                content={content}
+                updated_at={updated_at}
+                all_childs={all_childs}
+                user={user}
+                postComment={() => setChangeData(!isChangeData)}
+              />
+            )
+          )}
         </Box>
         <Box sx={styles.modalFooter}>
           <Box>
@@ -186,7 +188,13 @@ const CommentModal = ({ open, onClose, post_id }) => {
                 },
               }}
             />
-            <Button onClick={handleComment} type="submit" sx={styles.submitButton}>Post</Button>
+            <Button
+              onClick={handleComment}
+              type="submit"
+              sx={styles.submitButton}
+            >
+              Post
+            </Button>
           </FormControl>
         </Box>
       </Box>
@@ -204,10 +212,10 @@ const Comment = ({
   updated_at,
   all_childs,
   user,
-  postComment
+  postComment,
 }) => {
-  const [isReplying, setReplying] = useState(false)
-  const infoUser = useSelector(state => state.user.infoUser)
+  const [isReplying, setReplying] = useState(false);
+  const infoUser = useSelector((state) => state.user.infoUser);
   const input = useRef(null);
 
   const handleComment = () => {
@@ -216,23 +224,22 @@ const Comment = ({
       post_id: post_id,
       content: input.current.value,
       parent_id: id,
-    }
+    };
 
     const comment = async () => {
-      const res = await handleCommentApi(req)
+      const res = await handleCommentApi(req);
 
       console.log(res);
       if (res.statusCode === 0) {
-        input.current.value = ""
-        postComment()
-        setReplying(false)
+        input.current.value = "";
+        postComment();
+        setReplying(false);
       } else {
-
       }
-    }
+    };
 
-    comment()
-  }
+    comment();
+  };
 
   return (
     <Box sx={styles.comment}>
@@ -253,32 +260,42 @@ const Comment = ({
             transition: "300ms",
             cursor: "pointer",
             "&:hover": {
-              color: "blue"
+              color: "blue",
             },
           }}
-          onClick={() => { setReplying(true) }}
+          onClick={() => {
+            setReplying(true);
+          }}
         >
           Trả lời
         </Typography>
-        {isReplying && <FormControl style={{ paddingTop: 0, }} sx={styles.comment}>
-          <TextField
-            inputRef={input}
-            variant="standard"
-            label="Reply a comment..."
-            multiline
-            inputProps={{ style: { fontSize: "0.9rem" } }}
-            sx={{
-              height: "3rem",
-              paddingRight: "70px",
-              overflowY: "scroll",
-              marginTop: "10px",
-              "&::-webkit-scrollbar": {
-                display: "none",
-              },
-            }}
-          />
-          <Button onClick={handleComment} type="submit" sx={styles.submitButton}>Post</Button>
-        </FormControl>}
+        {isReplying && (
+          <FormControl style={{ paddingTop: 0 }} sx={styles.comment}>
+            <TextField
+              inputRef={input}
+              variant="standard"
+              label="Reply a comment..."
+              multiline
+              inputProps={{ style: { fontSize: "0.9rem" } }}
+              sx={{
+                height: "3rem",
+                paddingRight: "70px",
+                overflowY: "scroll",
+                marginTop: "10px",
+                "&::-webkit-scrollbar": {
+                  display: "none",
+                },
+              }}
+            />
+            <Button
+              onClick={handleComment}
+              type="submit"
+              sx={styles.submitButton}
+            >
+              Post
+            </Button>
+          </FormControl>
+        )}
         {all_childs.map((item, i) => {
           return (
             <Comment

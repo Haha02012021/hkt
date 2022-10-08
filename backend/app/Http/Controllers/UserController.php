@@ -11,10 +11,10 @@ class UserController extends Controller
     public function getOtherUsers(Request $request) {
         try {
             $user = $request->user();
-            $users = User::where('id', '!=', $user->id)->where('role', 0)->get(['email', 'username']);
+            $users = User::where('id', '!=', $user->id)->where('role', 0)->get(['email', 'id']);
             $data = [];
             foreach($users as $item) {
-                array_push($data, ['value' => $item->email, 'label' => 'username']);
+                array_push($data, ['value' => $item->id, 'label' => $item->email]);
             }
 
             if ($user) {
