@@ -27,7 +27,6 @@ const Notification = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
 
-  console.log(notifications);
   useEffect(() => {
     const getNotifications = async () => {
       const res = await handleGetNotifications()
