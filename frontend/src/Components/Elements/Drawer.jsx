@@ -137,7 +137,7 @@ const SideBar = (props) => {
               <ListItemIcon>
                 <FeedIcon />
               </ListItemIcon>
-              <ListItemText primary={"Posts"} />
+              <ListItemText primary={"Chia sẻ kiến thức"} />
             </ListItemButton>
           </Link>
         </ListItem>
@@ -158,7 +158,7 @@ const SideBar = (props) => {
               <ListItemIcon>
                 <QuestionAnswerIcon />
               </ListItemIcon>
-              <ListItemText primary={"Questions"} />
+              <ListItemText primary={"Hỏi đáp"} />
             </ListItemButton>
           </Link>
         </ListItem>
@@ -180,7 +180,7 @@ const SideBar = (props) => {
                 <SchoolIcon />
               </ListItemIcon>
 
-              <ListItemText primary={"Class"} />
+              <ListItemText primary={"Nhóm học tập"} />
             </ListItemButton>
           </Link>
         </ListItem>
