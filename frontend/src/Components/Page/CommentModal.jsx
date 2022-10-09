@@ -129,7 +129,7 @@ const CommentModal = ({ open, onClose, post, setPost }) => {
     try {
       const req = {
         content: "đã bình luận bài viết của bạn.",
-        link: "/" + location.pathname.split("/")[0] + `/${post.id}` + (location.search ? location.search : "") + `#comment_${comment_id}`,
+        link: "/" + location.pathname.split("/")[1] + `/${post.id}` + (location.search ? location.search : "") + `#comment_${comment_id}`,
         type: 1,
         receiver_id: post.user_id,
       }

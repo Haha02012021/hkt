@@ -68,12 +68,13 @@ const Notification = () => {
     setAnchorEl(null);
   };
 
-  const handleClickNoti = (link) => {
-    navigate(link)
+  const handleClickNoti = (noti) => {
+    navigate(noti.link)
   }
 
   const notificationOpen = Boolean(anchorEl);
   const id = notificationOpen ? "simple-popover" : undefined;
+  const now = new Date();
 
   return (
     <>
@@ -83,7 +84,7 @@ const Notification = () => {
           color="inherit"
           onClick={handleNotificationClick}
         >
-          <Badge badgeContent={notifications.length} color="error">
+          <Badge badgeContent={ notifications.filter(notification => notification.status === 0).length} color="error">
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -115,7 +116,7 @@ const Notification = () => {
               {notifications.map(notification => {
                 return (
                   <ListItem disablePadding key={notification.id}>
-                    <ListItemButton onClick={() => handleClickNoti(notification.link)}>
+                    <ListItemButton onClick={() => handleClickNoti(notification)}>
                       <ListItemText primary={
                         <>
                           <b>{notification.sender?.username} </b> {notification.content}
