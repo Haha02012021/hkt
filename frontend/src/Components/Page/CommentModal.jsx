@@ -189,7 +189,7 @@ const CommentModal = ({ open, onClose, post, setPost }) => {
         </Box>}
         <Box sx={styles.commentsContainer}>
           {data.map(
-            ({ id, post_id, user_id, content, updated_at, all_childs, user, isLike }, i) => (
+            ({ id, post_id, user_id, content, updated_at, all_childs, user, isLike, like_count }, i) => (
               <Comment
                 key={i}
                 id={id}
@@ -203,6 +203,7 @@ const CommentModal = ({ open, onClose, post, setPost }) => {
                 postComment={() => setChangeData(!isChangeData)}
                 isRoot={true}
                 isLike={isLike}
+                like_count={like_count}
               />
             )
           )}
@@ -269,13 +270,15 @@ const Comment = ({
   post_user_id,
   postComment,
   isRoot,
-  isLike
+  isLike,
+  like_count,
 }) => {
   const [isReplying, setReplying] = useState(false);
   const infoUser = useSelector((state) => state.user.infoUser);
   const input = useRef(null);
   const location = useLocation()
   const [isLiked, setLiked] = useState(isLike)
+  const [likeCounted, setLikeCounted] = useState(like_count)
 
   const handleComment = () => {
     const req = {
@@ -311,6 +314,13 @@ const Comment = ({
 
       const res = await Axios.post(`/api/reaction/comment/${id}?value=${value}`);
       if (res && res.statusCode === 0) {
+        if (isLiked === true) {
+          setLikeCounted(likeCounted - 1);
+        }
+        else {
+          setLikeCounted(likeCounted + 1);
+          newNotification()
+        }
         setLiked(!isLiked)
       }
     } catch (error) {
@@ -366,7 +376,7 @@ const Comment = ({
             }}
             onClick={handleCommentLike}
           >
-            Like
+            {likeCounted} Like{likeCounted > 1 ? "s" : ""}
           </Typography>
             <Typography display="inline" variant="string" sx={{ color: "rgba(0, 0, 0, 0.6)", }}>&nbsp;&#183;&nbsp;</Typography></>}
           <Typography

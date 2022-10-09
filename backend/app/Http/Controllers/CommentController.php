@@ -64,7 +64,7 @@ class CommentController extends Controller
 
     public function commentsOfPost($postId, Request $request) {
         try {
-            $comments = Comment::where('post_id', $postId)->where('parent_id', null)->with('allChilds', 'user')->orderBy('id', 'DESC')->get();
+            $comments = Comment::where('post_id', $postId)->where('parent_id', null)->with('allChilds', 'user')->orderBy('like_count', 'DESC')->orderBy('id', 'DESC')->get();
             $user = $request->user();
             foreach($comments as $comment) {
                 $comment->isLike = $comment->agreedBy()->where('user_id', $user->id)->exists();
