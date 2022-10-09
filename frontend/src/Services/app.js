@@ -52,6 +52,10 @@ const handleGetInfoUserApi = () => {
   return axios.get(`/api/user/info`);
 };
 
+const handleBookmarkApi = (id) => {
+  return axios.post(`/api/post/bookmark/?postId=${id}`);
+};
+
 export {
   handleGetPostApi,
   handleLikePostApi,
@@ -66,4 +70,5 @@ export {
   handleGetPostByIdApi,
   handleSearchApi,
   handleGetInfoUserApi,
+  handleBookmarkApi,
 };

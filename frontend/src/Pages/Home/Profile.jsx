@@ -34,10 +34,12 @@ const Profile = () => {
         <Box sx={{ fontSize: "20px", fontWeight: "bold" }}>
           Thông tin cơ bản
         </Box>
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Box
+          sx={{ display: "flex", flexDirection: "column", alignItems: "start" }}
+        >
           <Box>{"Họ và tên: " + infoUser.username}</Box>
-          <Box>{"Vị trí: " + role.name}</Box>
-          <Box>{"Trường: " + school.name}</Box>
+          <Box>{"Vị trí: " + role[0].name}</Box>
+          <Box>{"Trường: " + school[0].name}</Box>
         </Box>
       </Card>
 

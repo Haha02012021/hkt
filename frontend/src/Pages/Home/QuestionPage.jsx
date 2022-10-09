@@ -25,6 +25,7 @@ import {
   handleGetPostByIdApi,
   handleLikePostApi,
   handleCompleteQuestionApi,
+  handleBookmarkApi,
 } from "../../Services/app";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import Carousel from "react-material-ui-carousel";
@@ -124,6 +125,13 @@ const QuestionPage = () => {
     setNewBlob(!newBlob);
   };
 
+  const bookmark = async () => {
+    const res = await handleBookmarkApi(blog.id);
+    if (res && res.statusCode === 0) {
+      setBlog({ ...blog, isBookmarked: !blog.isBookmarked });
+    }
+  };
+
   const toggleCompleteQuestion = async () => {
     try {
       setLoadingComplete(true);
@@ -220,11 +228,15 @@ const QuestionPage = () => {
                   sx={{
                     position: "absolute",
                     top: "20px",
+                    color: "gray",
                     right: "20px",
                     "&:hover": { cursor: "pointer" },
                   }}
+                  onClick={() => bookmark()}
                 >
-                  <BookmarkIcon sx={{ color: `${true ? "#ffb500" : null}` }} />
+                  <BookmarkIcon
+                    sx={{ color: `${blog.isBookmarked ? "#ffb500" : null}` }}
+                  />
                 </Box>
                 <Divider />
                 <CardContent sx={styles.content}>

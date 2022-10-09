@@ -86,24 +86,23 @@ const QuestionCard = (props) => {
   const openCommentModal = () => setCommentModalOpen(true);
   const closeCommentModal = () => setCommentModalOpen(false);
   const [blob, setBlob] = useState(props.item);
-  const location = useLocation()
-  const infoUser = useSelector((state) => state.user.infoUser)
+  const location = useLocation();
+  const infoUser = useSelector((state) => state.user.infoUser);
 
   useEffect(() => {
     setBlob(props.item);
   }, [props.item]);
 
-  useEffect(() => { }, [blob]);
+  useEffect(() => {}, [blob]);
 
   const likePost = async () => {
     const value = blob.isLike ? -1 : 1;
 
     if (blob.isLike === true) {
       setBlob({ ...blob, like: blob.like-- });
-    }
-    else {
+    } else {
       setBlob({ ...blob, like: blob.like++ });
-      newNotification()
+      newNotification();
     }
     setBlob({ ...blob, isLike: !blob.isLike });
     try {
@@ -113,22 +112,19 @@ const QuestionCard = (props) => {
         // revert
         if (blob.isLike === false) {
           setBlob({ ...blob, like: blob.like++ });
-        }
-        else {
+        } else {
           setBlob({ ...blob, like: blob.like-- });
-          newNotification()
+          newNotification();
         }
         setBlob({ ...blob, isLike: !blob.isLike });
       }
-
     } catch (error) {
       // revert
       if (blob.isLike === false) {
         setBlob({ ...blob, like: blob.like++ });
-      }
-      else {
+      } else {
         setBlob({ ...blob, like: blob.like-- });
-        newNotification()
+        newNotification();
       }
       setBlob({ ...blob, isLike: !blob.isLike });
       console.log(error);
@@ -160,22 +156,25 @@ const QuestionCard = (props) => {
     try {
       const req = {
         content: "đã thả cảm xúc về bài viết của bạn.",
-        link: location.pathname + `/${blob.id}` + (location.search ? location.search : ""),
+        link:
+          location.pathname +
+          `/${blob.id}` +
+          (location.search ? location.search : ""),
         type: 1,
         receiver_id: blob.user_id,
-      }
-      const res = await handleNewNotificationApi(req)
+      };
+      const res = await handleNewNotificationApi(req);
       if (res.statusCode === 0) {
         if (infoUser.id !== blob.user_id) {
-          socketClient.emit("sendNotification", { ...res.data, receiver_id: req.receiver_id })
+          socketClient.emit("sendNotification", {
+            ...res.data,
+            receiver_id: req.receiver_id,
+          });
         }
       } else {
-
       }
-    } catch (error) {
-
-    }
-  }
+    } catch (error) {}
+  };
 
   return (
     <Card
@@ -222,12 +221,12 @@ const QuestionCard = (props) => {
         >
           {blob && blob.has_tags && blob.has_tags.length > 0
             ? blob.has_tags.map((tag, i) => {
-              return (
-                <Box sx={styles.tag} key={i}>
-                  {`${tag.name}`}
-                </Box>
-              );
-            })
+                return (
+                  <Box sx={styles.tag} key={i}>
+                    {`${tag.name}`}
+                  </Box>
+                );
+              })
             : null}
         </Box>
         <Box
@@ -240,7 +239,7 @@ const QuestionCard = (props) => {
           <Carousel
             animation="fade"
             indicators={false}
-            navButtonsAlwaysVisible={blob.images.length > 1 ? true : false}
+            navButtonsAlwaysVisible={false}
             sx={{
               width: "100%",
               height: "100%",
@@ -248,18 +247,18 @@ const QuestionCard = (props) => {
           >
             {blob.images.length > 0
               ? blob.images.map((image, i) => (
-                <div
-                  style={{ display: "flex", justifyContent: "center" }}
-                  key={i}
-                >
-                  <img
-                    src={image.link}
-                    style={{
-                      height: "200px",
-                    }}
-                  ></img>
-                </div>
-              ))
+                  <div
+                    style={{ display: "flex", justifyContent: "center" }}
+                    key={i}
+                  >
+                    <img
+                      src={image.link}
+                      style={{
+                        height: "200px",
+                      }}
+                    ></img>
+                  </div>
+                ))
               : null}
           </Carousel>
         </Box>
