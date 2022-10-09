@@ -97,17 +97,42 @@ const QuestionCard = (props) => {
 
   const likePost = async () => {
     const value = blob.isLike ? -1 : 1;
-    const res = await handleLikePostApi(blob.id, value);
 
-    if (res && res.statusCode === 0) {
-      if (blob.isLike === true) {
-        setBlob({ ...blob, like: blob.like-- });
+    if (blob.isLike === true) {
+      setBlob({ ...blob, like: blob.like-- });
+    }
+    else {
+      setBlob({ ...blob, like: blob.like++ });
+      newNotification()
+    }
+    setBlob({ ...blob, isLike: !blob.isLike });
+    try {
+      const res = await handleLikePostApi(blob.id, value);
+
+      if (!res || !res.statusCode === 0) {
+        // revert
+        if (blob.isLike === false) {
+          setBlob({ ...blob, like: blob.like++ });
+        }
+        else {
+          setBlob({ ...blob, like: blob.like-- });
+          newNotification()
+        }
+        setBlob({ ...blob, isLike: !blob.isLike });
+      }
+
+    } catch (error) {
+      // revert
+      if (blob.isLike === false) {
+        setBlob({ ...blob, like: blob.like++ });
       }
       else {
-        setBlob({ ...blob, like: blob.like++ });
+        setBlob({ ...blob, like: blob.like-- });
         newNotification()
       }
       setBlob({ ...blob, isLike: !blob.isLike });
+      console.log(error);
+      toast.error(error.message);
     }
   };
 
