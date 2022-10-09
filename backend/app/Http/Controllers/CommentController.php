@@ -37,7 +37,6 @@ class CommentController extends Controller
     public function editComment(Request $request) {
         try {
             $comment = Comment::find($request->id);
-            
             if(!$comment) {
                 return response()->json([
                     'statusCode' => 1,
@@ -63,9 +62,11 @@ class CommentController extends Controller
         }    
     }
 
-    public function commentsOfPost($postId) {
+    public function commentsOfPost($postId, Request $request) {
         try {
             $comment = Comment::where('post_id', $postId)->where('parent_id', null)->with('allChilds', 'user')->orderBy('id', 'DESC')->get();
+            $user = $request->user();
+            $comment->isLike = $comment->agreedBy()->where('user_id', $user->id)->exists();
             if(!$comment) {
                 return response()->json([
                     'statusCode' => 1,

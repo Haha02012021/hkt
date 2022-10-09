@@ -49,7 +49,7 @@ class Comment extends Pivot
         return $this->childs()->with('allChilds', 'user');
     }
 
-    public function users() {
+    public function agreedBy() {
         return $this->belongsToMany(User::class, 'agree', 'comment_id', 'user_id')->withTimestamps();
     }
 
