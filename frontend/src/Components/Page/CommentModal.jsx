@@ -129,7 +129,7 @@ const CommentModal = ({ open, onClose, post }) => {
     try {
       const req = {
         content: "đã bình luận bài viết của bạn.",
-        link: location.pathname + `/${post.id}` + (location.search ? location.search : "") + `#comment_${comment_id}`,
+        link: "/" + location.pathname.split("/")[0] + `/${post.id}` + (location.search ? location.search : "") + `#comment_${comment_id}`,
         type: 1,
         receiver_id: post.user_id,
       }
@@ -285,10 +285,10 @@ const Comment = ({
         postComment();
         setReplying(false);
         if (infoUser.id !== post_user_id) {
-          newNotification("đã bình luận bài viết của bạn.", location.pathname + `/${id}` + (location.search ? location.search : "") + `#comment_${id}`, post_user_id)
+          newNotification("đã bình luận bài viết của bạn.", "/" + location.pathname.split("/")[0] + `/${id}` + (location.search ? location.search : "") + `#comment_${id}`, post_user_id)
         }
         if (infoUser.id !== user_id) {
-          newNotification("đã trả lời bình luận của bạn.", location.pathname + `/${id}` + (location.search ? location.search : "") + `#comment_${id}`, user_id)
+          newNotification("đã trả lời bình luận của bạn.", "/" + location.pathname.split("/")[0] + `/${id}` + (location.search ? location.search : "") + `#comment_${id}`, user_id)
         }
       } else {
       }
