@@ -81,6 +81,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::group(['prefix' => 'notification'], function () {
         Route::get('/get-by-user-id', [NotificationController::class, 'getNotificationsByUserId']);
         Route::post('/create', [NotificationController::class, 'create']);
+        Route::put('/update', [NotificationController::class, 'update']);
     });
 
     Route::get('tag/get-all', [TagController::class, 'getAllTags']);

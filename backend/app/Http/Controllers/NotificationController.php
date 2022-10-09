@@ -55,10 +55,28 @@ class NotificationController extends Controller
             }
 
             $newNoti->sender;
+            $newNoti->pivot = ['status' => 0];
 
             return response()->json([
                 'statusCode' => 0,
                 'data' => $newNoti,
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'statusCode' => -1,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function update(Request $request) {
+        try {
+            $user = $request->user();
+
+            $user->notifications()->updateExistingPivot($user->notifications()->pluck('notifications_users.id'), ["status" => 1]);
+
+            return response()->json([
+                'statusCode' => 0,
             ]);
         } catch (Exception $e) {
             return response()->json([

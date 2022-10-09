@@ -56,6 +56,10 @@ const handleBookmarkApi = (id) => {
   return axios.post(`/api/post/bookmark/?postId=${id}`);
 };
 
+const handleUpdateNoti = () => {
+  return axios.put("/api/notification/update");
+}
+
 export {
   handleGetPostApi,
   handleLikePostApi,
@@ -71,4 +75,5 @@ export {
   handleSearchApi,
   handleGetInfoUserApi,
   handleBookmarkApi,
+  handleUpdateNoti,
 };

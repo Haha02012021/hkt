@@ -8,7 +8,7 @@ import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import { useEffect } from "react";
-import { handleGetNotifications } from "../../Services/app";
+import { handleGetNotifications, handleUpdateNoti } from "../../Services/app";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import socketClient from "../../Socket/client";
@@ -31,7 +31,9 @@ const Notification = () => {
     const getNotifications = async () => {
       const res = await handleGetNotifications()
 
+      console.log(res);
       if (res.statusCode === 0) {
+        console.log(res.data);
         const dispatchRes = dispatch(actions.receiveNotification(res.data))
 
         if (dispatchRes) {
@@ -60,20 +62,30 @@ const Notification = () => {
     }
   }, [])
 
-  const handleNotificationClick = (event) => {
+  const handleNotificationClick = async (event) => {
     setAnchorEl(event.currentTarget);
+    const res = await handleUpdateNoti()
+    if (res.statusCode === 0) {
+      const notiRes = await handleGetNotifications()
+      console.log("notiRes", notiRes);
+      if (notiRes.statusCode === 0) {
+        dispatch(actions.updateNotification(notiRes.data))
+      }
+    }
+    console.log(res);
   };
 
   const handleNotificationClose = () => {
     setAnchorEl(null);
   };
 
-  const handleClickNoti = (link) => {
-    navigate(link)
+  const handleClickNoti = (noti) => {
+    navigate(noti.link)
   }
 
   const notificationOpen = Boolean(anchorEl);
   const id = notificationOpen ? "simple-popover" : undefined;
+  const now = new Date();
 
   return (
     <>
@@ -83,7 +95,7 @@ const Notification = () => {
           color="inherit"
           onClick={handleNotificationClick}
         >
-          <Badge badgeContent={notifications.length} color="error">
+          <Badge badgeContent={ notifications.filter(notification => notification.pivot.status === 0).length} color="error">
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -115,7 +127,7 @@ const Notification = () => {
               {notifications.map(notification => {
                 return (
                   <ListItem disablePadding key={notification.id}>
-                    <ListItemButton onClick={() => handleClickNoti(notification.link)}>
+                    <ListItemButton onClick={() => handleClickNoti(notification)}>
                       <ListItemText primary={
                         <>
                           <b>{notification.sender?.username} </b> {notification.content}

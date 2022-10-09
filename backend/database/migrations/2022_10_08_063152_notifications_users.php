@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('user_id');
             $table->bigInteger('notification_id');
+            $table->tinyInteger('status')->default(0)->comment('0: waiting, 1: read');
             $table->timestamps();
         });
     }

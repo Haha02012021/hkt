@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useRef } from "react";
 
+import * as actions from "../../Store/Actions/index";
 import {
   Avatar,
   Button,
@@ -17,8 +18,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import { useState } from "react";
 import { useEffect } from "react";
 import { handleCommentApi, handleCommentsPostApi, handleNewNotificationApi } from "../../Services/app";
-import { useSelector } from "react-redux";
-import Axios from "../../config/axios";
+import { useDispatch, useSelector } from "react-redux";
 
 import dayjs from "dayjs"
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -107,7 +107,6 @@ const CommentModal = ({ open, onClose, post, setPost }) => {
   const location = useLocation()
 
   useEffect(() => {
-    setData([])
     getAllComments();
   }, [isChangeData, open]);
 
@@ -131,7 +130,7 @@ const CommentModal = ({ open, onClose, post, setPost }) => {
     try {
       const req = {
         content: "đã bình luận bài viết của bạn.",
-        link: "/" + location.pathname.split("/")[0] + `/${post.id}` + (location.search ? location.search : "") + `#comment_${comment_id}`,
+        link: "/" + location.pathname.split("/")[1] + `/${post.id}` + (location.search ? location.search : "") + `#comment_${comment_id}`,
         type: 1,
         receiver_id: post.user_id,
       }
@@ -189,7 +188,7 @@ const CommentModal = ({ open, onClose, post, setPost }) => {
         </Box>}
         <Box sx={styles.commentsContainer}>
           {data.map(
-            ({ id, post_id, user_id, content, updated_at, all_childs, user, isLike, like_count }, i) => (
+            ({ id, post_id, user_id, content, updated_at, all_childs, user }, i) => (
               <Comment
                 key={i}
                 id={id}
@@ -201,9 +200,6 @@ const CommentModal = ({ open, onClose, post, setPost }) => {
                 user={user}
                 post_user_id={post.user_id}
                 postComment={() => setChangeData(!isChangeData)}
-                isRoot={true}
-                isLike={isLike}
-                like_count={like_count}
               />
             )
           )}
@@ -269,16 +265,12 @@ const Comment = ({
   user,
   post_user_id,
   postComment,
-  isRoot,
-  isLike,
-  like_count,
 }) => {
   const [isReplying, setReplying] = useState(false);
   const infoUser = useSelector((state) => state.user.infoUser);
+  const dispatch = useDispatch();
   const input = useRef(null);
   const location = useLocation()
-  const [isLiked, setLiked] = useState(isLike)
-  const [likeCounted, setLikeCounted] = useState(like_count)
 
   const handleComment = () => {
     const req = {
@@ -308,28 +300,6 @@ const Comment = ({
     comment();
   };
 
-  const handleCommentLike = async () => {
-    try {
-      const value = isLiked ? -1 : 1;
-
-      const res = await Axios.post(`/api/reaction/comment/${id}?value=${value}`);
-      if (res && res.statusCode === 0) {
-        if (isLiked === true) {
-          setLikeCounted(likeCounted - 1);
-        }
-        else {
-          setLikeCounted(likeCounted + 1);
-          newNotification()
-        }
-        setLiked(!isLiked)
-      }
-    } catch (error) {
-      setLiked(!isLiked)
-      console.log("LIKE COMMENT ERROR", error)
-      toast.error(error.message)
-    }
-  }
-
   const newNotification = async (content, link, receiver_id) => {
     try {
       const req = {
@@ -341,6 +311,7 @@ const Comment = ({
       const res = await handleNewNotificationApi(req)
       console.log(res);
       if (res.statusCode === 0) {
+        dispatch(actions)
         socketClient.emit("sendNotification", { ...res.data, receiver_id: req.receiver_id })
       } else {
 
@@ -362,23 +333,6 @@ const Comment = ({
           <Typography display="inline" sx={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.6)" }}>
             {dayjs(updated_at).fromNow()} &nbsp;&#183;&nbsp;
           </Typography>
-          {isRoot && <><Typography
-            display="inline"
-            variant="string"
-            sx={{
-              color: isLiked ? "blue" : "rgba(0, 0, 0, 0.6)",
-              fontSize: "12px",
-              transition: "300ms",
-              cursor: "pointer",
-              "&:hover": {
-                color: "blue"
-              },
-            }}
-            onClick={handleCommentLike}
-          >
-            {likeCounted} Like{likeCounted > 1 ? "s" : ""}
-          </Typography>
-            <Typography display="inline" variant="string" sx={{ color: "rgba(0, 0, 0, 0.6)", }}>&nbsp;&#183;&nbsp;</Typography></>}
           <Typography
             display="inline"
             variant="string"
@@ -393,7 +347,7 @@ const Comment = ({
             }}
             onClick={() => { setReplying(!isReplying) }}
           >
-            Reply
+            Trả lời
           </Typography>
         </Typography>
         {isReplying && (
@@ -436,7 +390,6 @@ const Comment = ({
               post_id={post_id}
               post_user_id={post_user_id}
               postComment={postComment}
-              isRoot={false}
             />
           );
         })}
