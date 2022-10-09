@@ -292,6 +292,7 @@ const QuestionCard = (props) => {
         open={commentModalOpen}
         onClose={closeCommentModal}
         post={blob}
+        setPost={setBlob}
       />
     </Card>
   );

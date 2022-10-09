@@ -96,7 +96,7 @@ const styles = {
   },
 };
 
-const CommentModal = ({ open, onClose, post }) => {
+const CommentModal = ({ open, onClose, post, setPost }) => {
   const [loadingComments, setLoadingComments] = useState(false);
   const [loadingPostComment, setLoadingPostComment] = useState(false);
   const infoUser = useSelector((state) => state.user.infoUser);
@@ -161,6 +161,7 @@ const CommentModal = ({ open, onClose, post }) => {
         await getAllComments();
         input.current.value = "";
         await newNotification(res.data.id);
+        setPost({ ...post, commentCount: post.commentCount + 1 })
       } else {
       }
 

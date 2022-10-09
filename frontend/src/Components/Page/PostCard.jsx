@@ -90,7 +90,7 @@ const PostCard = (props) => {
       const res = await handleNewNotificationApi(req)
       if (res.statusCode === 0) {
         if (infoUser.id !== blob.user_id) {
-          socketClient.emit("sendNotification", {...res.data, receiver_id: req.receiver_id})
+          socketClient.emit("sendNotification", { ...res.data, receiver_id: req.receiver_id })
         }
       } else {
 
@@ -116,12 +116,12 @@ const PostCard = (props) => {
         <Box sx={{ display: "flex", flexDirection: "row" }}>
           {blob && blob.has_tags && blob.has_tags.length > 0
             ? blob.has_tags.map((tag, i) => {
-                return (
-                  <Box sx={styles.tag} key={i}>
-                    {`#${tag.name}`}
-                  </Box>
-                );
-              })
+              return (
+                <Box sx={styles.tag} key={i}>
+                  {`#${tag.name}`}
+                </Box>
+              );
+            })
             : null}
         </Box>
         <Box
@@ -142,18 +142,18 @@ const PostCard = (props) => {
           >
             {blob.images.length > 0
               ? blob.images.map((image, i) => (
-                  <div
-                    style={{ display: "flex", justifyContent: "center" }}
-                    key={i}
-                  >
-                    <img
-                      src={image.link}
-                      style={{
-                        height: "300px",
-                      }}
-                    ></img>
-                  </div>
-                ))
+                <div
+                  style={{ display: "flex", justifyContent: "center" }}
+                  key={i}
+                >
+                  <img
+                    src={image.link}
+                    style={{
+                      height: "300px",
+                    }}
+                  ></img>
+                </div>
+              ))
               : null}
           </Carousel>
         </Box>
@@ -177,6 +177,7 @@ const PostCard = (props) => {
           open={commentModalOpen}
           onClose={closeCommentModal}
           post={blob}
+          setPost={setBlob}
         />
       )}
     </Card>
