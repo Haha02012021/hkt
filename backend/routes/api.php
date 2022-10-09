@@ -50,6 +50,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/complete/{id}', [PostController::class, 'setCompleted']);
         Route::get('/search', [PostController::class, 'searchPosts']);
         Route::get('/related', [PostController::class, 'relatedPost']);
+        Route::post('/bookmark', [PostController::class, 'bookmark']);
     });
 
     Route::group(['prefix' => 'class'], function () {

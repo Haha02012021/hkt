@@ -219,4 +219,13 @@ class PostController extends Controller
             'messsage' => 'sucess',
         ]);
     }
+
+    public function bookmark(Request $request) {
+        $user = $request->user();
+        $user->bookmark()->toggle($request->postId);
+        return response()->json([
+            'statusCode' => 0,
+            'message' => 'bookmark toggled'
+        ]);
+    } 
 }
