@@ -41,4 +41,8 @@ class Post extends Model
         return $this->hasMany(Tag::class, 'post_id', 'id');
     }
 
+    public function usersBookmarking() {
+        return $this->belongsToMany(User::class, 'bookmark', 'post_id', 'user_id')->withTimestamps();
+    }
+
 }
