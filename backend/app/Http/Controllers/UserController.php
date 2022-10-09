@@ -39,11 +39,11 @@ class UserController extends Controller
 
     public function getInfo(Request $request) {
         $user = $request->user();
-        if(!$request->userId) {
-            $user = User::find($request->userId); 
+        if($request->userId) {
+            $user = User::find($request->userId);
         }
-        $user->posts()->with('hasTags', 'images')->orderBy('id', 'DESC');
-        $user->bookmark()->with('user', 'hasTags', 'images')->orderBy('bookmark.id', 'DESC');
+        $user->posts = $user->posts()->with('user', 'hasTags', 'images')->orderBy('id', 'DESC')->get();
+        $user->bookmark = $user->bookmark()->with('user', 'hasTags', 'images')->orderBy('bookmark.id', 'DESC')->get();
         return response()->json([
             'statusCode' => 0,
             'data' => $user,

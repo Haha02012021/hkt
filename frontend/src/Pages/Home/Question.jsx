@@ -135,12 +135,12 @@ const Question = () => {
       >
         {listQuestions && listQuestions.length > 0
           ? listQuestions.map((item, index) => {
-              return (
-                <Grid item xs={2} sm={4} md={4} key={index}>
-                  <QuestionCard item={item} />
-                </Grid>
-              );
-            })
+            return (
+              <Grid item xs={2} sm={4} md={4} key={index}>
+                <QuestionCard item={item} />
+              </Grid>
+            );
+          })
           : null}
       </Grid>
 

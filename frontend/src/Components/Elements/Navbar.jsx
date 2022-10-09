@@ -8,7 +8,6 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import MuiAppBar from "@mui/material/AppBar";
@@ -19,7 +18,6 @@ import { useSelector, useDispatch } from "react-redux";
 import Notification from "./Notification";
 import socketClient from "../../Socket/client";
 
-const settings = ["Profile", "Account", "Dashboard"];
 const Navbar = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -54,9 +52,9 @@ const Navbar = (props) => {
   const logout = async () => {
     const res = await dispatch(actions.userLogout());
     if (res === true) {
-      socketClient.emit("logout")
-      navigate("/login")
-    };
+      socketClient.emit("logout");
+      navigate("/login");
+    }
   };
 
   return (
@@ -175,11 +173,9 @@ const Navbar = (props) => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={() => handleCloseUserMenu()}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={() => navigate("/profile")}>
+                <Typography textAlign="center">Profile</Typography>
+              </MenuItem>
               <MenuItem onClick={() => logout()}>
                 <Typography textAlign="center">Logout</Typography>
               </MenuItem>

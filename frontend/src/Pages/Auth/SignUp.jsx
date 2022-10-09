@@ -58,7 +58,7 @@ export default function SignUp() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme} sx={{ backgroundColor: "red" }}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -220,7 +220,11 @@ export default function SignUp() {
                 Forgot password?
               </Link>
 
-              <Link to="/login" variant="body2" style={{ textDecoration: "none" }}>
+              <Link
+                to="/login"
+                variant="body2"
+                style={{ textDecoration: "none" }}
+              >
                 {"You have an account? Login"}
               </Link>
             </Box>

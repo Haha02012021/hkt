@@ -18,13 +18,14 @@ import {
   ListItemButton,
 } from "@mui/material";
 import React, { useEffect } from "react";
-
+import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ModalPostQuestion from "../../Components/Page/ModalPostQuestion";
 import { useState } from "react";
 import {
   handleGetPostByIdApi,
   handleLikePostApi,
   handleCompleteQuestionApi,
+  handleBookmarkApi,
 } from "../../Services/app";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import Carousel from "react-material-ui-carousel";
@@ -38,7 +39,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import CommentIcon from "@mui/icons-material/Comment";
 import { useSelector } from "react-redux";
-import Axios from "../../config/axios"
+import Axios from "../../config/axios";
 
 dayjs.extend(relativeTime);
 const styles = {
@@ -124,6 +125,13 @@ const QuestionPage = () => {
     setNewBlob(!newBlob);
   };
 
+  const bookmark = async () => {
+    const res = await handleBookmarkApi(blog.id);
+    if (res && res.statusCode === 0) {
+      setBlog({ ...blog, isBookmarked: !blog.isBookmarked });
+    }
+  };
+
   const toggleCompleteQuestion = async () => {
     try {
       setLoadingComplete(true);
@@ -158,16 +166,15 @@ const QuestionPage = () => {
           const params = {
             type: res.data.type,
             tagId: res.data.has_tags.map((tag) => tag.id),
-          }
+          };
           const resSuggestion = await Axios.get(`/api/post/related/`, {
-            params
+            params,
           });
           console.log("RES SUGGESTION", resSuggestion);
           if (resSuggestion && resSuggestion.statusCode === 0) {
             setRelatedPosts(resSuggestion.data.data);
           }
         }
-
       } catch (error) {
         console.log("GetQuestionsError", error);
         toast.error(error.message);
@@ -217,6 +224,20 @@ const QuestionPage = () => {
                   subheader={`${dayjs(blog.updated_at).fromNow()}`}
                   sx={styles.header}
                 ></CardHeader>
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "20px",
+                    color: "gray",
+                    right: "20px",
+                    "&:hover": { cursor: "pointer" },
+                  }}
+                  onClick={() => bookmark()}
+                >
+                  <BookmarkIcon
+                    sx={{ color: `${blog.isBookmarked ? "#ffb500" : null}` }}
+                  />
+                </Box>
                 <Divider />
                 <CardContent sx={styles.content}>
                   <Typography variant="body2" sx={{ wordWrap: "break-word" }}>
@@ -232,12 +253,12 @@ const QuestionPage = () => {
                   >
                     {blog && blog.has_tags && blog.has_tags.length > 0
                       ? blog.has_tags.map((tag, i) => {
-                        return (
-                          <Box sx={styles.tag} key={i}>
-                            {`${tag.name}`}
-                          </Box>
-                        );
-                      })
+                          return (
+                            <Box sx={styles.tag} key={i}>
+                              {`${tag.name}`}
+                            </Box>
+                          );
+                        })
                       : null}
                   </Box>
                   <Box
@@ -259,21 +280,21 @@ const QuestionPage = () => {
                     >
                       {blog && blog.images && blog.images.length > 0
                         ? blog.images.map((image, i) => (
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "center",
-                            }}
-                            key={i}
-                          >
-                            <img
-                              src={image.link}
+                            <div
                               style={{
-                                height: "400px",
+                                display: "flex",
+                                justifyContent: "center",
                               }}
-                            ></img>
-                          </div>
-                        ))
+                              key={i}
+                            >
+                              <img
+                                src={image.link}
+                                style={{
+                                  height: "400px",
+                                }}
+                              ></img>
+                            </div>
+                          ))
                         : null}
                     </Carousel>
                   </Box>
@@ -341,21 +362,24 @@ const QuestionPage = () => {
         <Grid item xs={2} sm={4} md={4}>
           <Stack spacing={2}>
             <Typography variant="h5">Suggestions</Typography>
-            <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+            <List
+              sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+            >
               {relatedPosts && relatedPosts.length > 0
-
                 ? relatedPosts.map((post, i) => {
-                  return (
-                    <ListItem key={i}>
-                      <ListItemButton onClick={() => navigate(`/questions/${post.id}`)}>
-                        <ListItemText
-                          primary={post.content}
-                          secondary={`${dayjs(post.updated_at).fromNow()}`}
-
-                        /></ListItemButton>
-                    </ListItem>
-                  );
-                })
+                    return (
+                      <ListItem key={i}>
+                        <ListItemButton
+                          onClick={() => navigate(`/questions/${post.id}`)}
+                        >
+                          <ListItemText
+                            primary={post.content}
+                            secondary={`${dayjs(post.updated_at).fromNow()}`}
+                          />
+                        </ListItemButton>
+                      </ListItem>
+                    );
+                  })
                 : null}
             </List>
           </Stack>

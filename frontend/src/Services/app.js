@@ -48,6 +48,14 @@ const handleSearchApi = (data) => {
   return axios.post(`/api/post/search/?page=${data.page}`, data);
 };
 
+const handleGetInfoUserApi = () => {
+  return axios.get(`/api/user/info`);
+};
+
+const handleBookmarkApi = (id) => {
+  return axios.post(`/api/post/bookmark/?postId=${id}`);
+};
+
 export {
   handleGetPostApi,
   handleLikePostApi,
@@ -61,4 +69,6 @@ export {
   handleNewNotificationApi,
   handleGetPostByIdApi,
   handleSearchApi,
+  handleGetInfoUserApi,
+  handleBookmarkApi,
 };

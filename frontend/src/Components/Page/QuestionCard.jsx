@@ -86,8 +86,8 @@ const QuestionCard = (props) => {
   const openCommentModal = () => setCommentModalOpen(true);
   const closeCommentModal = () => setCommentModalOpen(false);
   const [blob, setBlob] = useState(props.item);
-  const location = useLocation()
-  const infoUser = useSelector((state) => state.user.infoUser)
+  const location = useLocation();
+  const infoUser = useSelector((state) => state.user.infoUser);
 
   useEffect(() => {
     setBlob(props.item);
@@ -97,42 +97,17 @@ const QuestionCard = (props) => {
 
   const likePost = async () => {
     const value = blob.isLike ? -1 : 1;
+    const res = await handleLikePostApi(blob.id, value);
 
-    if (blob.isLike === true) {
-      setBlob({ ...blob, like: blob.like-- });
-    }
-    else {
-      setBlob({ ...blob, like: blob.like++ });
-      newNotification()
-    }
-    setBlob({ ...blob, isLike: !blob.isLike });
-    try {
-      const res = await handleLikePostApi(blob.id, value);
-
-      if (!res || !res.statusCode === 0) {
-        // revert
-        if (blob.isLike === false) {
-          setBlob({ ...blob, like: blob.like++ });
-        }
-        else {
-          setBlob({ ...blob, like: blob.like-- });
-          newNotification()
-        }
-        setBlob({ ...blob, isLike: !blob.isLike });
-      }
-
-    } catch (error) {
-      // revert
-      if (blob.isLike === false) {
-        setBlob({ ...blob, like: blob.like++ });
+    if (res && res.statusCode === 0) {
+      if (blob.isLike === true) {
+        setBlob({ ...blob, like: blob.like-- });
       }
       else {
-        setBlob({ ...blob, like: blob.like-- });
+        setBlob({ ...blob, like: blob.like++ });
         newNotification()
       }
       setBlob({ ...blob, isLike: !blob.isLike });
-      console.log(error);
-      toast.error(error.message);
     }
   };
 
@@ -160,22 +135,25 @@ const QuestionCard = (props) => {
     try {
       const req = {
         content: "đã thả cảm xúc về bài viết của bạn.",
-        link: location.pathname + `/${blob.id}` + (location.search ? location.search : ""),
+        link:
+          location.pathname +
+          `/${blob.id}` +
+          (location.search ? location.search : ""),
         type: 1,
         receiver_id: blob.user_id,
-      }
-      const res = await handleNewNotificationApi(req)
+      };
+      const res = await handleNewNotificationApi(req);
       if (res.statusCode === 0) {
         if (infoUser.id !== blob.user_id) {
-          socketClient.emit("sendNotification", { ...res.data, receiver_id: req.receiver_id })
+          socketClient.emit("sendNotification", {
+            ...res.data,
+            receiver_id: req.receiver_id,
+          });
         }
       } else {
-
       }
-    } catch (error) {
-
-    }
-  }
+    } catch (error) { }
+  };
 
   return (
     <Card
@@ -240,7 +218,7 @@ const QuestionCard = (props) => {
           <Carousel
             animation="fade"
             indicators={false}
-            navButtonsAlwaysVisible={blob.images.length > 1 ? true : false}
+            navButtonsAlwaysVisible={false}
             sx={{
               width: "100%",
               height: "100%",

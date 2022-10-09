@@ -16,7 +16,8 @@ const styles = {
   },
 };
 const SearchCard = (props) => {
-  const [blog, setBlogs] = useState(props.item);
+  const [blog, setBlogs] = useState({ ...props.item });
+  console.log(blog);
   return (
     <Box
       sx={{

@@ -7,7 +7,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Section1 from "./Section1";
 import Question from "./Question";
 import QuestionPage from "./QuestionPage";
-
+import Profile from "./Profile";
 import PostSection from "./PostSection";
 
 import Navbar from "../../Components/Elements/Navbar";
@@ -27,7 +27,7 @@ const Home = () => {
 
   useEffect(() => {
     socketClient.emit("newUser", infoUser.id);
-  }, [infoUser])
+  }, [infoUser]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -65,6 +65,7 @@ const Home = () => {
           <Route path="/questions/:id" element={<QuestionPage />} />
           <Route path="/not-turned-in" element={<NotTurnedIn />} />
           <Route path="/search/*" element={<Search />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </Main>
     </Box>
