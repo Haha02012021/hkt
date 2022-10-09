@@ -64,10 +64,12 @@ class CommentController extends Controller
 
     public function commentsOfPost($postId, Request $request) {
         try {
-            $comment = Comment::where('post_id', $postId)->where('parent_id', null)->with('allChilds', 'user')->orderBy('id', 'DESC')->get();
+            $comments = Comment::where('post_id', $postId)->where('parent_id', null)->with('allChilds', 'user')->orderBy('id', 'DESC')->get();
             $user = $request->user();
-            $comment->isLike = $comment->agreedBy()->where('user_id', $user->id)->exists();
-            if(!$comment) {
+            foreach($comments as $comment) {
+                $comment->isLike = $comment->agreedBy()->where('user_id', $user->id)->exists();
+            }
+            if(!$comments) {
                 return response()->json([
                     'statusCode' => 1,
                     'message' => 'post has no comments'
@@ -75,7 +77,7 @@ class CommentController extends Controller
             } else {
                 return response()->json([
                     'statusCode' => 0,
-                    'data' => $comment,
+                    'data' => $comments,
                     'message' => 'succeeded'
                 ]);
             }
