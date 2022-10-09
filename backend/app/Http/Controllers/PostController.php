@@ -19,6 +19,7 @@ class PostController extends Controller
                 $post->like = $post->likes()->count();
                 $post->commentCount = $post->comments()->count();
                 $post->isLike = $post->likes()->where('user_id', $user->id)->exists();
+                $post->isBookmarked = $post->usersBookmarking()->where('user_id', $user->id)->exists();
             }
 
             return response()->json([
@@ -44,6 +45,7 @@ class PostController extends Controller
             $post->like = $post->likes()->count();
             $post->commentCount = $post->comments()->count();
             $post->isLike = $post->likes()->where('user_id', $user->id)->exists();
+            $post->isBookmarked = $post->usersBookmarking()->where('user_id', $user->id)->exists();
 
             if (!$post) {
                 return response()->json([
@@ -77,6 +79,7 @@ class PostController extends Controller
                 $post->like = $post->likes()->count();
                 $post->isLike = $post->likes()->where('user_id', $user->id)->exists();
                 $post->commentCount = $post->comments()->count();
+                $post->isBookmarked = $post->usersBookmarking()->where('user_id', $user->id)->exists();
             }
 
             return response()->json([
@@ -191,9 +194,10 @@ class PostController extends Controller
                 ->orderBy('like_count', 'DESC')->paginate(10);
             }
             foreach($posts as $post) {
-                $posts->like = $post->likes()->count();
-                $posts->commentCount = $post->comments()->count();
-                $posts->isLike = $post->likes()->where('user_id', $user->id)->exists();
+                $post->like = $post->likes()->count();
+                $post->commentCount = $post->comments()->count();
+                $post->isLike = $post->likes()->where('user_id', $user->id)->exists();
+                $post->isBookmarked = $post->usersBookmarking()->where('user_id', $user->id)->exists();
             }
             return response()->json([
                 'statusCode' => 0,
