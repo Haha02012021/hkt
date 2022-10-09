@@ -36,4 +36,19 @@ class UserController extends Controller
             ]);
         }
     }
+
+    public function getInfo(Request $request) {
+        $user = $request->user();
+        if(!$request->userId) {
+            $user = User::find($request->userId); 
+        }
+        $user->posts()->with('hasTags', 'images')->orderBy('id', 'DESC');
+        $user->bookmark()->with('user', 'hasTags', 'images')->orderBy('bookmark.id', 'DESC');
+        return response()->json([
+            'statusCode' => 0,
+            'data' => $user,
+            'message' => 'success'
+        ]);
+    }
+
 }

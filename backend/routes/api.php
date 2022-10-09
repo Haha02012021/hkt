@@ -74,6 +74,7 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::group(['prefix' => 'user'], function () {
         Route::get('/get-other-users', [UserController::class, 'getOtherUsers']);
+        Route::get('/info', [UserController::class, 'getInfo']);
     });
 
     Route::group(['prefix' => 'notification'], function () {

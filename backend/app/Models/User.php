@@ -91,4 +91,8 @@ class User extends Authenticatable
     public function agreed() {
         return $this->belongsToMany(Comment::class, 'agree', 'user_id', 'comment_id')->withTimestamps();
     }
+    
+    public function bookmark() {
+        return $this->belongsToMany(Post::class, 'bookmark', 'user_id', 'post_id')->withTimestamps();
+    }
 }
