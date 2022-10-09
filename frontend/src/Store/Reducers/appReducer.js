@@ -23,6 +23,11 @@ const appReducer = (state = initialState, action) => {
         ...state,
         notifications: [...action.payload, ...state.notifications],
       }
+    case actionTypes.UPDATE_NOTIFCATION:
+      return {
+        ...state,
+        notifications: action.payload,
+      }
     default:
       return state;
   }

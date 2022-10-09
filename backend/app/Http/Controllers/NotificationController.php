@@ -55,6 +55,7 @@ class NotificationController extends Controller
             }
 
             $newNoti->sender;
+            $newNoti->pivot = ['status' => 0];
 
             return response()->json([
                 'statusCode' => 0,
@@ -72,7 +73,7 @@ class NotificationController extends Controller
         try {
             $user = $request->user();
 
-            $user->notifications()->updateExistingPivot($user->notifications()->pluck('id'), ["status" => 1]);
+            $user->notifications()->updateExistingPivot($user->notifications()->pluck('notifications_users.id'), ["status" => 1]);
 
             return response()->json([
                 'statusCode' => 0,

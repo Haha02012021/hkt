@@ -65,6 +65,13 @@ const Notification = () => {
   const handleNotificationClick = async (event) => {
     setAnchorEl(event.currentTarget);
     const res = await handleUpdateNoti()
+    if (res.statusCode === 0) {
+      const notiRes = await handleGetNotifications()
+      console.log("notiRes", notiRes);
+      if (notiRes.statusCode === 0) {
+        dispatch(actions.updateNotification(notiRes.data))
+      }
+    }
     console.log(res);
   };
 
