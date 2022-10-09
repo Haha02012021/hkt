@@ -83,7 +83,7 @@ const PostCard = (props) => {
     try {
       const req = {
         content: "đã thả cảm xúc về bài viết của bạn.",
-        link: location.pathname + `/${blob.id}` + (location.search ? location.search : ""),
+        link: "/" + location.pathname.split("/")[0] + `/${blob.id}` + (location.search ? location.search : ""),
         type: 1,
         receiver_id: blob.user_id,
       }
