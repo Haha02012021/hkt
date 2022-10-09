@@ -378,7 +378,7 @@ const Comment = ({
             <Comment
               key={i}
               id={item.id}
-              user_id={user_id}
+              user_id={item.user_id}
               content={item.content}
               updated_at={item.updated_at}
               all_childs={item.all_childs}
