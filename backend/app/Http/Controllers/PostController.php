@@ -178,13 +178,13 @@ class PostController extends Controller
 
     public function searchPosts(Request $request) {
         try {
-            $posts = []; 
+            $posts = [];
             $user = $request->user();
             if($request->tagId) {
                 $tags = $request->tagId;
-                $posts = Post::whereHas('hasTags', function($q) use($tags) { 
+                $posts = Post::whereHas('hasTags', function($q) use($tags) {
                     $q->whereIn('tags.id', $tags);
-                })->where('type', $request->type)->with('user', 'hasTags', 'images')->orderBy('like_count', 'DESC')->paginate(10);
+                })->where('type', $request->type)->where('content', 'like', '%'.$request->searchValue.'%')->with('user', 'hasTags', 'images')->orderBy('like_count', 'DESC')->paginate(10);
             } else {
                 $posts = Post::where('content', 'like', '%'.$request->searchValue.'%')->where('type', $request->type)
                 ->with('user', 'hasTags', 'images')
@@ -210,7 +210,7 @@ class PostController extends Controller
 
     public function relatedPost(Request $request) {
         $tags = $request->tagId;
-        $posts = Post::whereHas('hasTags', function($q) use($tags) { 
+        $posts = Post::whereHas('hasTags', function($q) use($tags) {
             $q->whereIn('tags.id', $tags);
         })->where('type', $request->type)->with('user', 'hasTags')->limit(10)->paginate(5);
         return response()->json([
@@ -227,5 +227,5 @@ class PostController extends Controller
             'statusCode' => 0,
             'message' => 'bookmark toggled'
         ]);
-    } 
+    }
 }
