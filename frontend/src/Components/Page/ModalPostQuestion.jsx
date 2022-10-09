@@ -216,7 +216,7 @@ const ModalPostQuestion = (props) => {
                 sx={{
                   border: "1px solid #ccc",
                   borderRadius: "15px",
-                  height: "350px",
+                  height: "30vh",
                   width: "100%",
                   backgroundColor: "#f7f8fa",
                   display: "flex",
