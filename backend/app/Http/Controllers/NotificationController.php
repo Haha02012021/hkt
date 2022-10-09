@@ -67,4 +67,18 @@ class NotificationController extends Controller
             ]);
         }
     }
+
+    public function update(Request $request) {
+        try {
+            $user = $request->user();
+
+            $user->notifications()->updateExistingPivot($user->notifications()->pluck('id'), ["status" => 1]);
+
+            return response()->json([
+                'statusCode' => 0,
+            ]);
+        } catch (Exception $e) {
+            
+        }
+    }
 }
