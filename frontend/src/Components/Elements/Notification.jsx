@@ -8,7 +8,7 @@ import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import { useEffect } from "react";
-import { handleGetNotifications } from "../../Services/app";
+import { handleGetNotifications, handleUpdateNoti } from "../../Services/app";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import socketClient from "../../Socket/client";
@@ -31,7 +31,9 @@ const Notification = () => {
     const getNotifications = async () => {
       const res = await handleGetNotifications()
 
+      console.log(res);
       if (res.statusCode === 0) {
+        console.log(res.data);
         const dispatchRes = dispatch(actions.receiveNotification(res.data))
 
         if (dispatchRes) {
@@ -60,8 +62,10 @@ const Notification = () => {
     }
   }, [])
 
-  const handleNotificationClick = (event) => {
+  const handleNotificationClick = async (event) => {
     setAnchorEl(event.currentTarget);
+    const res = await handleUpdateNoti()
+    console.log(res);
   };
 
   const handleNotificationClose = () => {
@@ -84,7 +88,7 @@ const Notification = () => {
           color="inherit"
           onClick={handleNotificationClick}
         >
-          <Badge badgeContent={ notifications.filter(notification => notification.status === 0).length} color="error">
+          <Badge badgeContent={ notifications.filter(notification => notification.pivot.status === 0).length} color="error">
             <NotificationsIcon />
           </Badge>
         </IconButton>

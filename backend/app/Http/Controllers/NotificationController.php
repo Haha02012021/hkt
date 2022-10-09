@@ -78,7 +78,10 @@ class NotificationController extends Controller
                 'statusCode' => 0,
             ]);
         } catch (Exception $e) {
-            
+            return response()->json([
+                'statusCode' => -1,
+                'message' => $e->getMessage(),
+            ]);
         }
     }
 }
